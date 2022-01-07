@@ -1,0 +1,156 @@
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #eee;
+    color: #222;
+    margin: 15px;
+}
+
+.main-title {
+    font-size: 72px;
+    font-weight: bold;
+    padding-bottom: 15px;
+}
+
+.add-board-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    border: 0;
+    border-radius: 10px;
+    margin: 15px;
+    color: #222;
+    cursor: pointer;
+    font-size: 72px;
+    width: 75px;
+    height: 75px;
+}
+
+.add-board-button:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.add-board-button:active {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.board-area {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+}
+
+.board-display-area {
+    display: flex;
+    align-items: flex-start;
+}
+
+.board-dock-area {
+    width: 330px;
+}
+
+.board-dock-area .project-content {
+    display: none;
+}
+
+.project-board {
+    padding: 10px;
+    border-radius: 10px;
+    width: 280px;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.project-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.project-content>div {
+    margin: 10px 0;
+}
+
+.task-holder {
+    display: grid;
+    grid-template-columns: 9fr 1fr;
+    border-radius: 3px;
+    padding-left: 3px;;
+    gap: 5px;
+}
+
+.task-holder:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.task-name {
+    display: flex;
+    align-items: center;
+}
+
+.complete-button {
+    font-size: 30px;
+    color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.complete-button:hover {
+    color: #0a2;
+}
+
+.completed-task-toggle {
+    font-size: 12px;
+    padding: 2px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.highlight-area {
+    cursor: pointer;
+}
+
+.highlight-area:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.completed-tasks {
+    display: none;
+}
+
+.displayed {
+    display: block;
+}
+
+.input-form {
+    display: flex;
+}
+
+.text-input {
+    width: 230px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.4)
+}
+
+.submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0);
+    border: 0;
+    border-radius: 5px;
+    margin: 5px;
+    color: #222;
+    cursor: pointer;
+    font-size: 26px;
+    width: 30px;
+    height: 30px;
+}
+
+.submit-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.submit-button:active {
+    background-color: rgba(255, 255, 255, 0.4);
+}
