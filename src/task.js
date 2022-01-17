@@ -1,14 +1,44 @@
-//This is an object and should not have DOM stuff in it.
-//But it should have move logic and control over the handler?
+import { format } from "date-fns";
 
-const task = (name) => {
-    let status = "active";
+const task = (title, dateDue = "") => {
+    let description = "";
+    let topic = "no topic";
 
-    const changeStatus = (newStatus) => {
-        status = newStatus;
+    const dateAdded = (new Date()).toString();
+    let dateCompleted;
+
+    const markComplete = function() {
+        this.dateCompleted = (new Date()).toString();
+    };
+
+    const checkStatus = function(status) {
+        if(status == "all") {
+            return true;
+        } else if (status == "complete" && this.dateCompleted) {
+            return true;
+        } else if (status == "active" && !this.dateCompleted) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    const checkTopic = function(topic) {
+        if(topic == "all topics") {
+            return true;
+        } else if(topic == this.topic) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    return { name, status, changeStatus };
-}
+    const getDueDate = function() {
+        return this.dateDue;
+    }
+
+    return { title, description, topic, dateAdded, dateCompleted, dateDue, 
+        markComplete, getDueDate, checkStatus, checkTopic };
+};
 
 export { task };

@@ -1,35 +1,44 @@
-import { createTask } from "./task-handler.js";
+import { task } from "./task.js";
+import { storage } from "./storage.js";
+import { format } from "date-fns";
 
-const taskInput = (projectBoard) => {
-    const inputForm = document.createElement("div");
-    inputForm.classList.add("input-form");
+const newTaskInput = (displayArea) => {
+    const newTaskInputForm = document.createElement("div");
+    newTaskInputForm.classList.add("task-input-form");
 
-    const taskName = document.createElement("div");
-    taskName.textContent = "New task...";
-    taskName.setAttribute("contenteditable", "true");
-    taskName.classList.add("text-input");
-    taskName.addEventListener("keydown", (e) => {
+    const taskNameInput = document.createElement("span");
+    taskNameInput.setAttribute("contenteditable", "true");
+    taskNameInput.setAttribute("data-placeholder", "new task...");
+    taskNameInput.classList.add("title-input", "text-input");
+    taskNameInput.addEventListener("keydown", (e) => {
         if(e.code === "Enter") {
-            taskSubmitted();
+            submitNewTask();
+            e.preventDefault();
         }
     });
-    inputForm.appendChild(taskName);
 
-    const taskSubmit = document.createElement("div");
-    taskSubmit.classList.add("submit-button");
-    taskSubmit.textContent = "+";
-    taskSubmit.addEventListener("click", () => { taskSubmitted() });
-    inputForm.appendChild(taskSubmit);
+    const dueDateInput = document.createElement("input");
+    dueDateInput.setAttribute("type", "date");
+    dueDateInput.setAttribute("min", format(new Date(), "yyyy-MM-dd"));
 
-    projectBoard.appendChild(inputForm);
+    const taskSubmitButton = document.createElement("div");
+    taskSubmitButton.classList.add("button", "lowlight");
+    taskSubmitButton.textContent = "add";
+    taskSubmitButton.addEventListener("click", () => { submitNewTask() });
 
-    const taskSubmitted = () => {
-        const taskTitle = taskName.textContent;
-        if(taskTitle) {
-            taskName.textContent = "New task...";
-            createTask(taskTitle, projectBoard, inputForm);
+    newTaskInputForm.append(taskNameInput, dueDateInput, taskSubmitButton);
+
+    displayArea.appendChild(newTaskInputForm);
+    
+    const submitNewTask = () => {
+        const taskName = taskNameInput.textContent;
+        const dateDue = dueDateInput.value;
+        if(/[0-9a-zA-Z]/.test(taskName)) {
+            taskNameInput.textContent = "";
+            const newTask = task(taskName, dateDue);
+            storage.save(newTask);
         }
-    }
+    }    
 }
 
-export { taskInput };
+export { newTaskInput };

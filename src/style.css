@@ -1,96 +1,154 @@
 body {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: #eee;
+    font-family: Courier, monospace;
+    font-size: 18px;
     color: #222;
-    margin: 15px;
+    margin: 0;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-.main-title {
-    font-size: 72px;
-    font-weight: bold;
-    padding-bottom: 15px;
+.header {
+    font-size: 100px;
+    padding: 10px 0 0 100px;
 }
 
-.add-board-button {
+.content-area {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    background-color: #ddddff;
+}
+
+.footer {
+    flex: 0 1 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0);
-    border: 0;
-    border-radius: 10px;
-    margin: 15px;
-    color: #222;
-    cursor: pointer;
-    font-size: 72px;
-    width: 75px;
-    height: 75px;
+    font-size: 10px;
 }
 
-.add-board-button:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-.add-board-button:active {
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.board-area {
-    display: grid;
-    grid-template-columns: 4fr 1fr;
-}
-
-.board-display-area {
-    display: flex;
-    align-items: flex-start;
-}
-
-.board-dock-area {
-    width: 330px;
-}
-
-.board-dock-area .project-content {
-    display: none;
-}
-
-.project-board {
-    padding: 10px;
-    border-radius: 10px;
-    width: 280px;
-    margin: 15px;
+.side-menu {
+    flex: 0 1 300px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    background-color: #feb;
+    padding: 10px;
 }
 
-.project-title {
-    font-size: 22px;
-    font-weight: bold;
+.side-menu span {
+    display: flex;
+    flex-direction: column;
+
 }
 
-.project-content>div {
-    margin: 10px 0;
+.side-menu>span {
+    padding: 10px 0;
 }
 
-.task-holder {
-    display: grid;
-    grid-template-columns: 9fr 1fr;
-    border-radius: 3px;
-    padding-left: 3px;;
-    gap: 5px;
+.side-menu-sublist {
+    font-style: italic;
 }
 
-.task-holder:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+.side-menu-sublist span {
+    font-style: normal;
+    margin-left: 25px;
+    cursor: pointer;
 }
 
-.task-name {
+.side-menu-sublist span:hover {
+    font-weight: 600;
+}
+
+.display-area{
+    flex: 0 1 1000px;
+    display: flex;
+    flex-direction: column;
+    height: 72vh;
+    overflow-y: auto;
+}
+
+.right-spacing {
+    flex: 1 2 auto;
+    background-color: #fff;
+}
+
+.task-input-form {
+    display: flex;
+    margin: 10px;
+    gap: 10px;
+    order: 1;
+}
+
+.title-input {
+    flex: 0 2 350px;
+}
+
+.text-input {
+    display: flex;
+    border: 1px solid #888;
+    background-color: #fff;
+    padding: 5px;
+    white-space: nowrap;
+    overflow-x: scroll;
+    scrollbar-width: none;
+}
+
+.text-input:empty {
+    font-style: italic;
+    color: #777;
+}
+
+.text-input:empty::before {
+    content: attr(data-placeholder);
+}
+
+.button {
     display: flex;
     align-items: center;
+    box-shadow: 3px 3px 1px -3px #222;
+    background-color: #fff;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.lowlight:hover {
+    filter: brightness(95%);
+}
+
+.lowlight:active {
+    filter: brightness(90%);
+}
+
+.entry-holder {
+    display: flex;
+    flex-direction: column;
+}
+
+.entry-basic-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr .1fr;
+    align-items: baseline;
+    background-color: #fff;
+    box-shadow: 3px 3px 1px -3px #222;
+    column-gap: 12px;
+    margin: 6px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.task-button-holder {
+    visibility: hidden;
+}
+
+.entry-holder:hover .task-button-holder{
+    visibility: visible;
 }
 
 .complete-button {
-    font-size: 30px;
-    color: rgba(0, 0, 0, 0.2);
+    justify-self: flex-end;
+    font-size: 22px;
     cursor: pointer;
 }
 
@@ -98,59 +156,44 @@ body {
     color: #0a2;
 }
 
-.completed-task-toggle {
-    font-size: 12px;
-    padding: 2px;
-    text-align: center;
-    color: rgba(0, 0, 0, 0.5);
+.completed-task {
+    font-style: italic;
+    color: #777;
+    text-decoration: line-through;
 }
 
-.highlight-area {
-    cursor: pointer;
+.overdue-task {
+    color: #f00;
 }
 
-.highlight-area:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+.selected-option {
+    font-weight: bold;
 }
 
-.completed-tasks {
+.entry-expanded-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    background-color: #eee;
+    row-gap: 10px;
+    box-shadow: 3px 3px 1px -3px #222;
+    margin: -5px 12px 12px 12px;
+    padding: 10px;
+}
+
+.area-input {
+    flex: 0 2 350px;
+}
+
+.description-input {
+    flex: 0 0 80%;
+}
+
+.dragging {
     display: none;
 }
 
-.displayed {
-    display: block;
-}
-
-.input-form {
-    display: flex;
-}
-
-.text-input {
-    width: 230px;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.4)
-}
-
-.submit-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0);
-    border: 0;
-    border-radius: 5px;
-    margin: 5px;
-    color: #222;
-    cursor: pointer;
-    font-size: 26px;
-    width: 30px;
-    height: 30px;
-}
-
-.submit-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.submit-button:active {
-    background-color: rgba(255, 255, 255, 0.4);
+.drag-over {
+    color: #0a2;
 }
