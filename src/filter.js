@@ -1,7 +1,7 @@
 import { checkRelativeDate } from "./relative-date.js";
 import { storage } from "./storage.js";
 import { task } from "./task.js";
-import { taskspace } from "./mainpage.js";
+import { mainpage, taskspace } from "./mainpage.js";
 
 const filter = (() => {
     let filteredArray = [];
@@ -9,13 +9,13 @@ const filter = (() => {
     const parameters =
         { "date": "all dates",
         "status": "active",
-        "topic": "all topics" }
+        "category": "all categories" }
 
     const newFilter = () => {
         filteredArray = storage.getMasterArray().filter(entry => {
             return checkRelativeDate(parameters.date, entry.getDueDate()) &&
             entry.checkStatus(parameters.status) &&
-            entry.checkTopic(parameters.topic)
+            entry.checkCategory(parameters.category)
         });
         sortByDate();
     }
@@ -33,7 +33,7 @@ const filter = (() => {
 
     const changeParameter = (parameter, newValue) => {
         parameters[parameter] = newValue;
-        newFilter();
+        mainpage.loadContent();
     }
 
     const getFilteredArray = () => {
@@ -41,26 +41,28 @@ const filter = (() => {
         return filteredArray;
     }
 
-    const getTopicOptions = () => {
-        const topicOptions = [];
-        newFilter();
-        filteredArray.forEach(entry => {
-            if(!topicOptions.includes(entry.topic) && 
-                entry.topic != "no topic") {
-                topicOptions.push(entry.topic);
+    const getCategoryOptions = () => {
+        const categoryOptions = [];
+        let statusFilteredArray = storage.getMasterArray().filter(entry => {
+            return entry.checkStatus(parameters.status)
+        });
+        statusFilteredArray.forEach(entry => {
+            if(!categoryOptions.includes(entry.category) && 
+                entry.category != "no category") {
+                categoryOptions.push(entry.category);
             }
         })
-        topicOptions.sort((topicOne, topicTwo) => {
-            return topicOne > topicTwo;
+        categoryOptions.sort((categoryOne, categoryTwo) => {
+            return categoryOne > categoryTwo;
         })
-        topicOptions.unshift("all topics");
-        topicOptions.push("no topic");
+        categoryOptions.unshift("all categories");
+        categoryOptions.push("no category");
 
-        return topicOptions;
+        return categoryOptions;
     }
 
-    return { changeParameter, getFilteredArray, 
-        getTopicOptions, newFilter, updateMasterArray }
+    return { parameters, changeParameter, getFilteredArray, 
+        getCategoryOptions, newFilter, updateMasterArray }
 
 })();
 

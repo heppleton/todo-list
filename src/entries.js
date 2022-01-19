@@ -1,8 +1,10 @@
+import { format } from "date-fns";
 import { filter } from "./filter.js";
 
 const entries = (() => {
 
     const load = () => {
+
         const displayArea = document.querySelector(".display-area");
         displayArea.replaceChildren();
         
@@ -11,17 +13,19 @@ const entries = (() => {
             entryHolder.classList.add("entry-holder");
 
             addBasicLayout(entry, entryHolder);
+            makeDraggable(entry, entryHolder);
 
             displayArea.appendChild(entryHolder);
         });
 
-/*
-    makeDraggable(taskHolder, currentTask);
-    newTaskInput(displayArea);
-}*/
-
-
+        if(!displayArea.hasChildNodes()){
+            const noEntries = document.createElement("div");
+            noEntries.classList.add("no-entries");
+            noEntries.textContent = "no tasks";
+            displayArea.appendChild(noEntries);
+        }
     }
+
 
     const addBasicLayout = (entry, entryHolder) => {
         const basicLayout = document.createElement("div");
@@ -30,19 +34,19 @@ const entries = (() => {
         const title = document.createElement("div");
         title.textContent = entry.title;
 
-        const topic = document.createElement("div");
-        topic.textContent = entry.topic;
+        const category = document.createElement("div");
+        category.textContent = entry.category;
 
         const dateDue = document.createElement("div");
-        dateDue.textContent = ""//getRelativeDate(entry.getDueDate());//do this now!!!
+        dateDue.textContent = entry.getRelativeDate();
 
         const buttonHolder = document.createElement("div");
         buttonHolder.classList.add("task-button-holder");
 
-        basicLayout.append(title, topic, dateDue, buttonHolder);
+        basicLayout.append(title, category, dateDue, buttonHolder);
 
         basicLayout.addEventListener("click", () => {
-            addExpandedLayout(entry, entryHolder, basicLayout);
+            addExpandedLayout(entry, entryHolder);
         });
 
         /*
@@ -71,67 +75,71 @@ const entries = (() => {
         entryHolder.append(basicLayout);
     }
 
-    const addExpandedLayout = (entry, entryHolder, basicLayout) => {
-        
-        //need to fix this, so messy and buggy
-        const expandedEntry = document.querySelector(".entry-expanded-layout").parentElement;
-        if(expandedEntry) {
+    const addExpandedLayout = (entry, entryHolder) => {
+        try {    
+            const expandedEntry = 
+                document.querySelector(".entry-expanded-layout").parentElement;
             expandedEntry.removeChild(expandedEntry.lastElementChild);
             if(expandedEntry == entryHolder) {
                 return;
             }
-        }
+        } catch {}
 
         const expandedLayout = document.createElement("div");
         expandedLayout.classList.add("entry-expanded-layout");
 
+        const expandedLayoutElements = [
+            { "type": "span", "attributes": { "contenteditable": "true",
+                "data-placeholder": "title..." }, "text": entry.title, 
+                "style": ["title-input", "text-input"] },
+            { "type": "span", "attributes": { "contenteditable": "true",
+                "data-placeholder": "category..."}, "text": entry.category, 
+                "style": ["category-input", "text-input"] },
+            { "type": "input", "attributes": { "type": "date", 
+                "value": entry.getDueDate(), "min": format(new Date(), "yyyy-MM-dd")},
+                "style": ["date-picker"] },
+            { "type": "span", "attributes": { "contenteditable": "true", 
+                "data-placeholder": "description..."}, "text": entry.description, 
+                "style": ["description-input", "text-input"] },
+            { "type": "div", "attributes": {}, "text": "update", 
+                "style": ["button", "lowlight"] }
+        ];
 
-        entryHolder.append(expandedLayout);
-    /*
-    const titleInput = document.createElement("span");
-    titleInput.setAttribute("contenteditable", "true");
-    titleInput.setAttribute("data-placeholder", "task title...");
-    titleInput.textContent = selectedTask.title;
-    titleInput.classList.add("title-input", "text-input");
+        expandedLayoutElements.forEach(element => {
+            const layoutElement = document.createElement(element["type"]);
+            for(var key in element["attributes"]) {
+                layoutElement.setAttribute(key, element["attributes"][key]);
+            }
+            layoutElement.textContent = element["text"];
+            layoutElement.classList.add(...element["style"]);
 
-    const areaInput = document.createElement("span");
-    areaInput.setAttribute("contenteditable", "true");
-    areaInput.setAttribute("data-placeholder", "topic...");
-    areaInput.textContent = selectedTask.topic;
-    areaInput.classList.add("text-input");
+            expandedLayout.appendChild(layoutElement);
 
-    const dueDateInput = document.createElement("input");
-    dueDateInput.setAttribute("type", "date");
-    dueDateInput.setAttribute("value", selectedTask.getDueDate());
-    dueDateInput.setAttribute("min", format(new Date(), "yyyy-MM-dd"));
+            if(element["style"].includes("button")) {
+                layoutElement.addEventListener("click", () => {
+                    //need code here to collect layout values;
+                });
+            }
+        });
 
-    const descriptionInput = document.createElement("span");
-    descriptionInput.setAttribute("contenteditable", "true");
-    descriptionInput.setAttribute("data-placeholder", "description...");
-    descriptionInput.textContent = selectedTask.description;
-    descriptionInput.classList.add("description-input", "text-input");
-
-    const changeSubmitButton = document.createElement("div");
-    changeSubmitButton.classList.add("button", "lowlight");
-    changeSubmitButton.textContent = "update";
-    changeSubmitButton.addEventListener("click", () => {
-        selectedTask.title = titleInput.textContent;
-        selectedTask.description = descriptionInput.textContent;
-        selectedTask.topic = areaInput.textContent;
-        selectedTask.dateDue = dueDateInput.value;
-        taskHolder.removeChild(expandedTask);
-        storage.save(selectedTask);
-    });
-
-    expandedTask.append(titleInput, areaInput,
-        dueDateInput, descriptionInput, changeSubmitButton);
-
-
-}*/
-
-
+        entryHolder.appendChild(expandedLayout);
     }
 
+    const makeDraggable = (entry, entryHolder) => {
+        entryHolder.id = entry.dateAdded;
+        entryHolder.setAttribute("draggable", "true");
+
+        entryHolder.addEventListener("dragstart", (event) => {
+            event.dataTransfer.setData("text", entryHolder.id);
+        });
+
+        entryHolder.addEventListener("dragend", (event) => {
+            if(entryHolder.getAttribute("data-value")) {
+                entry.updateTask({ [entryHolder.getAttribute("data-key")]:
+                    entryHolder.getAttribute("data-value") });                   
+            }
+        });
+    }
     return { load };
 })();
 

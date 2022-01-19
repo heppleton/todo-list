@@ -1,20 +1,20 @@
 import { filter } from "./filter.js";
 
 const sidemenu = (() => {
-    const dateOptions = ["all dates", "overdue", "today", "tomorrow",
+    const load = () => {
+        const dateOptions = ["all dates", "overdue", "today", "tomorrow",
         "next seven days", "no due date"];
 
-    const topicOptions = filter.getTopicOptions();
+        const categoryOptions = filter.getCategoryOptions();
 
-    const statusOptions = ["active", "complete", "all"];
+        const statusOptions = ["active", "complete", "all"];
 
-    const subheadings = [
-        { "type": "date", "text": "tasks by due date", "options": dateOptions },
-        { "type": "topic", "text": "tasks by topic", "options": topicOptions },
-        { "type": "status", "text": "tasks by status", "options": statusOptions }
-    ];
+        const subheadings = [
+            { "type": "date", "text": "tasks by due date", "options": dateOptions },
+            { "type": "category", "text": "tasks by category", "options": categoryOptions },
+            { "type": "status", "text": "tasks by status", "options": statusOptions }
+        ];
 
-    const load = () => {
         const menuArea = document.querySelector(".side-menu");
         menuArea.replaceChildren();
 
@@ -26,10 +26,11 @@ const sidemenu = (() => {
             subheading.options.forEach(option => {
                 const subMenuOption = document.createElement("span");
                 subMenuOption.textContent = option;
-                subheadingTitle.addEventListener("click", () => {
+                subMenuOption.addEventListener("click", () => {
                     filter.changeParameter(subheading.type, option);
                 });
                 makeDropTarget(subMenuOption, subheading.type, option);
+                highlightSelections(subMenuOption, subheading.type, option);
                 subheadingTitle.appendChild(subMenuOption);
             }) 
             menuArea.appendChild(subheadingTitle);
@@ -37,17 +38,9 @@ const sidemenu = (() => {
     }
 
     const makeDropTarget = (menuOption, key, value) => {
-        menuOption.addEventListener("dragenter", (event) => {
-            event.target.classList.add("drag-over");
-        });
-
-        menuOption.addEventListener("dragleave", (event) => {
-            event.target.classList.remove("drag-over");
-        });
-
-        menuOption.addEventListener("dragover", (event) => {
-            event.preventDefault();
-        });
+        if(!["all", "all dates", "all categories"].includes(value)) {
+            menuOption.classList.add("drop-target");
+        }
 
         menuOption.addEventListener("drop", (event) => {
             event.preventDefault();
@@ -58,21 +51,15 @@ const sidemenu = (() => {
             draggedEntry.setAttribute("data-value", value);
         });
     };
+
+    const highlightSelections = (menuOption, key, value) => {
+        if(filter.parameters[key] == value) {
+            menuOption.classList.add("selected-option");
+        }
+    }
     
     return { load };
 
 })();
 
 export { sidemenu };
-
-/*
-    for(let parameter in filterParameters) {
-        const menuOptions = sideMenu.querySelectorAll("span");
-        menuOptions.forEach(element => {
-            if(element.textContent == filterParameters[parameter]) {
-                element.classList.add("selected-option");
-            }
-        });
-    }
-}*/
-

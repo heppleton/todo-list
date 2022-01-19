@@ -1,4 +1,5 @@
 import { filter } from "./filter.js";
+import { mainpage } from "./mainpage.js";
 import { task } from "./task.js";
 
 const storage = (() => {
@@ -29,7 +30,7 @@ const storage = (() => {
         const latestTaskspaceJSON = JSON.stringify(masterArray);
         localStorage.setItem("taskspaceJSON", latestTaskspaceJSON);
 
-        filter.updateMasterArray(masterArray);
+        mainpage.loadContent();
     };
 
     const getMasterArray = () =>{

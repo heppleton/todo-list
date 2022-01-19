@@ -1,5 +1,6 @@
 import { entries } from "./entries.js";
 import { sidemenu } from "./sidemenu.js";
+import { taskinput } from "./taskinput.js";
 
 const mainpage = (() => {
     const page = document.querySelector("body");
@@ -28,8 +29,15 @@ const mainpage = (() => {
 
     content.append(sideMenu, displayArea, rightSpacing);
 
-    sidemenu.load();
-    entries.load();
+    const loadContent = () => {
+        sidemenu.load();
+        entries.load();
+        taskinput.add();
+    }
+
+    loadContent();
+
+    return { loadContent };
 })();
 
 export { mainpage };

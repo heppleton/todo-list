@@ -53,7 +53,8 @@ body {
 
 .side-menu-sublist span {
     font-style: normal;
-    margin-left: 25px;
+    margin: 2px 25px;
+    padding: 5px 0 0 5px;
     cursor: pointer;
 }
 
@@ -83,6 +84,10 @@ body {
 
 .title-input {
     flex: 0 2 350px;
+}
+
+.category-input {
+    flex: 0 2 200px;
 }
 
 .text-input {
@@ -136,6 +141,15 @@ body {
     margin: 6px;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+.no-entries {
+    background-color: #ddddff;
+    box-shadow: 3px 3px 1px -3px #222;
+    font-style: italic;
+    margin: 6px;
+    padding: 5px 10px;
+    filter: brightness(90%);
 }
 
 .task-button-holder {
@@ -194,6 +208,6 @@ body {
     display: none;
 }
 
-.drag-over {
-    color: #0a2;
+.date-picker {
+    /*add code here eventually*/
 }
