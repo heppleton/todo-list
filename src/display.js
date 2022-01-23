@@ -1,10 +1,36 @@
-import { task } from "./task.js";
-import { storage } from "./storage.js";
-import { format } from "date-fns";
+import { entry } from "./entry.js";
 import { filter } from "./filter.js";
+import { format } from "date-fns";
+import { storage } from "./storage.js";
+import { task } from "./task.js";
 
-const taskinput = (() => {
-    const add = () => {
+const display = (() => {
+
+    const load = () => {
+        const displayArea = document.querySelector(".display-area");
+        displayArea.replaceChildren();
+
+        addSortBar();
+
+        filter.getFilteredArray().forEach((task) => {
+            displayArea.appendChild(entry(task));
+        });
+
+        if(!displayArea.hasChildNodes()){//Might need something more complex!
+            const noEntries = document.createElement("div");
+            noEntries.classList.add("no-entries");
+            noEntries.textContent = "no tasks";
+            displayArea.appendChild(noEntries);
+        }
+
+        addInputForm();
+    };
+
+    const addSortBar = () => {
+        //Ad logic for a sort bar at top of display area.
+    };
+
+    const addInputForm = () => {
         const displayArea = document.querySelector(".display-area");
 
         const form = document.createElement("div");
@@ -14,10 +40,10 @@ const taskinput = (() => {
         title.setAttribute("contenteditable", "true");
         title.setAttribute("data-placeholder", "new task...");
         title.classList.add("title-input", "text-input");
-        title.addEventListener("keydown", (e) => {
-            if(e.code === "Enter") {
+        title.addEventListener("keydown", (event) => {
+            if(event.code === "Enter") {
                 submitNewTask(form);
-                e.preventDefault();
+                event.preventDefault();
             }
         });
 
@@ -49,11 +75,7 @@ const taskinput = (() => {
         displayArea.appendChild(form);
     }
 
-
-
-
-
-    return { add };
+    return { load };
 })();
 
-export { taskinput };
+export { display };

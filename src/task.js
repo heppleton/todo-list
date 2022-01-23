@@ -1,57 +1,81 @@
-import { differenceInCalendarDays, format } from "date-fns";
+import { addDays, differenceInCalendarDays, format } from "date-fns";
+import { storage } from "./storage";
 
-const task = (title, category = "no category", dateDue = "") => {
-    let description = "";
-    const dateAdded = (new Date()).toString();
-    let dateCompleted;
+const task = (title, categoryInput, due = "") => {
+    let category = categoryInput || "no category";
+    const added = (new Date()).toString();
+    let completed = "";
 
-    const markComplete = function() {
-        this.dateCompleted = (new Date()).toString();
+    const update = function(newProperties) {
+        const updateMap = {
+            "category": (value) => { this.category = value || "no category" },
+            "date": (value) => { this.due = fromRelative(value) },
+            "status": (value) => { this.completed = toStatus(value) },
+            "title": (value) => { this.title = value }
+        }
+
+        for(var key in newProperties) {
+            updateMap[key](newProperties[key]);
+        }
+
+        storage.save(this);
     };
 
-    //Returns a boolean whether the task has a specific status.
-    const checkStatus = function(status) {
+    const toStatus = function(value) {
+        if(value == "active") {
+            return "";
+        }  
+        if(completed == "") {
+            return (new Date()).toString();
+        }
+    };
+
+    const isStatus = function(status) {
         if(status == "all") {
             return true;
-        } else if (status == "complete" && this.dateCompleted) {
+        } else if (status == "complete" && this.completed) {
             return true;
-        } else if (status == "active" && !this.dateCompleted) {
+        } else if (status == "active" && !this.completed) {
             return true;
         } else {
             return false;
         }
     };
 
-    //Returns a boolean whether a task is in the specified category.
-    const checkCategory = function(category) {
-        if(category == "all categories") {
-            return true;
-        } else if(category == this.category) {
+    const isCategory = function(category) {
+        if(category == "all categories" || category == this.category) {
             return true;
         } else {
             return false;
         }
+    };
+
+    const isRelative = function(relativeDate) {
+        const today = new Date();
+        const dateDifference = differenceInCalendarDays(new Date(this.due), today);
+
+        const map = {
+            "all dates": () => { return true },
+            "no due date": () => { return this.due == "" },
+            "overdue": () => { return dateDifference < 0 },
+            "today": () => { return dateDifference == 0 },
+            "tomorrow": () => { return dateDifference == 1 },
+            "next seven days": () => { return dateDifference >= 0 &&
+                dateDifference <= 6 },
+        }
+
+        return map[relativeDate]();
     }
 
-    const getDueDate = function() {
-        return this.dateDue;
-    }
-
-    //Returns a date based on a relate text string.
-    const getDateFromRelative = function() {
-
-    }
-
-    //Returns a string describing the task's due date relative to today.
-    const getRelativeDate = function() {
-        if(this.dateDue == "") {
+    const toRelative = function() {
+        if(this.due == "") {
             return "no due date";
         }
 
-        const dateDueObject = new Date(this.dateDue);
+        const dateDueObject = new Date(this.due);
         const dateDifference = differenceInCalendarDays(
             dateDueObject, new Date());
-       
+    
         if(dateDifference < 0) {
             return "overdue";
         } else if (dateDifference == 0) {
@@ -61,38 +85,36 @@ const task = (title, category = "no category", dateDue = "") => {
         } else {
             return format(dateDueObject, "dd MMMM yyyy");
         }
-    }
+    };
 
-    const updateTask = function(newProperties) {
-        /*
-        const updateCategory = function(newCategory) {
-            if(newCategory == "all categories")
-            console.log("hellocat");
-            //1 category - just change if not "all";
+    /*This takes either relative date text or formatted date string.
+    It returns either nothing (no due date) or a formatted date string.*/
+    const fromRelative = function(chosenDate) {
+        if(chosenDate == "no due date") {
+            return "";
         }
 
-        const updateDateDue = function(newCategory) {
-            console.log("hellodate");
-            //3 date - check if "all", then get date from relative
+        const relativeDifferences = {
+            "overdue": -1,
+            "today": 0,
+            "tomorrow": 1,
+            "next seven days": 6
+        };
+
+        if(!(chosenDate in relativeDifferences)) {
+            return chosenDate;
         }
 
-        const updateStatus = function(newCategory) {
-            console.log("hellostatus");
-            //2 status - add/remove completed date if not "all";
-        }
-        const functionMap = { "category": updateCategory,
-            "date": updateDateDue,
-            "status": updateStatus }
+        const newDateObject = addDays(new Date(),
+            relativeDifferences[chosenDate]);
 
-        for(var key in newProperties) {
-            functionMap[key](newProperties[key]);
-        }
-        */
-    }
+        return format(newDateObject, "yyyy-MM-dd");
+    };
 
-    return { title, description, category, dateAdded, dateCompleted, dateDue, 
-        markComplete, getDueDate, getRelativeDate,
-        checkStatus, checkCategory, updateTask };
+    return { title, category, added, completed, due,
+        update, toStatus, isStatus, isCategory,
+        isRelative, toRelative, fromRelative
+    };
 };
 
 export { task };

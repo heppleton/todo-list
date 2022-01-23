@@ -1,4 +1,4 @@
-import { checkRelativeDate } from "./relative-date.js";
+import { sort } from "./sort.js";
 import { storage } from "./storage.js";
 import { task } from "./task.js";
 import { mainpage, taskspace } from "./mainpage.js";
@@ -13,17 +13,11 @@ const filter = (() => {
 
     const newFilter = () => {
         filteredArray = storage.getMasterArray().filter(entry => {
-            return checkRelativeDate(parameters.date, entry.getDueDate()) &&
-            entry.checkStatus(parameters.status) &&
-            entry.checkCategory(parameters.category)
+            return entry.isRelative(parameters.date) && 
+            entry.isStatus(parameters.status) &&
+            entry.isCategory(parameters.category)
         });
-        sortByDate();
-    }
-
-    const sortByDate = () => {
-        filteredArray.sort((taskOne, taskTwo) =>  {
-            return taskOne.getDueDate() > taskTwo.getDueDate();
-        });
+        filteredArray = sort.byDate(filteredArray);
     }
 
     const updateMasterArray = function(updatedArray) {
@@ -44,7 +38,7 @@ const filter = (() => {
     const getCategoryOptions = () => {
         const categoryOptions = [];
         let statusFilteredArray = storage.getMasterArray().filter(entry => {
-            return entry.checkStatus(parameters.status)
+            return entry.isStatus(parameters.status)
         });
         statusFilteredArray.forEach(entry => {
             if(!categoryOptions.includes(entry.category) && 

@@ -10,9 +10,9 @@ const sidemenu = (() => {
         const statusOptions = ["active", "complete", "all"];
 
         const subheadings = [
-            { "type": "date", "text": "tasks by due date", "options": dateOptions },
-            { "type": "category", "text": "tasks by category", "options": categoryOptions },
-            { "type": "status", "text": "tasks by status", "options": statusOptions }
+            { "type": "status", "text": "Status", "options": statusOptions },
+            { "type": "date", "text": "Due date", "options": dateOptions },
+            { "type": "category", "text": "Category", "options": categoryOptions }
         ];
 
         const menuArea = document.querySelector(".side-menu");
@@ -40,16 +40,9 @@ const sidemenu = (() => {
     const makeDropTarget = (menuOption, key, value) => {
         if(!["all", "all dates", "all categories"].includes(value)) {
             menuOption.classList.add("drop-target");
+            menuOption.setAttribute("data-key", key);
+            menuOption.setAttribute("data-value", value);
         }
-
-        menuOption.addEventListener("drop", (event) => {
-            event.preventDefault();
-            event.target.classList.remove("drag-over");
-            const draggedEntry = 
-                document.getElementById(event.dataTransfer.getData("text"));
-            draggedEntry.setAttribute("data-key", key);
-            draggedEntry.setAttribute("data-value", value);
-        });
     };
 
     const highlightSelections = (menuOption, key, value) => {

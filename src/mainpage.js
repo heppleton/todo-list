@@ -1,13 +1,14 @@
-import { entries } from "./entries.js";
+import { display } from "./display.js";
+import { drag } from "./drag.js";
+import { entry } from "./entry.js";
 import { sidemenu } from "./sidemenu.js";
-import { taskinput } from "./taskinput.js";
 
 const mainpage = (() => {
     const page = document.querySelector("body");
   
     const header = document.createElement("div");
     header.classList.add("header");
-    header.textContent = "deed.";
+    header.textContent = "Deed.";
     
     const content = document.createElement("div");
     content.classList.add("content-area");
@@ -31,9 +32,8 @@ const mainpage = (() => {
 
     const loadContent = () => {
         sidemenu.load();
-        entries.load();
-        taskinput.add();
-    }
+        display.load();
+    };
 
     loadContent();
 
