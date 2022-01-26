@@ -1,34 +1,23 @@
 import { display } from "./display.js";
 import { drag } from "./drag.js";
 import { entry } from "./entry.js";
+import { makeComplexElement } from "./helper.js";
 import { sidemenu } from "./sidemenu.js";
 
 const mainpage = (() => {
+    const header = makeComplexElement("div", ["header"], "Deed");
+    header.appendChild(makeComplexElement("span", ["header-accent"], "."));
+    
+    const middle = makeComplexElement("div", ["middle-area"]); 
+    middle.append(makeComplexElement("div", ["side-menu"]),
+        makeComplexElement("div", ["content-area"]),
+        makeComplexElement("div", ["right-spacing"]));
+
+    const footer = makeComplexElement("div", ["footer"], 
+        "\u00A9 2022 Heppleton Industries");
+   
     const page = document.querySelector("body");
-  
-    const header = document.createElement("div");
-    header.classList.add("header");
-    header.textContent = "Deed.";
-    
-    const content = document.createElement("div");
-    content.classList.add("content-area");
-    
-    const footer = document.createElement("div");
-    footer.classList.add("footer");
-    footer.textContent = "\u00A9 2022 Heppleton Industries";
-
-    page.append(header, content, footer);
-
-    const sideMenu = document.createElement("div");
-    sideMenu.classList.add("side-menu");
-
-    const displayArea = document.createElement("div");
-    displayArea.classList.add("display-area");
-
-    const rightSpacing = document.createElement("div");
-    rightSpacing.classList.add("right-spacing");
-
-    content.append(sideMenu, displayArea, rightSpacing);
+    page.append(header, middle, footer);
 
     const loadContent = () => {
         sidemenu.load();

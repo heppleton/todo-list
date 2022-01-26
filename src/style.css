@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
 
+/*Main Layout*/
 body {
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Outfit', sans-serif;
     font-size: 16px;
     color: #222;
     margin: 0;
@@ -13,14 +14,23 @@ body {
 
 .header {
     font-size: 100px;
-    padding: 10px 0 0 100px;
+    padding: 0px 0px 20px 100px;
 }
 
-.content-area {
+.header-accent {
+    color: green;
+    cursor: pointer;
+}
+
+.middle-area {
     flex: 1;
     display: flex;
     align-items: stretch;
-    background-color: #ddddff;
+}
+
+.right-spacing {
+    flex: 1 2 auto;
+    background-color: #fff;
 }
 
 .footer {
@@ -31,18 +41,21 @@ body {
     font-size: 10px;
 }
 
+/*Side Menu*/
 .side-menu {
     flex: 0 1 300px;
     display: flex;
     flex-direction: column;
-    background-color: #feb;
+    border-top: 2px solid green;
+    height: 72vh;
     padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .side-menu span {
     display: flex;
     flex-direction: column;
-
 }
 
 .side-menu>span {
@@ -50,137 +63,187 @@ body {
 }
 
 .side-menu-sublist {
-    font-style: italic;
+    font-weight: bold;
 }
 
 .side-menu-sublist span {
     background-color: inherit;
-    font-style: normal;
+    font-weight: normal;
     margin: 2px 25px;
     padding-left: 5px;
     cursor: pointer;
 }
 
 .side-menu-sublist span:hover {
-    font-weight: 600;
+    color: green;
 }
 
-.display-area{
+.selected-option {
+    color: green;
+    font-weight: bold;
+}
+
+/*Content Area*/
+.content-area {
     flex: 0 1 1000px;
     display: flex;
     flex-direction: column;
+}
+
+.display-area {
     height: 72vh;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 
-.right-spacing {
-    flex: 1 2 auto;
-    background-color: #fff;
+.sort-bar {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.1fr;
+    font-weight: bold;
+    color: #fff;
+    background-color: green;
+    padding: 0px 6px;
+    border-bottom: 1px solid #111;
+    order: -1;
 }
 
-.task-input-form {
+.sort-bar div {
+    text-align: center;
+    background-color: green;
+    padding: 10px 5px;
+}
+
+.sort-bar:hover {
+    cursor: pointer;
+}
+
+.sort-bar-arrow {
+    visibility: hidden;
+}
+
+.sort-bar div:hover .sort-bar-arrow {
+    visibility: visible;
+}
+
+.no-entries {
+    text-align: center;
+    background-color: #ccc;
+    box-shadow: 3px 3px 1px -3px #111;
+    font-style: italic;
+    margin: 6px;
+    padding: 5px 10px;
+    filter: brightness(90%);
+}
+
+.holder {
     display: flex;
-    margin: 10px;
-    gap: 10px;
+    flex-direction: column;
+}
+
+.basic-layout {
+    display: grid;
+    grid-template-columns: .1fr 2fr 1fr .8fr .05fr .05fr;
+    align-items: center;
+    background-color: #fff;
+    gap: 12px;
+    box-shadow: 3px 3px 1px -2px #111;
+    margin: 6px;
+    padding: 5px 10px 10px 10px;
+    cursor: pointer;
+}
+
+.editing-layout {
+    display: grid;
+    grid-template-columns: .1fr 2fr 1fr .7fr .2fr;
+    align-items: stretch;
+    background-color: #ddd;
+    gap: 12px;
+    box-shadow: 3px 3px 1px -2px #111;
+    margin: 6px;
+    padding: 5px 10px;
+}
+
+.input-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr .8fr .2fr;
+    margin: 6px;
+    gap: 12px;
+    padding: 5px 10px 5px 4%;
     order: 1;
 }
 
-.title-input {
-    flex: 0 2 350px;
-}
-
-.category-input {
-    flex: 0 2 200px;
-}
-
 .text-input {
-    display: flex;
     border: 1px solid #888;
     background-color: #fff;
     padding: 5px;
     white-space: nowrap;
-    overflow-x: scroll;
-    scrollbar-width: none;
+    overflow-x: hidden;
 }
 
-.text-input:empty {
+.text-input:empty,
+.details-box:empty {
     font-style: italic;
     color: #777;
 }
 
-.text-input:empty::before {
+.text-input:empty::before,
+.details-box:empty::before {
     content: attr(data-placeholder);
+}
+
+.details-box {
+    grid-column: 2 / span 3;
+}
+
+.box-input {
+    grid-column: 2 / span 3;
 }
 
 .button {
     display: flex;
+    justify-content: center;
     align-items: center;
-    box-shadow: 3px 3px 1px -3px #222;
+    box-shadow: 3px 3px 1px -2px #111;
     background-color: #fff;
     padding: 5px;
     cursor: pointer;
 }
 
-.lowlight:hover {
-    filter: brightness(95%);
-}
-
-.lowlight:active {
-    filter: brightness(90%);
-}
-
-.entry-holder {
-    display: flex;
-    flex-direction: column;
-}
-
-.entry-basic-layout {
-    display: grid;
-    grid-template-columns: .1fr 2fr 1fr 1fr .1fr;
-    align-items: baseline;
-    background-color: #fff;
-    box-shadow: 3px 3px 1px -3px #222;
-    column-gap: 12px;
-    margin: 6px;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-.no-entries {
-    background-color: #ddddff;
-    box-shadow: 3px 3px 1px -3px #222;
-    font-style: italic;
-    margin: 6px;
-    padding: 5px 10px;
-    filter: brightness(90%);
-}
-
-.complete-button {
+.complete-button,
+.delete-button,
+.edit-button {
+    align-self: flex-start;
     font-size: 24px;
     visibility: hidden;
     cursor: pointer;
 }
 
-.entry-holder:hover .complete-button,
-.entry-holder:hover .delete-button {
-    visibility: visible;
+.edit-button:hover {
+    color: blue;
 }
 
 .complete-button:hover {
     color: #0a2;
 }
 
-.delete-button {
-    font-size: 24px;
-    visibility: hidden;
-    cursor: pointer;
-}
-
 .delete-button:hover {
     color: #d00;
 }
 
-.completed-task {
+.basic-layout:hover .complete-button,
+.basic-layout:hover .delete-button,
+.basic-layout:hover .edit-button {
+    visibility: visible;
+}
+
+.end-edit-button {
+    align-self: flex-start;
+    font-size: 24px;
+    cursor: pointer;
+    color: blue;
+}
+
+.completed-task .text-box {
     font-style: italic;
     color: #777;
 }
@@ -190,34 +253,23 @@ body {
     color: #0a2;
 }
 
-.overdue {
+.overdue-task .text-box {
     color: #d00;
 }
 
-.selected-option {
-    font-weight: bold;
-}
-
-.entry-expanded-layout {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
-    background-color: #eee;
-    row-gap: 10px;
-    box-shadow: 3px 3px 1px -3px #222;
-    margin: -5px 12px 12px 12px;
-    padding: 10px;
-}
-
-.area-input {
-    flex: 0 2 350px;
-}
-
+/*General Styling*/
 .dragging {
     display: none;
 }
 
-.date-picker {
-    /*add code here eventually*/
+.lowlight:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.lowlight:active {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+input[type="date"] {
+    font-family: 'Outfit', monospace;
 }

@@ -8,84 +8,119 @@ const entry = (currTask) => {
 
     const createHolder = (() => {
         holder = document.createElement("div");
-        holder.classList.add("entry-holder");
+        holder.classList.add("holder");
         holder.setAttribute("draggable", "true");
         holder.id = currTask.added;
     })();
 
-    const addExpandedLayout = () => {
-        try {    
-            const expandedEntry = 
-                document.querySelector(".entry-expanded-layout").parentElement;
-            expandedEntry.removeChild(expandedEntry.lastElementChild);
-            if(expandedEntry == holder) {
-                return;
-            }
+    const addEditingLayout = () => {
+        /*This try/catch checks if another entry is already being edited.
+        If one is found, it is closed before the new entry is opened for 
+        editing. If they are the same entry, it only closes it for editing.*/
+        try {
+            const editingEntry = 
+                document.querySelector(".editing-layout").parentElement;
+            const editingTask = storage.getTaskByID(editingEntry.id);
+            document.querySelector(".display-area").replaceChild(
+                entry(editingTask), editingEntry);
         } catch {}
 
-        const expandedLayout = document.createElement("div");
-        expandedLayout.classList.add("entry-expanded-layout");
+        const editingLayout = document.createElement("div");
+        editingLayout.classList.add("editing-layout");
 
-        const expandedLayoutElements = [
+        const endEditButton = document.createElement("div");
+        endEditButton.classList.add("end-edit-button");
+        endEditButton.textContent = "\u21B6";
+        endEditButton.addEventListener("click", addEditingLayout);
+        editingLayout.appendChild(endEditButton);
+
+        const editingLayoutElements = [
             { "type": "span", "attributes": { "contenteditable": "true",
-                "data-placeholder": "title...", "data-key": "title" }, 
-                "text": currTask.title, "class": ["title-input", "text-input"] },
+                "data-placeholder": "Title", "data-key": "Title" }, 
+                "text": currTask.title, "class": ["text-input"] },
             { "type": "span", "attributes": { "contenteditable": "true",
-                "data-placeholder": "category...", "data-key": "category" },
-                "text": currTask.category, "class": ["category-input", "text-input"] },
+                "data-placeholder": "Category", "data-key": "Category" },
+                "text": currTask.category, "class": ["text-input"] },
             { "type": "input", "attributes": { "type": "date", "value": currTask.due,
-                "min": format(new Date(), "yyyy-MM-dd"), "data-key": "date"},
-                "class": ["date-picker"] },
-            { "type": "div", "attributes": {}, "text": "update", 
+                "min": format(new Date(), "yyyy-MM-dd"), "data-key": "Date"},
+                "class": [] },
+            { "type": "div", "attributes": {}, "text": "Update", 
                 "class": ["button", "lowlight"] }
         ];
 
-        expandedLayoutElements.forEach(element => {
+        editingLayoutElements.forEach(element => {
             const layoutElement = document.createElement(element["type"]);
             for(var key in element["attributes"]) {
                 layoutElement.setAttribute(key, element["attributes"][key]);
             }
             layoutElement.textContent = element["text"];
             layoutElement.classList.add(...element["class"]);
-
-            expandedLayout.appendChild(layoutElement);
+            editingLayout.appendChild(layoutElement);
 
             if(element["class"].includes("button")) {
                 layoutElement.addEventListener("click", () => {
-                    const newProperties = {};
-                    expandedLayout.childNodes.forEach((element) => {
-                        if(element.getAttribute("data-key")) {
-                            newProperties[element.getAttribute("data-key")] = 
-                                element.textContent || element.value;
-                        }
-                    })
-                    currTask.update(newProperties);
+                    submitUpdate();
+                });
+            } else {
+                layoutElement.addEventListener("keydown", (event) => {
+                    if(event.code === "Enter") {
+                        submitUpdate();
+                        event.preventDefault();
+                    }
                 });
             }
         });
-        holder.appendChild(expandedLayout);
+        const details = document.createElement("div");
+        details.setAttribute("contenteditable", "true");
+        details.setAttribute("data-placeholder", "Details");
+        details.setAttribute("data-key", "Details");
+        details.textContent = currTask.details;
+        details.classList.add("text-input", "box-input");
+        editingLayout.appendChild(details);
+
+        const submitUpdate = () => {
+            const newProperties = {};
+            editingLayout.childNodes.forEach((element) => {
+                if(element.getAttribute("data-key")) {
+                    newProperties[element.getAttribute("data-key")] = 
+                        element.textContent || element.value;
+                }
+            })
+            currTask.update(newProperties);
+        }
+
+        holder.setAttribute("draggable", "false");
+        holder.replaceChildren(editingLayout);
     };
 
     const basicLayout = (() => {
+        const editButton = document.createElement("div");
+        editButton.classList.add("edit-button");
+        editButton.textContent = "\u270E";
+        editButton.addEventListener("click", addEditingLayout);
+
+        const layout = document.createElement("div");
+        layout.classList.add("basic-layout", "lowlight");
+
+        const title = document.createElement("div");
+        title.textContent = currTask.title;
+        title.classList.add("text-box");
+
+        const category = document.createElement("div");
+        category.textContent = currTask.category;
+        category.classList.add("text-box");
+
+        const due = document.createElement("div");
+        due.textContent = currTask.toRelative();
+        due.classList.add("text-box");
+
         const completeButton = document.createElement("div");
         completeButton.classList.add("complete-button");
         completeButton.textContent = "\u2714";
         completeButton.addEventListener("click", () => {
-            currTask.update(currTask.isStatus("active") ? { "status": "complete" }
-            : { "status" : "active" });
+            currTask.update(currTask.isStatus("Active") ? { "Status": "Complete" }
+            : { "Status" : "Active" });
         });
-
-        const layout = document.createElement("div");
-        layout.classList.add("entry-basic-layout", "lowlight");
-
-        const title = document.createElement("div");
-        title.textContent = currTask.title;
-
-        const category = document.createElement("div");
-        category.textContent = currTask.category;
-
-        const due = document.createElement("div");
-        due.textContent = currTask.toRelative();
 
         const deleteButton = document.createElement("div");
         deleteButton.classList.add("delete-button");
@@ -94,23 +129,41 @@ const entry = (currTask) => {
             storage.remove(currTask);
         });
 
-        layout.addEventListener("click", addExpandedLayout);
+        const description = document.createElement("div");
+        description.classList.add("details-box", "text-box");
+        description.setAttribute("data-placeholder", "No details.")
+        description.textContent = currTask.details;
+              
+        layout.addEventListener("click", () => {
+            try {
+                const expandedEntry = 
+                    document.querySelector(".details-box").parentElement;
+                expandedEntry.removeChild(document.querySelector(".details-box"));
+                if(expandedEntry == layout) {
+                    return;
+                }
+            } catch {}
 
-        layout.append(completeButton, title, category, due, deleteButton);
+            layout.appendChild(description);
+        });
+
+        layout.append(editButton, title, category, due, completeButton, deleteButton);
 
         holder.append(layout);
 
         return { layout, due };
     })();    
 
-    if(currTask.isStatus("complete")) {
+    /*Apply additional styles to complete and overdue tasks.*/
+    if(currTask.isStatus("Complete")) {
         holder.classList.add("completed-task");
-        basicLayout.layout.removeEventListener("click", addExpandedLayout);
-        basicLayout.due.textContent = format(new Date(currTask.due), "dd MMMM yyyy");
+        basicLayout.layout.removeEventListener("click", addEditingLayout);
+        basicLayout.due.textContent = !currTask.due ? "No due date" : 
+            format(new Date(currTask.due), "dd MMMM yyyy");
     }
 
-    if(currTask.isRelative("overdue") && currTask.isStatus("active")){
-        holder.classList.add("overdue");
+    if(currTask.isRelative("Overdue") && currTask.isStatus("Active")){
+        holder.classList.add("overdue-task");
     }
 
     return holder;

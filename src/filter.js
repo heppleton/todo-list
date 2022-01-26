@@ -7,17 +7,16 @@ const filter = (() => {
     let filteredArray = [];
 
     const parameters =
-        { "date": "all dates",
-        "status": "active",
-        "category": "all categories" }
+        { "Date": "All dates",
+        "Status": "Active",
+        "Category": "All categories" }
 
     const newFilter = () => {
         filteredArray = storage.getMasterArray().filter(entry => {
-            return entry.isRelative(parameters.date) && 
-            entry.isStatus(parameters.status) &&
-            entry.isCategory(parameters.category)
+            return entry.isRelative(parameters.Date) && 
+            entry.isStatus(parameters.Status) &&
+            entry.isCategory(parameters.Category)
         });
-        filteredArray = sort.byDate(filteredArray);
     }
 
     const updateMasterArray = function(updatedArray) {
@@ -32,25 +31,22 @@ const filter = (() => {
 
     const getFilteredArray = () => {
         newFilter();
-        return filteredArray;
+        return sort.byChoice(filteredArray);
     }
 
     const getCategoryOptions = () => {
         const categoryOptions = [];
-        let statusFilteredArray = storage.getMasterArray().filter(entry => {
-            return entry.isStatus(parameters.status)
-        });
-        statusFilteredArray.forEach(entry => {
+        storage.getMasterArray().forEach(entry => {
             if(!categoryOptions.includes(entry.category) && 
-                entry.category != "no category") {
+                entry.category != "No category") {
                 categoryOptions.push(entry.category);
             }
         })
         categoryOptions.sort((categoryOne, categoryTwo) => {
-            return categoryOne > categoryTwo;
+            return categoryOne.localeCompare(categoryTwo);
         })
-        categoryOptions.unshift("all categories");
-        categoryOptions.push("no category");
+        categoryOptions.unshift("All categories");
+        categoryOptions.push("No category");
 
         return categoryOptions;
     }

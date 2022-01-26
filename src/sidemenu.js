@@ -2,17 +2,17 @@ import { filter } from "./filter.js";
 
 const sidemenu = (() => {
     const load = () => {
-        const dateOptions = ["all dates", "overdue", "today", "tomorrow",
-        "next seven days", "no due date"];
+        const dateOptions = ["All dates", "Overdue", "Today", "Tomorrow",
+        "Next seven days", "No due date"];
 
         const categoryOptions = filter.getCategoryOptions();
 
-        const statusOptions = ["active", "complete", "all"];
+        const statusOptions = ["Active", "Complete"];
 
         const subheadings = [
-            { "type": "status", "text": "Status", "options": statusOptions },
-            { "type": "date", "text": "Due date", "options": dateOptions },
-            { "type": "category", "text": "Category", "options": categoryOptions }
+            { "type": "Status", "text": "Status", "options": statusOptions },
+            { "type": "Category", "text": "Category", "options": categoryOptions },
+            { "type": "Date", "text": "Due date", "options": dateOptions },
         ];
 
         const menuArea = document.querySelector(".side-menu");
@@ -35,10 +35,14 @@ const sidemenu = (() => {
             }) 
             menuArea.appendChild(subheadingTitle);
         })
+
+        if(filter.parameters["Status"] == "Complete") {
+            menuArea.removeChild(menuArea.lastChild);
+        }
     }
 
     const makeDropTarget = (menuOption, key, value) => {
-        if(!["all", "all dates", "all categories"].includes(value)) {
+        if(!["All", "All dates", "All categories"].includes(value)) {
             menuOption.classList.add("drop-target");
             menuOption.setAttribute("data-key", key);
             menuOption.setAttribute("data-value", value);
@@ -50,9 +54,8 @@ const sidemenu = (() => {
             menuOption.classList.add("selected-option");
         }
     }
-    
+  
     return { load };
-
 })();
 
 export { sidemenu };

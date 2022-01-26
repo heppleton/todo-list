@@ -1,3 +1,4 @@
+import { entry } from "./entry.js";
 import { storage } from "./storage.js";
 
 const drag = (() => {
@@ -5,6 +6,14 @@ const drag = (() => {
 
     window.addEventListener("dragstart", (event) => {
         setTimeout(() => {
+            try {
+                const editingEntry = 
+                    document.querySelector(".editing-layout").parentElement;
+                const editingTask = storage.getTaskByID(editingEntry.id);
+                document.querySelector(".display-area").replaceChild(
+                    entry(editingTask), editingEntry);
+            } catch {}
+
             event.target.classList.add("dragging");
             draggedEntryID = event.target.id;
             document.querySelectorAll(".drop-target").forEach(target => {
