@@ -1,4 +1,5 @@
 import { entry } from "./entry.js";
+import { mainpage } from "./mainpage.js";
 import { storage } from "./storage.js";
 
 const drag = (() => {

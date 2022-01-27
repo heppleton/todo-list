@@ -16,32 +16,36 @@ const storage = (() => {
         masterArray = retrievedArray.map((retrievedTask) => {
             return Object.assign(task(""), retrievedTask);
         });
+
+        filter.newFilter();
     }
+
+    const add = (newTask) => {
+        masterArray.push(newTask);
+        save();
+    };
 
     const remove = (removedTask) => {
         const taskIndex = masterArray.findIndex((entry) =>
                 entry.added == removedTask.added);
-            masterArray.splice(taskIndex, 1);
-
-        const latestTaskspaceJSON = JSON.stringify(masterArray);
-        localStorage.setItem("taskspaceJSON", latestTaskspaceJSON);
-
-        mainpage.loadContent();
+        masterArray.splice(taskIndex, 1);
+        save();
     }
 
-    const save = (updatedTask) => {
-        if(masterArray.some((entry) => entry.added == updatedTask.added)) {
-            const taskIndex = masterArray.findIndex((entry) =>
-                entry.added == updatedTask.added);
-            masterArray.splice(taskIndex, 1, updatedTask);
-        } else {
-            masterArray.push(updatedTask);
-        }
+    const update = (updatedTask) => {
+        const taskIndex = masterArray.findIndex((entry) =>
+            entry.added == updatedTask.added);
+        masterArray.splice(taskIndex, 1, updatedTask);
+        save();
+    };
+
+    const save = () => {
         const latestTaskspaceJSON = JSON.stringify(masterArray);
         localStorage.setItem("taskspaceJSON", latestTaskspaceJSON);
 
+        filter.newFilter();
         mainpage.loadContent();
-    };
+    }
 
     const getMasterArray = () =>{
         return masterArray;
@@ -55,7 +59,7 @@ const storage = (() => {
 
     retrieve();
 
-    return { remove, save, getMasterArray, getTaskByID };
+    return { add, remove, update, getMasterArray, getTaskByID };
 
 })();
 

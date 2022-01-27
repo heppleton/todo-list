@@ -5,6 +5,7 @@ import { makeComplexElement } from "./helper.js";
 import { sort } from "./sort.js";
 import { storage } from "./storage.js";
 import { task } from "./task.js";
+import { mainpage } from "./mainpage.js";
 
 const display = (() => {
     const displayArea = makeComplexElement("div", ["display-area"]);
@@ -78,7 +79,7 @@ const display = (() => {
                 const newTask = task(title.textContent,
                     category.textContent,
                     dateDue.value);
-                storage.save(newTask);
+                storage.add(newTask);
             }
         }   
 

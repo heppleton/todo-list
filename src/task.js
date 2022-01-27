@@ -21,7 +21,7 @@ const task = (title, category, due = "") => {
             updateMap[key](newProperties[key]);
         }
 
-        storage.save(this);
+        storage.update(this);
     };
 
     const toStatus = function(currTask, value) {

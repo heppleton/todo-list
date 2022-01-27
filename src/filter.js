@@ -17,6 +17,7 @@ const filter = (() => {
             entry.isStatus(parameters.Status) &&
             entry.isCategory(parameters.Category)
         });
+        sortArray();
     }
 
     const changeParameter = (parameter, newValue) => {
@@ -31,12 +32,11 @@ const filter = (() => {
     
             }
         }
-        mainpage.loadContent();
+        newFilter();
     }
 
-    const getFilteredArray = () => {
-        newFilter();
-        return sort.byChoice(filteredArray);
+    const sortArray = () => {
+        filteredArray = sort.byChoice(filteredArray);
     }
 
     const getCategoryOptions = () => {
@@ -56,8 +56,12 @@ const filter = (() => {
         return categoryOptions;
     }
 
-    return { parameters, changeParameter, getFilteredArray, 
-        getCategoryOptions, newFilter }
+    const getFilteredArray = () => {
+        return filteredArray;
+    }
+
+    return { parameters, newFilter, changeParameter, sortArray, 
+        getCategoryOptions, getFilteredArray }
 
 })();
 

@@ -35,15 +35,6 @@ Changes:
     - problem with the scope of the "toStatus" method in task
 150: stop it from ending editing when enter in the details edit box
 154: input form add button should not be green when pressed.
-155: change the way filter works:
-    - any new, updated, or deleted task will cause a new filter call
-    - any change to sidemenu selection will cause a new filter call
-    - new filter calls also automatically generate category options and call sort
-    - for all of these, both sidemenu and content/display is updated
-    - sort bar just calls sort and refreshes content/display area
-    - in each case, filter stores the new array
-        - sidemenu itself only gets filter options, it does not cause them to be made
-        - display gets the filtered array, but does not cause it to be made.
 157: should you be allowed to edit complete tasks??
     - and due date doesn't match up with the complete date in the sort bar.
 */

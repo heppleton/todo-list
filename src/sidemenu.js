@@ -1,5 +1,6 @@
 import { filter } from "./filter.js";
 import { makeComplexElement } from "./helper.js";
+import { mainpage } from "./mainpage.js";
 
 const sidemenu = (() => {
     const load = () => {
@@ -20,6 +21,7 @@ const sidemenu = (() => {
                 const subMenuOption = makeComplexElement("span", [], option);
                 subMenuOption.addEventListener("click", () => {
                     filter.changeParameter(subheading.type, option);
+                    mainpage.loadContent();
                 });
                 makeDropTarget(subMenuOption, subheading.type, option);
                 highlightSelections(subMenuOption, subheading.type, option);

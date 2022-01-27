@@ -1,3 +1,5 @@
+import { filter } from "./filter.js";
+
 const sort = (() => {
     let property = "Due";
     let x = 0;
@@ -25,6 +27,7 @@ const sort = (() => {
             property = newProperty;
             [x, y] = [0, 1];
         }
+        filter.sortArray;
     }
 
     const isSorted = (option) => {
