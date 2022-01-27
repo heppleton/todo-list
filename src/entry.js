@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { filter } from "./filter.js";
+import { makeComplexElement } from "./helper.js";
 import { storage } from "./storage.js";
 import { task } from "./task.js";
 
@@ -7,9 +8,7 @@ const entry = (currTask) => {
     let holder;
 
     const createHolder = (() => {
-        holder = document.createElement("div");
-        holder.classList.add("holder");
-        holder.setAttribute("draggable", "true");
+        holder = makeComplexElement("div", ["holder"], "", { "draggable": "true" });
         holder.id = currTask.added;
     })();
 
@@ -25,58 +24,36 @@ const entry = (currTask) => {
                 entry(editingTask), editingEntry);
         } catch {}
 
-        const editingLayout = document.createElement("div");
-        editingLayout.classList.add("editing-layout");
-
-        const endEditButton = document.createElement("div");
-        endEditButton.classList.add("end-edit-button");
-        endEditButton.textContent = "\u21B6";
-        endEditButton.addEventListener("click", addEditingLayout);
-        editingLayout.appendChild(endEditButton);
-
-        const editingLayoutElements = [
-            { "type": "span", "attributes": { "contenteditable": "true",
-                "data-placeholder": "Title", "data-key": "Title" }, 
-                "text": currTask.title, "class": ["text-input"] },
-            { "type": "span", "attributes": { "contenteditable": "true",
-                "data-placeholder": "Category", "data-key": "Category" },
-                "text": currTask.category, "class": ["text-input"] },
-            { "type": "input", "attributes": { "type": "date", "value": currTask.due,
-                "min": format(new Date(), "yyyy-MM-dd"), "data-key": "Date"},
-                "class": [] },
-            { "type": "div", "attributes": {}, "text": "Update", 
-                "class": ["button", "lowlight"] }
-        ];
-
-        editingLayoutElements.forEach(element => {
-            const layoutElement = document.createElement(element["type"]);
-            for(var key in element["attributes"]) {
-                layoutElement.setAttribute(key, element["attributes"][key]);
-            }
-            layoutElement.textContent = element["text"];
-            layoutElement.classList.add(...element["class"]);
-            editingLayout.appendChild(layoutElement);
-
-            if(element["class"].includes("button")) {
-                layoutElement.addEventListener("click", () => {
-                    submitUpdate();
-                });
-            } else {
-                layoutElement.addEventListener("keydown", (event) => {
-                    if(event.code === "Enter") {
-                        submitUpdate();
-                        event.preventDefault();
-                    }
-                });
+        const editingLayout = makeComplexElement("div", ["editing-layout"]);
+        editingLayout.addEventListener("keydown", (event) => {
+            if(event.code === "Enter") {
+                submitUpdate();
+                event.preventDefault();
             }
         });
-        const details = document.createElement("div");
-        details.setAttribute("contenteditable", "true");
-        details.setAttribute("data-placeholder", "Details");
-        details.setAttribute("data-key", "Details");
-        details.textContent = currTask.details;
-        details.classList.add("text-input", "box-input");
-        editingLayout.appendChild(details);
+
+        const endEditButton = makeComplexElement("div", ["end-edit-button"], "\u21BA");
+        endEditButton.addEventListener("click", addEditingLayout);
+
+        const title = makeComplexElement("span", ["text-input"], currTask.title,
+            { "contenteditable": "true", "data-placeholder": "Title", "data-key": "Title"});
+
+        const category = makeComplexElement("span", ["text-input"], currTask.category,
+            { "contenteditable": "true", "data-placeholder": "Category", "data-key": "Category"});
+
+        const date = makeComplexElement("input", [], "",
+            { "type": "date", "value": currTask.due, "data-key": "Date",
+            "min": format(new Date(), "yyyy-MM-dd")});
+
+        const update = makeComplexElement("div", ["button", "lowlight"], "Update");
+        update.addEventListener("click", () => {
+            submitUpdate();
+        });
+
+        const details = makeComplexElement("div", ["text-input", "box-input"], currTask.details,
+            { "contenteditable": "true", "data-placeholder": "Details", "data-key": "Details" });
+
+        editingLayout.append(endEditButton, title, category, date, update, details);
 
         const submitUpdate = () => {
             const newProperties = {};
@@ -94,45 +71,29 @@ const entry = (currTask) => {
     };
 
     const basicLayout = (() => {
-        const editButton = document.createElement("div");
-        editButton.classList.add("edit-button");
-        editButton.textContent = "\u270E";
+        const layout = makeComplexElement("div", ["basic-layout", "lowlight"]);
+
+        const editButton = makeComplexElement("div", ["edit-button"], "\u270E");
         editButton.addEventListener("click", addEditingLayout);
 
-        const layout = document.createElement("div");
-        layout.classList.add("basic-layout", "lowlight");
+        const title = makeComplexElement("div", ["text-box"], currTask.title);
+        const category = makeComplexElement("div", ["text-box"], currTask.category);
+        const due = makeComplexElement("div", ["text-box"], currTask.toRelative());
 
-        const title = document.createElement("div");
-        title.textContent = currTask.title;
-        title.classList.add("text-box");
-
-        const category = document.createElement("div");
-        category.textContent = currTask.category;
-        category.classList.add("text-box");
-
-        const due = document.createElement("div");
-        due.textContent = currTask.toRelative();
-        due.classList.add("text-box");
-
-        const completeButton = document.createElement("div");
-        completeButton.classList.add("complete-button");
-        completeButton.textContent = "\u2714";
+        const buttonHolder = makeComplexElement("div", ["button-holder"]);
+        const completeButton = makeComplexElement("div", ["complete-button"], "\u2714");
         completeButton.addEventListener("click", () => {
             currTask.update(currTask.isStatus("Active") ? { "Status": "Complete" }
             : { "Status" : "Active" });
         });
-
-        const deleteButton = document.createElement("div");
-        deleteButton.classList.add("delete-button");
-        deleteButton.textContent = "\u2718";
+        const deleteButton = makeComplexElement("div", ["delete-button"], "\u2718");
         deleteButton.addEventListener("click", () => {
             storage.remove(currTask);
         });
+        buttonHolder.append(completeButton, deleteButton);
 
-        const description = document.createElement("div");
-        description.classList.add("details-box", "text-box");
-        description.setAttribute("data-placeholder", "No details.")
-        description.textContent = currTask.details;
+        const details = makeComplexElement("div", ["details-box", "text-box"], 
+            currTask.details, { "data-placeholder": "No details." });
               
         layout.addEventListener("click", () => {
             try {
@@ -144,11 +105,10 @@ const entry = (currTask) => {
                 }
             } catch {}
 
-            layout.appendChild(description);
+            layout.appendChild(details);
         });
 
-        layout.append(editButton, title, category, due, completeButton, deleteButton);
-
+        layout.append(editButton, title, category, due, buttonHolder);
         holder.append(layout);
 
         return { layout, due };
@@ -157,9 +117,7 @@ const entry = (currTask) => {
     /*Apply additional styles to complete and overdue tasks.*/
     if(currTask.isStatus("Complete")) {
         holder.classList.add("completed-task");
-        basicLayout.layout.removeEventListener("click", addEditingLayout);
-        basicLayout.due.textContent = !currTask.due ? "No due date" : 
-            format(new Date(currTask.due), "dd MMMM yyyy");
+        basicLayout.due.textContent = format(new Date(currTask.completed), "dd MMMM yyyy");
     }
 
     if(currTask.isRelative("Overdue") && currTask.isStatus("Active")){
@@ -170,4 +128,3 @@ const entry = (currTask) => {
 }
 
 export { entry };
-

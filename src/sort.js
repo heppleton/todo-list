@@ -6,8 +6,8 @@ const sort = (() => {
     const byChoice = (array) => {
         array.sort((taskA, taskB) =>  {
             const options = [
-                { "Category": taskA.category, "Complete": taskA.due, "Due": taskA.due, "Title": taskA.title },
-                { "Category": taskB.category, "Complete": taskB.due, "Due": taskB.due, "Title": taskB.title }
+                { "Category": taskA.category, "Complete": taskA.completed, "Due": taskA.due, "Title": taskA.title },
+                { "Category": taskB.category, "Complete": taskB.completed, "Due": taskB.due, "Title": taskB.title }
             ]
 
             const selectionA = options[x][property];

@@ -1,31 +1,23 @@
 import { filter } from "./filter.js";
+import { makeComplexElement } from "./helper.js";
 
 const sidemenu = (() => {
     const load = () => {
-        const dateOptions = ["All dates", "Overdue", "Today", "Tomorrow",
-        "Next seven days", "No due date"];
-
-        const categoryOptions = filter.getCategoryOptions();
-
-        const statusOptions = ["Active", "Complete"];
-
         const subheadings = [
-            { "type": "Status", "text": "Status", "options": statusOptions },
-            { "type": "Category", "text": "Category", "options": categoryOptions },
-            { "type": "Date", "text": "Due date", "options": dateOptions },
+            { "type": "Status", "text": "Status", "options": ["Active", "Complete"] },
+            { "type": "Category", "text": "Category", "options": filter.getCategoryOptions() },
+            { "type": "Date", "text": "Due date", "options": ["All dates", "Overdue", 
+                "Today", "Tomorrow", "Next seven days", "No due date"] },
         ];
 
         const menuArea = document.querySelector(".side-menu");
         menuArea.replaceChildren();
 
         subheadings.forEach(subheading => {
-            const subheadingTitle = document.createElement("span");
-            subheadingTitle.classList.add("side-menu-sublist");
-            subheadingTitle.textContent = subheading.text;
-            
+            const subheadingTitle = makeComplexElement("span", ["side-menu-sublist"],
+                subheading.text);            
             subheading.options.forEach(option => {
-                const subMenuOption = document.createElement("span");
-                subMenuOption.textContent = option;
+                const subMenuOption = makeComplexElement("span", [], option);
                 subMenuOption.addEventListener("click", () => {
                     filter.changeParameter(subheading.type, option);
                 });

@@ -88,10 +88,11 @@ body {
     flex: 0 1 1000px;
     display: flex;
     flex-direction: column;
+    height: 72vh;
 }
 
 .display-area {
-    height: 72vh;
+    margin: 5px 0;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -103,7 +104,6 @@ body {
     color: #fff;
     background-color: green;
     padding: 0px 6px;
-    border-bottom: 1px solid #111;
     order: -1;
 }
 
@@ -127,12 +127,8 @@ body {
 
 .no-entries {
     text-align: center;
-    background-color: #ccc;
-    box-shadow: 3px 3px 1px -3px #111;
     font-style: italic;
-    margin: 6px;
-    padding: 5px 10px;
-    filter: brightness(90%);
+    padding: 10px;
 }
 
 .holder {
@@ -140,35 +136,33 @@ body {
     flex-direction: column;
 }
 
-.basic-layout {
-    display: grid;
-    grid-template-columns: .1fr 2fr 1fr .8fr .05fr .05fr;
-    align-items: center;
-    background-color: #fff;
-    gap: 12px;
-    box-shadow: 3px 3px 1px -2px #111;
-    margin: 6px;
-    padding: 5px 10px 10px 10px;
-    cursor: pointer;
-}
-
+.basic-layout, 
 .editing-layout {
     display: grid;
     grid-template-columns: .1fr 2fr 1fr .7fr .2fr;
-    align-items: stretch;
-    background-color: #ddd;
     gap: 12px;
     box-shadow: 3px 3px 1px -2px #111;
     margin: 6px;
     padding: 5px 10px;
 }
 
+.basic-layout {
+    align-items: center;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.editing-layout {
+    align-items: stretch;
+    background-color: #ddd;
+}
+
 .input-layout {
     display: grid;
     grid-template-columns: 2fr 1fr .8fr .2fr;
-    margin: 6px;
+    background-color: green;
     gap: 12px;
-    padding: 5px 10px 5px 4%;
+    padding: 10px 4%;
     order: 1;
 }
 
@@ -209,6 +203,12 @@ body {
     cursor: pointer;
 }
 
+.button-holder {
+    display: flex;
+    direction: row;
+    gap: 6px;
+}
+
 .complete-button,
 .delete-button,
 .edit-button {
@@ -240,7 +240,7 @@ body {
     align-self: flex-start;
     font-size: 24px;
     cursor: pointer;
-    color: blue;
+    color: purple;
 }
 
 .completed-task .text-box {

@@ -21,23 +21,19 @@ const display = (() => {
                 "There are no tasks which meet your selection."));
         }
 
-        if(filter.parameters["Status"] != "Complete") {
-            addInputForm();
-        }
-
         const contentArea = document.querySelector(".content-area");
         contentArea.replaceChildren();
         contentArea.append(addSortBar(), displayArea);
+        if(filter.parameters["Status"] != "Complete") {
+            contentArea.appendChild(addInputForm());
+        }
     };
 
     const addSortBar = () => {
         const sortBar = makeComplexElement("div", ["sort-bar"]);
 
-        const sortOptions = ["Title", "Category", "Due"];
-
-        if(filter.parameters["Status"] == "Complete") {
-            sortOptions[2] = "Complete";
-        }
+        const sortOptions = ["Title", "Category", 
+            filter.parameters["Status"] == "Complete" ? "Complete" : "Due"];
 
         sortOptions.forEach(option => {
             const bar = makeComplexElement("div", ["lowlight"], option);
@@ -63,25 +59,16 @@ const display = (() => {
             }
         });
 
-//add makeComplexElement below this point
+        const title = makeComplexElement("span", ["text-input"], "",
+            { "contenteditable": "true", "data-placeholder": "New task" });
 
-        const title = document.createElement("span");//here
-        title.setAttribute("contenteditable", "true");
-        title.setAttribute("data-placeholder", "New task");
-        title.classList.add("text-input");
+        const category = makeComplexElement("span", ["text-input"], "",
+            { "contenteditable": "true", "data-placeholder": "Category" });
 
-        const category = document.createElement("span");//here
-        category.setAttribute("contenteditable", "true");
-        category.setAttribute("data-placeholder", "Category");
-        category.classList.add("text-input");
+        const dateDue = makeComplexElement("input", [], "",
+            { "type": "date", "min": format(new Date(), "yyyy-MM-dd") });
 
-        const dateDue = document.createElement("input");//here
-        dateDue.setAttribute("type", "date");
-        dateDue.setAttribute("min", format(new Date(), "yyyy-MM-dd"));
-
-        const submit = document.createElement("div");//here
-        submit.classList.add("button", "lowlight");
-        submit.textContent = "Add";
+        const submit = makeComplexElement("div", ["button", "lowlight"], "Add");
         submit.addEventListener("click", () => { submitNewTask(form) });
     
         form.append(title, category, dateDue, submit);
@@ -107,7 +94,7 @@ const display = (() => {
             dateDue.value = task().fromRelative(selectedDue);
         }
 
-        displayArea.appendChild(form);
+        return form;
     }
 
     return { load };

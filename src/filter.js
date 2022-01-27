@@ -1,7 +1,7 @@
 import { sort } from "./sort.js";
 import { storage } from "./storage.js";
 import { task } from "./task.js";
-import { mainpage, taskspace } from "./mainpage.js";
+import { mainpage } from "./mainpage.js";
 
 const filter = (() => {
     let filteredArray = [];
@@ -19,13 +19,18 @@ const filter = (() => {
         });
     }
 
-    const updateMasterArray = function(updatedArray) {
-        masterArray = updatedArray;
-        newFilter();
-    }
-
     const changeParameter = (parameter, newValue) => {
         parameters[parameter] = newValue;
+        if(newValue == "Active" && !sort.isSorted("Due")) {
+            sort.chooseProperty("Due");
+        }
+        if(newValue == "Complete") {
+            parameters["Date"] = "All dates";
+            if(!sort.isSorted("Complete")) {
+                sort.chooseProperty("Complete");
+    
+            }
+        }
         mainpage.loadContent();
     }
 
@@ -52,7 +57,7 @@ const filter = (() => {
     }
 
     return { parameters, changeParameter, getFilteredArray, 
-        getCategoryOptions, newFilter, updateMasterArray }
+        getCategoryOptions, newFilter }
 
 })();
 

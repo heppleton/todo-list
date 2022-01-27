@@ -7,41 +7,43 @@ Neat ideas, but unlikely to be implemented:
 1. Tooltips.
 4. Read again about getters and setters to check if they can be used in the task object.
 5. Read about rem and em measures to see if they should be used.
+6: Learn about root in CSS and if I could use it for variable styling. Such as by clicking the dot.
+7: Consider the possibility of a search bar.
+8: Offer choices of categories when user types into category input.
+9: Look for one last time about having a "due" object inside "task". - Need separate branch for this, just in case.
 
 Changes:
 113: what happens if you remove the last task of a category while you're still in it?
     - nothing bad! but maybe default to all categories??
+    - would need to have category counts for this!
 116: dates should always be objects.
-120: when typing category offer some choices??
-121: make some final decisions on colours and styling. - outfit is a nice font.
-    - maybe allow people to pick a colour palette?
-126: what drag and drop should completed tasks have?
-129: how do date filters deal with completed tasks??
-    - if changing to completed, switch to all dates?
-132: why not show date completed on completed tasks?
-    - i forget why this is a problem.
+    - do completed first as it will break fewer things.
 134: reset due date/category filters when not "all".
+    - only for active - completed no longer filter by date
 135: end editing when another task expanded?
 136: What does tab do in an input or editing layout? where does it go next??
-137: style scrollbars?
-138: put complete and delet buttons in a div, so they stack when squeezed???
+138: put complete and delete buttons in a div, so they stack when squeezed???
     - easier to match layout with editing and input too!
 139: when details box accepts an enter, it doesn create an actuall carriage return?
     - fix this with the general mess of css over that element!!!
-140: ensure make complex element helper is used everywhere it can be:
-    - display - part way through
-    - entry
-    - sidemenu
-141: bigger and better button for adding a new task?
-    - in the top left corner of the side menu?
-    - when clicked load input form into it!
-    - need a button to minimise too!
-    - do a transition when it grows to incorporate the input form.
-    - might also need it to overflow its container.
-        - or change the overflow of its container while open?
 142: dragged items need to be smaller.
-143: remove the "all" option from status
-    - display completed date
-    - fix for completed date in sort also
+    - leave them in place, faintly, with smaller item being dragged?
 145: use form elements for input???
+146: really do reconsider adding counts to the sidemenu
+148: is updatemasterarray in filter used??
+149: dropping a completed task on complete should not add new complete date!!!!
+    - problem with the scope of the "toStatus" method in task
+150: stop it from ending editing when enter in the details edit box
+154: input form add button should not be green when pressed.
+155: change the way filter works:
+    - any new, updated, or deleted task will cause a new filter call
+    - any change to sidemenu selection will cause a new filter call
+    - new filter calls also automatically generate category options and call sort
+    - for all of these, both sidemenu and content/display is updated
+    - sort bar just calls sort and refreshes content/display area
+    - in each case, filter stores the new array
+        - sidemenu itself only gets filter options, it does not cause them to be made
+        - display gets the filtered array, but does not cause it to be made.
+157: should you be allowed to edit complete tasks??
+    - and due date doesn't match up with the complete date in the sort bar.
 */

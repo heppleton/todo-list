@@ -13,7 +13,7 @@ const task = (title, category, due = "") => {
             "Category": (value) => { this.category = value || "No category" },
             "Date": (value) => { this.due = fromRelative(value) },
             "Details": (value) => { this.details = value },
-            "Status": (value) => { this.completed = toStatus(value) },
+            "Status": (value) => { this.completed = toStatus(this, value) },
             "Title": (value) => { this.title = value }
         }
 
@@ -24,7 +24,7 @@ const task = (title, category, due = "") => {
         storage.save(this);
     };
 
-    const toStatus = function(value) {
+    const toStatus = function(currTask, value) {
         if(value == "Active") {
             return "";
         }
