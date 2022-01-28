@@ -4,7 +4,7 @@ import { task } from "./task.js";
 import { mainpage } from "./mainpage.js";
 
 const filter = (() => {
-    let filteredArray = [];
+    let workingArray = [];
 
     const parameters =
         { "Date": "All dates",
@@ -12,11 +12,16 @@ const filter = (() => {
         "Category": "All categories" }
 
     const newFilter = () => {
-        filteredArray = storage.getMasterArray().filter(entry => {
+        workingArray = storage.getMasterArray().filter(entry => {
             return entry.isRelative(parameters.Date) && 
             entry.isStatus(parameters.Status) &&
             entry.isCategory(parameters.Category)
         });
+        sortArray();
+    }
+
+    const addSearchResults = (resultsArray) => {
+        workingArray = resultsArray;
         sortArray();
     }
 
@@ -36,7 +41,7 @@ const filter = (() => {
     }
 
     const sortArray = () => {
-        filteredArray = sort.byChoice(filteredArray);
+        workingArray = sort.byChoice(workingArray);
     }
 
     const getCategoryOptions = () => {
@@ -56,12 +61,12 @@ const filter = (() => {
         return categoryOptions;
     }
 
-    const getFilteredArray = () => {
-        return filteredArray;
+    const getWorkingArray = () => {
+        return workingArray;
     }
 
     return { parameters, newFilter, changeParameter, sortArray, 
-        getCategoryOptions, getFilteredArray }
+        getCategoryOptions, getWorkingArray, addSearchResults }
 
 })();
 

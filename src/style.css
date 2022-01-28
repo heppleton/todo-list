@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
 
+:root {
+    --accent-color: green;
+}
+
 /*Main Layout*/
 body {
     font-family: 'Outfit', sans-serif;
@@ -13,13 +17,29 @@ body {
 }
 
 .header {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.header-title {
     font-size: 100px;
-    padding: 0px 0px 20px 100px;
+    padding: 0px 120px 20px 80px;
 }
 
 .header-accent {
-    color: green;
+    color: var(--accent-color);
     cursor: pointer;
+}
+
+.search-box {
+    flex: 0 3 500px;
+    align-self: flex-end;
+    display: flex;
+    gap: 12px;
+}
+
+.search-text {
+    flex: 1;
 }
 
 .middle-area {
@@ -43,10 +63,10 @@ body {
 
 /*Side Menu*/
 .side-menu {
-    flex: 0 1 300px;
+    flex: 0 0 200px;
     display: flex;
     flex-direction: column;
-    border-top: 2px solid green;
+    border-top: 2px solid var(--accent-color);
     height: 72vh;
     padding: 10px;
     overflow-x: hidden;
@@ -75,12 +95,12 @@ body {
 }
 
 .side-menu-sublist span:hover {
-    color: green;
+    color: var(--accent-color);
 }
 
 .selected-option {
-    color: green;
-    font-weight: bold;
+    color: var(--accent-color);
+    font-weight: bold;/*This actually currently does nothing.*/
 }
 
 /*Content Area*/
@@ -102,14 +122,14 @@ body {
     grid-template-columns: 2fr 1fr 1.1fr;
     font-weight: bold;
     color: #fff;
-    background-color: green;
+    background-color: var(--accent-color);
     padding: 0px 6px;
     order: -1;
 }
 
 .sort-bar div {
     text-align: center;
-    background-color: green;
+    background-color: var(--accent-color);
     padding: 10px 5px;
 }
 
@@ -160,7 +180,7 @@ body {
 .input-layout {
     display: grid;
     grid-template-columns: 2fr 1fr .8fr .2fr;
-    background-color: green;
+    background-color: var(--accent-color);
     gap: 12px;
     padding: 10px 4%;
     order: 1;
@@ -263,11 +283,11 @@ body {
 }
 
 .lowlight:hover {
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: #ddd
 }
 
 .lowlight:active {
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: #bbb;
 }
 
 input[type="date"] {

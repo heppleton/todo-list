@@ -13,7 +13,7 @@ const display = (() => {
     const load = () => {
         displayArea.replaceChildren();
 
-        filter.getFilteredArray().forEach((task) => {
+        filter.getWorkingArray().forEach((task) => {
             displayArea.appendChild(entry(task));
         });
 
@@ -37,7 +37,7 @@ const display = (() => {
             filter.parameters["Status"] == "Complete" ? "Complete" : "Due"];
 
         sortOptions.forEach(option => {
-            const bar = makeComplexElement("div", ["lowlight"], option);
+            const bar = makeComplexElement("div", [], option);
             bar.addEventListener("click", () => {
                 sort.chooseProperty(option);
                 load();

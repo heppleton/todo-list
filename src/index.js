@@ -7,8 +7,6 @@ Neat ideas, but unlikely to be implemented:
 1. Tooltips.
 4. Read again about getters and setters to check if they can be used in the task object.
 5. Read about rem and em measures to see if they should be used.
-6: Learn about root in CSS and if I could use it for variable styling. Such as by clicking the dot.
-7: Consider the possibility of a search bar.
 8: Offer choices of categories when user types into category input.
 9: Look for one last time about having a "due" object inside "task". - Need separate branch for this, just in case.
 
@@ -16,8 +14,9 @@ Changes:
 113: what happens if you remove the last task of a category while you're still in it?
     - nothing bad! but maybe default to all categories??
     - would need to have category counts for this!
-116: dates should always be objects.
+116: dates should always be objects. - hard!
     - do completed first as it will break fewer things.
+    - due date will need to be done after that.
 134: reset due date/category filters when not "all".
     - only for active - completed no longer filter by date
 135: end editing when another task expanded?
@@ -30,11 +29,15 @@ Changes:
     - leave them in place, faintly, with smaller item being dragged?
 145: use form elements for input???
 146: really do reconsider adding counts to the sidemenu
-148: is updatemasterarray in filter used??
 149: dropping a completed task on complete should not add new complete date!!!!
     - problem with the scope of the "toStatus" method in task
 150: stop it from ending editing when enter in the details edit box
-154: input form add button should not be green when pressed.
 157: should you be allowed to edit complete tasks??
     - and due date doesn't match up with the complete date in the sort bar.
+158: Consider the possibility of a search bar.
+    - search returns and displays completed and active results together!!
+    - needs to be a button to clear result, clear box, and reload.
+    - searching for nothing returns everything!
+159: fix bolding problem on selected filter choices in sidemenu.
+160: click on "Deed" to reset?
 */

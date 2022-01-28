@@ -27,7 +27,7 @@ const sort = (() => {
             property = newProperty;
             [x, y] = [0, 1];
         }
-        filter.sortArray;
+        filter.sortArray();
     }
 
     const isSorted = (option) => {

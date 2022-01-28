@@ -47,7 +47,7 @@ const storage = (() => {
         mainpage.loadContent();
     }
 
-    const getMasterArray = () =>{
+    const getMasterArray = () => {
         return masterArray;
     }
 
@@ -57,9 +57,7 @@ const storage = (() => {
         return masterArray[taskIndex];
     }
 
-    retrieve();
-
-    return { add, remove, update, getMasterArray, getTaskByID };
+    return { add, remove, update, retrieve, getMasterArray, getTaskByID };
 
 })();
 
