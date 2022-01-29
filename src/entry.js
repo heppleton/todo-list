@@ -40,7 +40,7 @@ const entry = (currTask) => {
             { "contenteditable": "true", "data-placeholder": "Category", "data-key": "Category"});
 
         const date = makeComplexElement("input", [], "",
-            { "type": "date", "value": currTask.due, "data-key": "Date",
+            { "type": "date", "value": format(currTask.due, "yyyy-MM-dd"), "data-key": "Date",
             "min": format(new Date(), "yyyy-MM-dd")});
 
         const update = makeComplexElement("div", ["button", "lowlight"], "Update", { "tabindex": 0 });
@@ -114,14 +114,13 @@ const entry = (currTask) => {
 
         layout.append(editButton, title, category, due, buttonHolder);
         holder.append(layout);
-
         return { layout, due, editButton };
     })();    
 
     /*Apply additional styles to complete and overdue tasks.*/
     if(currTask.isStatus("Complete")) {
         holder.classList.add("completed-task");
-        basicLayout.due.textContent = format(new Date(currTask.completed), "dd MMMM yyyy");
+        basicLayout.due.textContent = format(currTask.completed, "dd MMMM yyyy");
         basicLayout.editButton.removeEventListener("click", addEditingLayout);
         basicLayout.editButton.textContent = "";
     }

@@ -12,7 +12,6 @@ const display = (() => {
 
     const load = () => {
         displayArea.replaceChildren();
-
         filter.getWorkingArray().forEach((task) => {
             displayArea.appendChild(entry(task));
         });
@@ -70,7 +69,7 @@ const display = (() => {
 
         const selectedDue = filter.parameters["Date"];
         if(selectedDue != "No due date" && selectedDue != "All dates") {
-            dateDue.value = task().fromRelative(selectedDue);
+            dateDue.value = format(task().fromRelative(selectedDue), "yyyy-MM-dd");
         }
 
         return form;

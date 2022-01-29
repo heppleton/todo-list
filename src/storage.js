@@ -14,7 +14,14 @@ const storage = (() => {
         const retrievedArray = JSON.parse(taskspaceJSON);
 
         masterArray = retrievedArray.map((retrievedTask) => {
-            return Object.assign(task(""), retrievedTask);
+            const revivedTask = Object.assign(task(""), retrievedTask);
+            if(retrievedTask.completed) {
+                revivedTask.completed = new Date(retrievedTask.completed);
+            }
+            if(retrievedTask.due) {
+                revivedTask.due = new Date(retrievedTask.due);
+            }
+            return revivedTask;
         });
     }
 

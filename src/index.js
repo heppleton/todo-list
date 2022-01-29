@@ -12,9 +12,6 @@ Changes:
 113: what happens if you remove the last task of a category while you're still in it?
     - nothing bad! but maybe default to all categories??
     - would need to have category counts for this!
-116: dates should always be objects. - hard!
-    - do completed first as it will break fewer things.
-    - due date will need to be done after that.
 135: end editing when another task expanded?
 139: when details box accepts an enter, it doesn create an actuall carriage return?
     - fix this with the general mess of css over that element!!!
@@ -22,8 +19,11 @@ Changes:
 146: really do reconsider adding counts to the sidemenu
 150: stop it from ending editing when enter in the details edit box
 159: fix bolding problem on selected filter choices in sidemenu.
-162: continue to replace px with rem in css
 163: really need some better css classes: such as icon-button and text-button
 164: search returns and displays completed and active results together!
 165: clear search button needs more work!!!
+167: clean up the additional complete and overdue logic for entry
+    - integrate better into the main method
+168: remove leading 0 from 1 digit dates.
+169: clicking between active and completes should reset filter options??
 */
