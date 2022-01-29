@@ -6,6 +6,8 @@ const drag = (() => {
     let draggedEntryID;
 
     window.addEventListener("dragstart", (event) => {
+        const dragGhost = event.target.firstChild.children[1];
+        event.dataTransfer.setDragImage(dragGhost, 10, 10);
         setTimeout(() => {
             try {
                 const editingEntry = 
@@ -14,7 +16,6 @@ const drag = (() => {
                 document.querySelector(".display-area").replaceChild(
                     entry(editingTask), editingEntry);
             } catch {}
-
             event.target.classList.add("dragging");
             draggedEntryID = event.target.id;
             document.querySelectorAll(".drop-target").forEach(target => {
@@ -53,6 +54,8 @@ const drag = (() => {
             const draggedTask = storage.getTaskByID(draggedEntryID);
             draggedTask.update({ [event.target.getAttribute("data-key")]:
             event.target.getAttribute("data-value") });
+            storage.update(draggedTask);
+            mainpage.loadContent();
         }
     });
 })();

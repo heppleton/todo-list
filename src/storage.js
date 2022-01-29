@@ -16,8 +16,6 @@ const storage = (() => {
         masterArray = retrievedArray.map((retrievedTask) => {
             return Object.assign(task(""), retrievedTask);
         });
-
-        filter.newFilter();
     }
 
     const add = (newTask) => {
@@ -42,9 +40,6 @@ const storage = (() => {
     const save = () => {
         const latestTaskspaceJSON = JSON.stringify(masterArray);
         localStorage.setItem("taskspaceJSON", latestTaskspaceJSON);
-
-        filter.newFilter();
-        mainpage.loadContent();
     }
 
     const getMasterArray = () => {

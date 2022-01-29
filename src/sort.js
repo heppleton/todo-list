@@ -1,9 +1,33 @@
+import { display } from "./display.js";
 import { filter } from "./filter.js";
+import { makeComplexElement } from "./helper.js";
+import { mainpage } from "./mainpage.js";
 
 const sort = (() => {
     let property = "Due";
     let x = 0;
     let y = 1;
+
+    const addSortBar = () => {
+        const sortBar = makeComplexElement("div", ["sort-bar"]);
+
+        const sortOptions = ["Title", "Category", 
+            filter.parameters["Status"] == "Complete" ? "Complete" : "Due"];
+
+        sortOptions.forEach(option => {
+            const bar = makeComplexElement("div", [], option);
+            bar.addEventListener("click", () => {
+                chooseProperty(option);
+                mainpage.loadContent();
+            })
+            bar.append(makeComplexElement("span", ["sort-bar-arrow"],
+                isSorted(option) ? " \u25B2" : " \u25BC"));
+
+            sortBar.appendChild(bar);
+        })
+
+        return sortBar;
+    };
 
     const byChoice = (array) => {
         array.sort((taskA, taskB) =>  {
@@ -27,7 +51,6 @@ const sort = (() => {
             property = newProperty;
             [x, y] = [0, 1];
         }
-        filter.sortArray();
     }
 
     const isSorted = (option) => {
@@ -37,7 +60,7 @@ const sort = (() => {
         return false;
     }
 
-    return { byChoice, chooseProperty, isSorted };
+    return { addSortBar, byChoice, chooseProperty, isSorted };
 })();
 
 export { sort };

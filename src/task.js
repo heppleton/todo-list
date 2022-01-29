@@ -13,25 +13,22 @@ const task = (title, category, due = "") => {
             "Category": (value) => { this.category = value || "No category" },
             "Date": (value) => { this.due = fromRelative(value) },
             "Details": (value) => { this.details = value },
-            "Status": (value) => { this.completed = toStatus(this, value) },
+            "Status": (value) => { 
+                if(value == "Active") {
+                    this.completed = "";
+                    return;
+                }
+                if(this.completed == "") {
+                    this.completed = new Date().toString();
+                }
+            },
             "Title": (value) => { this.title = value }
         }
 
         for(var key in newProperties) {
             updateMap[key](newProperties[key]);
         }
-
-        storage.update(this);
     };
-
-    const toStatus = function(currTask, value) {
-        if(value == "Active") {
-            return "";
-        }
-        if(completed == "") {
-            return (new Date()).toString();
-        }
-    }
 
     const isStatus = function(status) {
         if(status == "All") {
@@ -116,7 +113,7 @@ const task = (title, category, due = "") => {
     };
 
     return { title, category, added, completed, due, details,
-        update, toStatus, isStatus, isCategory,
+        update, isStatus, isCategory,
         isRelative, toRelative, fromRelative,     
     };
 };

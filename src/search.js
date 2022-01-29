@@ -1,4 +1,4 @@
-import { filter } from "./filter.js";
+import { entry } from "./entry.js";
 import { makeComplexElement } from "./helper.js";
 import { mainpage } from "./mainpage.js";
 import { storage } from "./storage.js";
@@ -9,34 +9,66 @@ const search = (() => {
 
         const searchInput = makeComplexElement("div", ["text-input", "search-text"], "",
             { "contenteditable": "true", "data-placeholder": "Search"});
-        searchInput.addEventListener("keydown", (event) => {
+
+        const searchButton = makeComplexElement("div", ["button", "lowlight"], "Search", { "tabindex": 0 });
+        searchButton.addEventListener("click", () => { getResults(searchInput.textContent) });
+
+        searchBox.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
+                getResults(searchInput.textContent);
                 event.preventDefault();
-                getSearchResults(searchInput.textContent);
             }
         });
-
-        const searchButton = makeComplexElement("div", ["button", "lowlight"], "Search");
-        searchButton.addEventListener("click", () => { getSearchResults(searchInput.textContent) });
 
         searchBox.append(searchInput, searchButton);
 
         return searchBox;
     }
 
-    const getSearchResults = (searchInput) => {
-        const searchString = searchInput.toLowerCase();
-        const resultsArray = [];
-        storage.getMasterArray().forEach(entry => {
-            if(entry.title.toLowerCase().includes(searchString) 
-                || entry.details.toLowerCase().includes(searchString)) {
-                resultsArray.push(entry);
-            }
-        });
-        filter.addSearchResults(resultsArray);
-        mainpage.loadContent();
+    const addClearSearchButton = () => {
+        const searchInput = document.querySelector(".search-text");
+        const clearButton = makeComplexElement("span", ["clear-search-button"], "\u2718");
+        clearButton.addEventListener("click", () => {
+            mainpage.loadContent();
+        })
+
+        searchInput.appendChild(clearButton);
+        searchInput.setAttribute("contenteditable", "false");
+
+/*What do I want to happen?
+        3. can't enter or click to call event
+*/
     }
 
+    const getResults = (searchQuery) => {
+        const searchString = searchQuery.toLowerCase();
+        const resultsArray = [];
+        if(searchString != "") {
+            storage.getMasterArray().forEach(entry => {
+                if(entry.title.toLowerCase().includes(searchString) 
+                    || entry.details.toLowerCase().includes(searchString)) {
+                    resultsArray.push(entry);
+                }
+            });
+        }
+        displayResults(resultsArray);
+        addClearSearchButton();
+    }
+
+    const displayResults = (resultsArray) => {
+        const displayArea = document.querySelector(".display-area");
+        displayArea.replaceChildren();
+
+        resultsArray.forEach((result) => {
+            displayArea.appendChild(entry(result));
+        });
+
+        if(!displayArea.hasChildNodes()){
+            displayArea.appendChild(makeComplexElement("div", ["no-entries"], 
+                "Your search returned no results."));
+        }
+
+    }
 
     return { addSearchBox };
 })();

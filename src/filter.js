@@ -9,7 +9,7 @@ const filter = (() => {
     const parameters =
         { "Date": "All dates",
         "Status": "Active",
-        "Category": "All categories" }
+        "Category": "All categories" };
 
     const newFilter = () => {
         workingArray = storage.getMasterArray().filter(entry => {
@@ -17,27 +17,30 @@ const filter = (() => {
             entry.isStatus(parameters.Status) &&
             entry.isCategory(parameters.Category)
         });
-        sortArray();
-    }
-
-    const addSearchResults = (resultsArray) => {
-        workingArray = resultsArray;
-        sortArray();
     }
 
     const changeParameter = (parameter, newValue) => {
-        parameters[parameter] = newValue;
-        if(newValue == "Active" && !sort.isSorted("Due")) {
-            sort.chooseProperty("Due");
-        }
-        if(newValue == "Complete") {
-            parameters["Date"] = "All dates";
-            if(!sort.isSorted("Complete")) {
-                sort.chooseProperty("Complete");
-    
+        const responseMap = {
+            "Date": () => {
+                parameters["Category"] = "All categories";
+            },
+            "Status": () => {
+                if(newValue == "Active" && !sort.isSorted("Due")) {
+                    sort.chooseProperty("Due");
+                }
+                if(newValue == "Complete") {
+                    parameters["Date"] = "All dates";
+                    if(!sort.isSorted("Complete")) {
+                        sort.chooseProperty("Complete");    
+                    }
+                }
+            },
+            "Category": () => {
+                parameters["Date"] = "All dates";
             }
         }
-        newFilter();
+        parameters[parameter] = newValue;
+        responseMap[parameter]();
     }
 
     const sortArray = () => {
@@ -62,11 +65,13 @@ const filter = (() => {
     }
 
     const getWorkingArray = () => {
+        newFilter();
+        sortArray();
         return workingArray;
     }
 
     return { parameters, newFilter, changeParameter, sortArray, 
-        getCategoryOptions, getWorkingArray, addSearchResults }
+        getCategoryOptions, getWorkingArray }
 
 })();
 

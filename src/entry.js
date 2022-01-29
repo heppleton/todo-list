@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { filter } from "./filter.js";
 import { makeComplexElement } from "./helper.js";
+import { mainpage } from "./mainpage.js";
 import { storage } from "./storage.js";
 import { task } from "./task.js";
 
@@ -13,17 +14,14 @@ const entry = (currTask) => {
     })();
 
     const addEditingLayout = () => {
-        /*This try/catch checks if another entry is already being edited.
-        If one is found, it is closed before the new entry is opened for 
-        editing. If they are the same entry, it only closes it for editing.*/
         try {
-            const editingEntry = 
-                document.querySelector(".editing-layout").parentElement;
+            //Check for and close existing editing entries.
+            const editingEntry = document.querySelector(".editing-layout").parentElement;
             const editingTask = storage.getTaskByID(editingEntry.id);
             document.querySelector(".display-area").replaceChild(
                 entry(editingTask), editingEntry);
         } catch {}
-
+        
         const editingLayout = makeComplexElement("div", ["editing-layout"]);
         editingLayout.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
@@ -45,7 +43,7 @@ const entry = (currTask) => {
             { "type": "date", "value": currTask.due, "data-key": "Date",
             "min": format(new Date(), "yyyy-MM-dd")});
 
-        const update = makeComplexElement("div", ["button", "lowlight"], "Update");
+        const update = makeComplexElement("div", ["button", "lowlight"], "Update", { "tabindex": 0 });
         update.addEventListener("click", () => {
             submitUpdate();
         });
@@ -64,6 +62,8 @@ const entry = (currTask) => {
                 }
             })
             currTask.update(newProperties);
+            storage.update(currTask);
+            mainpage.loadContent();
         }
 
         holder.setAttribute("draggable", "false");
@@ -85,10 +85,13 @@ const entry = (currTask) => {
         completeButton.addEventListener("click", () => {
             currTask.update(currTask.isStatus("Active") ? { "Status": "Complete" }
             : { "Status" : "Active" });
+            storage.update(currTask);
+            mainpage.loadContent();
         });
         const deleteButton = makeComplexElement("div", ["delete-button"], "\u2718");
         deleteButton.addEventListener("click", () => {
             storage.remove(currTask);
+            mainpage.loadContent();
         });
         buttonHolder.append(completeButton, deleteButton);
 
@@ -97,6 +100,7 @@ const entry = (currTask) => {
               
         layout.addEventListener("click", () => {
             try {
+                //Check for and close existing expanded entries.
                 const expandedEntry = 
                     document.querySelector(".details-box").parentElement;
                 expandedEntry.removeChild(document.querySelector(".details-box"));
@@ -111,13 +115,15 @@ const entry = (currTask) => {
         layout.append(editButton, title, category, due, buttonHolder);
         holder.append(layout);
 
-        return { layout, due };
+        return { layout, due, editButton };
     })();    
 
     /*Apply additional styles to complete and overdue tasks.*/
     if(currTask.isStatus("Complete")) {
         holder.classList.add("completed-task");
         basicLayout.due.textContent = format(new Date(currTask.completed), "dd MMMM yyyy");
+        basicLayout.editButton.removeEventListener("click", addEditingLayout);
+        basicLayout.editButton.textContent = "";
     }
 
     if(currTask.isRelative("Overdue") && currTask.isStatus("Active")){

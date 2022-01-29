@@ -11,8 +11,7 @@ const sidemenu = (() => {
                 "Today", "Tomorrow", "Next seven days", "No due date"] },
         ];
 
-        const menuArea = document.querySelector(".side-menu");
-        menuArea.replaceChildren();
+        const sideMenu = makeComplexElement("div", ["side-menu"]);
 
         subheadings.forEach(subheading => {
             const subheadingTitle = makeComplexElement("span", ["side-menu-sublist"],
@@ -27,12 +26,14 @@ const sidemenu = (() => {
                 highlightSelections(subMenuOption, subheading.type, option);
                 subheadingTitle.appendChild(subMenuOption);
             }) 
-            menuArea.appendChild(subheadingTitle);
+            sideMenu.appendChild(subheadingTitle);
         })
 
         if(filter.parameters["Status"] == "Complete") {
-            menuArea.removeChild(menuArea.lastChild);
+            sideMenu.removeChild(sideMenu.lastChild);
         }
+
+        return sideMenu;
     }
 
     const makeDropTarget = (menuOption, key, value) => {

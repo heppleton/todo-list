@@ -13,3 +13,4 @@ const makeComplexElement = (type, classes = [], text = "", attributes = {}) => {
 }
 
 export { makeComplexElement };
+
