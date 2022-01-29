@@ -302,6 +302,12 @@ body {
     display: none;
 }
 
+.drag-ghost {
+    padding: .3rem;
+    width: 12rem;
+    background-color: #bbb;
+}
+
 .lowlight:hover {
     background-color: #ddd
 }

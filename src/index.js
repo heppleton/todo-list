@@ -26,4 +26,5 @@ Changes:
     - integrate better into the main method
 168: remove leading 0 from 1 digit dates.
 169: clicking between active and completes should reset filter options??
+170: Close expanded task when dragging.
 */
