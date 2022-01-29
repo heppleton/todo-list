@@ -6,7 +6,7 @@ const sidemenu = (() => {
     const load = () => {
         const subheadings = [
             { "type": "Status", "text": "Status", "options": ["Active", "Complete"] },
-            { "type": "Category", "text": "Category", "options": filter.getCategoryOptions() },
+            { "type": "Category", "text": "Category", "options": Object.keys(filter.getCategoryCounts()) },
             { "type": "Date", "text": "Due date", "options": ["All dates", "Overdue", 
                 "Today", "Tomorrow", "Next seven days", "No due date"] },
         ];
@@ -24,6 +24,10 @@ const sidemenu = (() => {
                 });
                 makeDropTarget(subMenuOption, subheading.type, option);
                 highlightSelections(subMenuOption, subheading.type, option);
+
+                if(subheading.text == "Category") {
+                    subMenuOption.textContent += ` (${filter.getCategoryCounts()[option]})`;
+                }
                 subheadingTitle.appendChild(subMenuOption);
             }) 
             sideMenu.appendChild(subheadingTitle);

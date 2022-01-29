@@ -16,7 +16,6 @@ Changes:
 139: when details box accepts an enter, it doesn create an actuall carriage return?
     - fix this with the general mess of css over that element!!!
 145: use form elements for input???
-146: really do reconsider adding counts to the sidemenu
 150: stop it from ending editing when enter in the details edit box
 159: fix bolding problem on selected filter choices in sidemenu.
 163: really need some better css classes: such as icon-button and text-button

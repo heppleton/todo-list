@@ -64,6 +64,34 @@ const filter = (() => {
         return categoryOptions;
     }
 
+    const getCategoryCounts = () => {
+        const categoryOptions = [];
+        storage.getMasterArray().forEach(entry => {
+            if(!categoryOptions.includes(entry.category) && 
+                entry.category != "No category") {
+                categoryOptions.push(entry.category);
+            }
+        })
+        categoryOptions.sort((categoryOne, categoryTwo) => {
+            return categoryOne.localeCompare(categoryTwo);
+        })
+        categoryOptions.unshift("All categories");
+        categoryOptions.push("No category");
+
+        const categoryCounts = {};
+        categoryOptions.forEach(option => { categoryCounts[option] = 0 });
+        
+        const statusFilteredArray = storage.getMasterArray().filter(entry => {
+            return entry.isStatus(parameters.Status)
+        });
+        statusFilteredArray.forEach(entry => {
+            categoryCounts[entry.category] += 1;
+        })
+        categoryCounts["All categories"] = statusFilteredArray.length;
+
+        return categoryCounts;
+    }
+
     const getWorkingArray = () => {
         newFilter();
         sortArray();
@@ -71,7 +99,7 @@ const filter = (() => {
     }
 
     return { parameters, newFilter, changeParameter, sortArray, 
-        getCategoryOptions, getWorkingArray }
+        getCategoryCounts, getCategoryOptions, getWorkingArray }
 
 })();
 
