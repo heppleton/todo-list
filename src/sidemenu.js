@@ -14,10 +14,10 @@ const sidemenu = (() => {
         const sideMenu = makeComplexElement("div", ["side-menu"]);
 
         subheadings.forEach(subheading => {
-            const subheadingTitle = makeComplexElement("span", ["side-menu-sublist"],
+            const subheadingTitle = makeComplexElement("span", ["side-menu-subheading"],
                 subheading.text);            
             subheading.options.forEach(option => {
-                const subMenuOption = makeComplexElement("span", [], option);
+                const subMenuOption = makeComplexElement("span", ["submenu-option"], option);
                 subMenuOption.addEventListener("click", () => {
                     filter.changeParameter(subheading.type, option);
                     mainpage.loadContent();

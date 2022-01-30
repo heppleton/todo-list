@@ -96,11 +96,11 @@ body {
     padding: 0.625rem 0;
 }
 
-.side-menu-sublist {
+.side-menu-subheading {
     font-weight: bold;
 }
 
-.side-menu-sublist span {
+.submenu-option {
     background-color: inherit;
     font-weight: normal;
     margin: 0.125rem 1.56rem;
@@ -108,13 +108,13 @@ body {
     cursor: pointer;
 }
 
-.side-menu-sublist span:hover {
+.submenu-option:hover {
     color: var(--accent-color);
 }
 
 .selected-option {
     color: var(--accent-color);
-    font-weight: bold;/*This actually currently does nothing.*/
+    font-weight: bold;
 }
 
 /*Content Area*/
