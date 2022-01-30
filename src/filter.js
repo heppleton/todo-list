@@ -49,7 +49,8 @@ const filter = (() => {
 
     const getCategoryCounts = () => {
         const categoryOptions = [];
-        storage.getMasterArray().forEach(entry => {
+        const masterArrayCopy = storage.getMasterArray();
+        masterArrayCopy.forEach(entry => {
             if(!categoryOptions.includes(entry.category) && 
                 entry.category != "No category") {
                 categoryOptions.push(entry.category);
@@ -63,7 +64,7 @@ const filter = (() => {
 
         const categoryCounts = {};
         categoryOptions.forEach(option => { categoryCounts[option] = 0 });
-            const statusFilteredArray = storage.getMasterArray().filter(entry => {
+            const statusFilteredArray = masterArrayCopy.filter(entry => {
             return entry.isStatus(parameters.Status)
         });
         statusFilteredArray.forEach(entry => {

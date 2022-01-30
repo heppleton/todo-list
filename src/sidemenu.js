@@ -4,9 +4,11 @@ import { mainpage } from "./mainpage.js";
 
 const sidemenu = (() => {
     const load = () => {
+        const categoryCounts = filter.getCategoryCounts();
+
         const subheadings = [
             { "type": "Status", "text": "Status", "options": ["Active", "Complete"] },
-            { "type": "Category", "text": "Category", "options": Object.keys(filter.getCategoryCounts()) },
+            { "type": "Category", "text": "Category", "options": Object.keys(categoryCounts) },
             { "type": "Date", "text": "Due date", "options": ["All dates", "Overdue", 
                 "Today", "Tomorrow", "Next seven days", "No due date"] },
         ];
@@ -26,7 +28,7 @@ const sidemenu = (() => {
                 highlightSelections(subMenuOption, subheading.type, option);
 
                 if(subheading.text == "Category") {
-                    subMenuOption.textContent += ` (${filter.getCategoryCounts()[option]})`;
+                    subMenuOption.textContent += ` (${categoryCounts[option]})`;
                 }
                 subheadingTitle.appendChild(subMenuOption);
             }) 

@@ -24,7 +24,6 @@ Changes:
 170: "no details" now shows instead of a data placeholder...don't really like that it has to be deleted.
 171: why are there seven!!! calls to get master array?
     - mostly in category counts.
-173: need to implement a better id system than the one I have.
-    - tasks now have an id based on Date.now() times Math.random();
-    - any calls to .added should now be to ID.
+    - currently it runs through category options for each option looking for match in whole master array
+    - should go through the master array once and match up with category counts
 */
