@@ -1,5 +1,8 @@
 import { mainpage } from "./mainpage.js";
 
+/*This line is only here to allow for testing.
+Commenting it out will save changes locally.
+Running this code will reset to sample tasks after one cycle.*/
 localStorage.clear();
 
 /*
@@ -11,11 +14,9 @@ Neat ideas, but unlikely to be implemented:
         - all methods relating to due date are a mess, needs to be done with the iife work.
 
 Changes:
-139: when details box accepts an enter, it doesn create an actuall carriage return? - priority
 145: use form elements for input???
 163: really need some better css classes: such as icon-button and text-button
 164: search returns and displays completed and active results together! - priority
-    - only search in the active/complete?
 165: clear search button needs more work!!! - priority
 168: Try to improve closure of object variables.
     - task - multiple

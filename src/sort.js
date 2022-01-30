@@ -9,7 +9,7 @@ const sort = (() => {
     let y = 1;
 
     /*Creates the visual appearance of the sort bar and returns it for appending.*/
-    const addSortBar = () => {
+    const addSortBar = (allowSort) => {
         const sortBar = makeComplexElement("div", ["sort-bar"]);
 
         const sortOptions = ["Title", "Category", 
@@ -17,13 +17,19 @@ const sort = (() => {
 
         sortOptions.forEach(option => {
             const bar = makeComplexElement("div", [], option);
-            bar.addEventListener("click", () => {
-                chooseProperty(option);
-                mainpage.loadContent();
-            })
-            bar.append(makeComplexElement("span", ["sort-bar-arrow"],
-                isSorted(option) ? " \u25B2" : " \u25BC"));
-
+            if(allowSort) {
+                bar.addEventListener("click", () => {
+                    chooseProperty(option);
+                    mainpage.loadContent();
+                })
+                bar.append(makeComplexElement("span", ["sort-bar-arrow"],
+                    isSorted(option) ? " \u25B2" : " \u25BC"));
+            } else {
+                sortBar.setAttribute("cursor", "default");
+                if(bar.textContent == "Due" || bar.textContent == "Complete") {
+                    bar.textContent = "Due/Complete";
+                }
+            }
             sortBar.appendChild(bar);
         })
 

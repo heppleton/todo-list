@@ -1,6 +1,7 @@
 import { entry } from "./entry.js";
 import { makeComplexElement } from "./helper.js";
 import { mainpage } from "./mainpage.js";
+import { sort } from "./sort.js";
 import { storage } from "./storage.js";
 
 const search = (() => {
@@ -56,6 +57,7 @@ const search = (() => {
     }
 
     const displayResults = (resultsArray) => {
+        const contentArea = document.querySelector(".content-area");
         const displayArea = document.querySelector(".display-area");
         displayArea.replaceChildren();
 
@@ -68,6 +70,7 @@ const search = (() => {
                 "Your search returned no results."));
         }
 
+        contentArea.replaceChildren(sort.addSortBar(false), displayArea);
     }
 
     return { addSearchBox };

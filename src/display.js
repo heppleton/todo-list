@@ -21,16 +21,15 @@ const display = (() => {
                 "There are no tasks which meet your selection."));
         }
 
-        return [sort.addSortBar(), displayArea, addInputForm()];
+        return [sort.addSortBar(true), displayArea, addInputForm()];
     };
 
     const addInputForm = () => {
-        const form = makeComplexElement("div", ["input-layout"]);
-
         if(filter.parameters["Status"] == "Complete") {
-            return form;
+            return "";
         }
 
+        const form = makeComplexElement("div", ["input-layout"]);
         form.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
                 submitNewTask();

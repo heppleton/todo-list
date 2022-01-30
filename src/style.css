@@ -218,7 +218,7 @@ body {
 }
 
 .details {
-    white-space: pre-line;
+    white-space: pre-wrap;
     grid-column: 2 / span 3;
     line-height: 1.5rem;
 }
