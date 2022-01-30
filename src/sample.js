@@ -1,79 +1,79 @@
-import { addDays, differenceInCalendarDays, format } from "date-fns";
+import { addDays } from "date-fns";
 import { task } from "./task.js"
 
 const makeSample = () => {
     let sampleArray = [];
     const rawArray = [
-        { "title": "Ring Edgar about the consultancy contract.", "category": "Work", 
+        { "title": "Ring Edgar about the consultancy contract", "category": "Work", 
             "details": "Tried ringing yesterday but no reply. Sent email asking him to contact me.",
-            "due": 2, "completed": null },
-        { "title": "Get tickets for the symphony's Smetana concert", "category": "Fun",
+            "due": -1, "completed": null },
+        { "title": "Get tickets for the symphony's Smetana concert", "category": "Leisure",
             "details": "I'm only really familiar with Die Moldau, but I'm sure his other work is good.",
             "due": 6, "completed": null },
         { "title": "Clear out the garage", "category": "House",
             "details": "There is years of rubbish stacked up in there. It needs to go!",
             "due": null, "completed": null },
+        { "title": "Buy Daisy a new hat", "category": "Shopping",
+            "details": "The old one with the owls on it is worn out.",
+            "due": 14, "completed": null },
+        { "title": "Check out the new dog park.", "category": "Leisure",
+            "details": "The address is 1475 Boxwood Avenue. Clement can take Mikki there if it's nice.",
+            "due": -5, "completed": -6 },
+        { "title": "Repaint Daisy's room", "category": "House",
+            "details": "Daisy chose pink...",
+            "due": -19, "completed": -10 },
+        { "title": "Finish year-end report", "category": "Work",
+            "details": "The report will need to go to finance first to check the numbers." + 
+                " I should run it by Ellen in business intelligence at some point too. Her feedback is always fab.",
+            "due": -1, "completed": -3 },
+        { "title": "Get Steve to eat better", "category": "",
+            "details": "Less red meat! Even if he just eats chicken instead that would be a start.",
+            "due": 30, "completed": null },
+        { "title": "Invent cold fusion", "category": "",
+            "details": "Easy! Just give me thirty years...",
+            "due": 10957, "completed": null },
+        { "title": "Go to the supermarket...", "category": "Shopping",
+            "details": `The usual stuff, plus:
+                - extra milk
+                - chicken (cook something nice for Steve?)
+                - marzipan for Ellen's thank you cake
+                - different food for Mikki (gone off her usual for some reason)
+                - a towel for travelling`, 
+            "due": 1, "completed": null },
+        { "title": "Walk round Highfield Lane and back past St Helen's Well", "category": "Leisure",
+            "details": "Leave Clement and Daisy with Steve. Take time for myself.",
+            "due": "0", "completed": null },
+        { "title": "Speak to manager about promotion", "category": "Work",
+            "details": "He'll be more receptive once he's back from his holiday, so wait til then.",
+            "due": 80, "completed": null },
+        { "title": "Flexi: work from home day", "category": "Work", "details": "",
+            "due": 3, "completed": null },
+        { "title": "Get the boiler maintained", "category": "House", "details": "The gas man cometh.",
+            "due": -1, "completed": -1},
+        { "title": "Read article about the history of contraception", "category": "", 
+            "details": "Emily says it's really funny??? I have the link in her email. We'll have to see how funny it is." +
+                " She has a strange sense of humour.",
+            "due": "0", "completed": "0"}
     ];
 
-    const calculateDueDate = (due) => {
-        if(!due) {
+    const calculateDate = (date) => {
+        if(!date) {
             return "";
         }
-        return format(addDays(new Date(), due), "yyyy-MM-dd");
+        return addDays(new Date(), date);
     }
 
     rawArray.forEach((entry) => {
         const newTask = task(entry.title, entry.category)
         const additionalProperties = {
             "Details": entry.details,
-            "Date": calculateDueDate(entry.due),
+            "Date": calculateDate(entry.due),
         }
         newTask.update(additionalProperties);
-        newTask.completed = entry.completed;
-                //completed will need to be a date object if not null
+        newTask.completed = calculateDate(entry.completed);
+
         sampleArray.push(newTask);
     });
-
-
-/*The goal here is to create a sample of tasks to load if the user has no localstorage file.
-There will be 15 tasks in total. Enough to fill the app but not too many that it will be impossibly
-time-consuming to create.
-
-Make a single one to get everything right, then do the rest!
-
-The fields to create are: title, details, category, date added, date completed, date due.
-The first three are easy, but the other need to have care taken:
-    - Date added must always be distinct from any other task. This might not be the case if a computer
-        creates the task. Use setTimeout to delay each task being created.
-    - Date due must be relative to when the tasks are generated. 
-        Possible use different in days in date-dns.
-    - Date completed must be relative to when the tasks are generated.
-
-Breakdown of tasks:
-    - Each will have a unique title.
-    - Each will have a unique date added.
-    - 10 will have details, 5 will not.
-    - Four categories:
-        - Work - 5 tasks
-        - House - 2 tasks
-        - Shopping - 3 tasks
-        - Fun - 5 tasks
-        - Two without categories
-    - Due dates:
-        - 1 with no due date
-        - 1 overdue
-        - 2 today
-        - 2 tomorrow
-        - 2 next seven days
-        - 2 more than a week away.
-    - Date completed
-        - 10 active
-        - 5 with complete dates
-            - one each for the last five days
-            - will need due dates too, just set to the day completed.
-                - why?
-
-Try to be witty!*/
 
     return sampleArray;
 };

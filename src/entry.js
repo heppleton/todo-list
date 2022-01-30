@@ -32,7 +32,7 @@ const entry = (currTask) => {
         const category = makeComplexElement("span", ["text-input"], currTask.category,
             { "contenteditable": "true", "data-placeholder": "Category", "data-key": "Category"});
         const date = makeComplexElement("input", [], "",
-            { "type": "date", "value": currTask.formatForDatePicker, "data-key": "Date",
+            { "type": "date", "value": currTask.getDueString(), "data-key": "Date",
             "min": format(new Date(), "yyyy-MM-dd")});
         const update = makeComplexElement("div", ["button", "lowlight"], "Update", { "tabindex": 0 });
         update.addEventListener("click", () => {

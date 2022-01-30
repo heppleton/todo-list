@@ -11,13 +11,14 @@ Neat ideas, but unlikely to be implemented:
         - all methods relating to due date are a mess, needs to be done with the iife work.
 
 Changes:
-139: when details box accepts an enter, it doesn create an actuall carriage return?
+139: when details box accepts an enter, it doesn create an actuall carriage return? - priority
 145: use form elements for input???
 163: really need some better css classes: such as icon-button and text-button
-164: search returns and displays completed and active results together!
+164: search returns and displays completed and active results together! - priority
     - only search in the active/complete?
-165: clear search button needs more work!!!
+165: clear search button needs more work!!! - priority
 168: Try to improve closure of object variables.
     - task - multiple
     - filter parameters
+169: the complete button no longer works now???
 */

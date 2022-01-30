@@ -61,6 +61,8 @@ const task = (title, category, due) => {
         }
     };
 
+    /*Creates a formatted due date string which can be used for sorting
+    and by the date picker input.*/
     const getDueString = function() {
         if(this.due) {
             return format(this.due, "yyyy-MM-dd");
@@ -68,6 +70,7 @@ const task = (title, category, due) => {
         return "";
     }
 
+    /*Checks whether the due date is covered by the supplied relative date text.*/
     const isRelative = function(relativeDate) {
         const today = new Date();
         const dateDifference = differenceInCalendarDays(this.due, today);
@@ -85,6 +88,7 @@ const task = (title, category, due) => {
         return map[relativeDate]();
     }
 
+    /*Creates relative date text based on the task's due date.*/
     const toRelative = function() {
         if(!this.due) {
             return "No due date";
@@ -104,8 +108,8 @@ const task = (title, category, due) => {
         }
     };
 
-    /*This takes either relative date text or formatted date string.
-    It returns either nothing (no due date) or a formatted date string.*/
+    /*Takes a date which is a relate date text, a date object, or nothing.
+    It returns either nothing (no due date) or a date object.*/
     const fromRelative = function(chosenDate) {
         if(chosenDate == "No due date" || !chosenDate) {
             return null;
@@ -128,18 +132,9 @@ const task = (title, category, due) => {
         return newDate;
     };
 
-    const formatForDatePicker = function() {
-        if(this.due) {
-            return format(currTask.due, "yyyy-MM-dd");
-        }
-        return;
-    }
-
-
     return { title, category, id, completed, due, details,
         update, getCompletedString, isStatus, isCategory,
         getDueString, isRelative, toRelative, fromRelative,
-        formatForDatePicker,
     };
 };
 
