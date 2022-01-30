@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { filter } from "./filter.js";
-import { makeComplexElement } from "./helper.js";
+import { closeLayouts, makeComplexElement } from "./helper.js";
 import { mainpage } from "./mainpage.js";
 import { storage } from "./storage.js";
 import { task } from "./task.js";
@@ -14,13 +14,7 @@ const entry = (currTask) => {
     })();
 
     const addEditingLayout = () => {
-        try {
-            //Check for and close existing editing entries.
-            const editingEntry = document.querySelector(".editing-layout").parentElement;
-            const editingTask = storage.getTaskByID(editingEntry.id);
-            document.querySelector(".display-area").replaceChild(
-                entry(editingTask), editingEntry);
-        } catch {}
+        closeLayouts();
         
         const editingLayout = makeComplexElement("div", ["editing-layout"]);
         editingLayout.addEventListener("keydown", (event) => {
@@ -74,7 +68,10 @@ const entry = (currTask) => {
         const layout = makeComplexElement("div", ["basic-layout", "lowlight"]);
 
         const editButton = makeComplexElement("div", ["edit-button"], "\u270E");
-        editButton.addEventListener("click", addEditingLayout);
+        editButton.addEventListener("click", (event) => { 
+            event.stopPropagation();
+            addEditingLayout();
+        });
 
         const title = makeComplexElement("div", ["text-box"], currTask.title);
         const category = makeComplexElement("div", ["text-box"], currTask.category);
@@ -91,6 +88,10 @@ const entry = (currTask) => {
         const deleteButton = makeComplexElement("div", ["delete-button"], "\u2718");
         deleteButton.addEventListener("click", () => {
             storage.remove(currTask);
+            if(!filter.getCategoryCounts()[currTask.category] && 
+                filter.parameters["Category"] == currTask.category) {
+                    filter.changeParameter("Category", "All categories");
+            }
             mainpage.loadContent();
         });
         buttonHolder.append(completeButton, deleteButton);
@@ -99,17 +100,9 @@ const entry = (currTask) => {
             currTask.details, { "data-placeholder": "No details." });
               
         layout.addEventListener("click", () => {
-            try {
-                //Check for and close existing expanded entries.
-                const expandedEntry = 
-                    document.querySelector(".details-box").parentElement;
-                expandedEntry.removeChild(document.querySelector(".details-box"));
-                if(expandedEntry == layout) {
-                    return;
-                }
-            } catch {}
-
-            layout.appendChild(details);
+            if(!closeLayouts(layout)) {
+                layout.appendChild(details);
+            }
         });
 
         layout.append(editButton, title, category, due, buttonHolder);
@@ -120,7 +113,7 @@ const entry = (currTask) => {
     /*Apply additional styles to complete and overdue tasks.*/
     if(currTask.isStatus("Complete")) {
         holder.classList.add("completed-task");
-        basicLayout.due.textContent = format(currTask.completed, "dd MMMM yyyy");
+        basicLayout.due.textContent = format(currTask.completed, "d MMMM yyyy");
         basicLayout.editButton.removeEventListener("click", addEditingLayout);
         basicLayout.editButton.textContent = "";
     }

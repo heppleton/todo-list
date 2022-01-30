@@ -99,7 +99,7 @@ const task = (title, category, due) => {
         } else if (dateDifference == 1) {
             return "Tomorrow";
         } else {
-            return format(this.due, "dd MMMM yyyy");
+            return format(this.due, "d MMMM yyyy");
         }
     };
 

@@ -1,6 +1,6 @@
 import { entry } from "./entry.js";
 import { mainpage } from "./mainpage.js";
-import { makeComplexElement } from "./helper.js";
+import { closeLayouts, makeComplexElement } from "./helper.js";
 import { storage } from "./storage.js";
 
 const drag = (() => {
@@ -13,16 +13,9 @@ const drag = (() => {
         event.target.appendChild(dragGhost);
         event.dataTransfer.setDragImage(dragGhost, 10, 10);
 
-        /*The setTimeout is needed due to a quirk of Chrome.
-        The code closes any task being editing when dragging begins.*/
+        /*The setTimeout is needed due to a quirk of Chrome.*/
         setTimeout(() => {
-            try {
-                const editingEntry = 
-                    document.querySelector(".editing-layout").parentElement;
-                const editingTask = storage.getTaskByID(editingEntry.id);
-                document.querySelector(".display-area").replaceChild(
-                    entry(editingTask), editingEntry);
-            } catch {}
+            closeLayouts();
 
             /*Make dragged elements not displayed (apart from image set above).
             Potential drop targets are highlighted. Task ID captured for future use.*/

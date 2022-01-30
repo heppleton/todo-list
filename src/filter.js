@@ -47,23 +47,6 @@ const filter = (() => {
         workingArray = sort.byChoice(workingArray);
     }
 
-    const getCategoryOptions = () => {
-        const categoryOptions = [];
-        storage.getMasterArray().forEach(entry => {
-            if(!categoryOptions.includes(entry.category) && 
-                entry.category != "No category") {
-                categoryOptions.push(entry.category);
-            }
-        })
-        categoryOptions.sort((categoryOne, categoryTwo) => {
-            return categoryOne.localeCompare(categoryTwo);
-        })
-        categoryOptions.unshift("All categories");
-        categoryOptions.push("No category");
-
-        return categoryOptions;
-    }
-
     const getCategoryCounts = () => {
         const categoryOptions = [];
         storage.getMasterArray().forEach(entry => {
@@ -99,7 +82,7 @@ const filter = (() => {
     }
 
     return { parameters, newFilter, changeParameter, sortArray, 
-        getCategoryCounts, getCategoryOptions, getWorkingArray }
+        getCategoryCounts, getWorkingArray }
 
 })();
 
