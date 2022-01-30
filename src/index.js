@@ -26,4 +26,5 @@ Changes:
     - mostly in category counts.
 173: need to implement a better id system than the one I have.
     - tasks now have an id based on Date.now() times Math.random();
+    - any calls to .added should now be to ID.
 */

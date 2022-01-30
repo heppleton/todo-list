@@ -5,11 +5,11 @@ const makeSample = () => {
     let sampleArray = [];
     const rawArray = [
         { "title": "Ring Edgar about the consultancy contract.", "category": "Work", 
-            "details": `Tried ringing yesterday but no reply. Sent email asking him to 
-            contact me.`, "due": 2, "completed": null },
+            "details": "Tried ringing yesterday but no reply. Sent email asking him to contact me.",
+            "due": 2, "completed": null },
         { "title": "Get tickets for the symphony's Smetana concert", "category": "Fun",
-            "details": `I'm only really familiar with Die Moldau, but I'm sure his other
-            work is good.`, "due": 6, "completed": null },
+            "details": "I'm only really familiar with Die Moldau, but I'm sure his other work is good.",
+            "due": 6, "completed": null },
     ];
 
     rawArray.forEach((entry) => {

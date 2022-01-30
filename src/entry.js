@@ -10,7 +10,7 @@ const entry = (currTask) => {
 
     const createHolder = (() => {
         holder = makeComplexElement("div", ["holder"], "", { "draggable": "true" });
-        holder.id = currTask.added;
+        holder.id = currTask.id;
     })();
 
     const addEditingLayout = () => {

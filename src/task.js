@@ -6,13 +6,12 @@ const task = (title, category, due) => {
     category = category.slice(0, 1).toUpperCase() + category.slice(1, 29);
     const added = Date.now();
     const id = added * Math.random();
-    console.log(id);
     let completed = null;
     let details = "No details."
     if(due) {
         due = new Date(due);
     }
-    
+
     const update = function(newProperties) {
         const updateMap = {
             "Category": (value) => { this.category = value || "No category" },
@@ -129,7 +128,7 @@ const task = (title, category, due) => {
         return newDate;
     };
 
-    return { title, category, added, completed, due, details,
+    return { title, category, id, completed, due, details,
         update, getCompletedString, isStatus, isCategory,
         getDueString, isRelative, toRelative, fromRelative,     
     };

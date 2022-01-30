@@ -34,14 +34,14 @@ const storage = (() => {
 
     const remove = (removedTask) => {
         const taskIndex = masterArray.findIndex((entry) =>
-                entry.added == removedTask.added);
+                entry.id == removedTask.id);
         masterArray.splice(taskIndex, 1);
         save();
     }
 
     const update = (updatedTask) => {
         const taskIndex = masterArray.findIndex((entry) =>
-            entry.added == updatedTask.added);
+            entry.id == updatedTask.id);
         masterArray.splice(taskIndex, 1, updatedTask);
         save();
     };
@@ -57,7 +57,7 @@ const storage = (() => {
 
     const getTaskByID = (ID) => {
         const taskIndex = masterArray.findIndex((entry) =>
-            entry.added == ID);
+            entry.id == ID);
         return masterArray[taskIndex];
     }
 
