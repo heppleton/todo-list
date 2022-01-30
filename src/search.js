@@ -27,7 +27,7 @@ const search = (() => {
 
     const addClearSearchButton = () => {
         const searchInput = document.querySelector(".search-text");
-        const clearButton = makeComplexElement("span", ["clear-search-button"], "\u2718");
+        const clearButton = makeComplexElement("span", ["clear-search-button", "lowlight"], "\u2718");
         clearButton.addEventListener("click", () => {
             mainpage.loadContent();
         })

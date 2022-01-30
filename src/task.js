@@ -7,7 +7,7 @@ const task = (title, category, due) => {
     const added = Date.now();
     const id = added * Math.random();
     let completed = null;
-    let details = "No details."
+    let details = ""
     if(due) {
         due = new Date(due);
     }
@@ -107,7 +107,7 @@ const task = (title, category, due) => {
     /*This takes either relative date text or formatted date string.
     It returns either nothing (no due date) or a formatted date string.*/
     const fromRelative = function(chosenDate) {
-        if(chosenDate == "No due date") {
+        if(chosenDate == "No due date" || !chosenDate) {
             return null;
         }
 
@@ -128,9 +128,18 @@ const task = (title, category, due) => {
         return newDate;
     };
 
+    const formatForDatePicker = function() {
+        if(this.due) {
+            return format(currTask.due, "yyyy-MM-dd");
+        }
+        return;
+    }
+
+
     return { title, category, id, completed, due, details,
         update, getCompletedString, isStatus, isCategory,
-        getDueString, isRelative, toRelative, fromRelative,     
+        getDueString, isRelative, toRelative, fromRelative,
+        formatForDatePicker,
     };
 };
 

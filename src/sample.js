@@ -10,17 +10,26 @@ const makeSample = () => {
         { "title": "Get tickets for the symphony's Smetana concert", "category": "Fun",
             "details": "I'm only really familiar with Die Moldau, but I'm sure his other work is good.",
             "due": 6, "completed": null },
+        { "title": "Clear out the garage", "category": "House",
+            "details": "There is years of rubbish stacked up in there. It needs to go!",
+            "due": null, "completed": null },
     ];
+
+    const calculateDueDate = (due) => {
+        if(!due) {
+            return "";
+        }
+        return format(addDays(new Date(), due), "yyyy-MM-dd");
+    }
 
     rawArray.forEach((entry) => {
         const newTask = task(entry.title, entry.category)
         const additionalProperties = {
             "Details": entry.details,
-            "Date": format(addDays(new Date(), entry.due), "yyyy-MM-dd")
+            "Date": calculateDueDate(entry.due),
         }
         newTask.update(additionalProperties);
         newTask.completed = entry.completed;
-        
                 //completed will need to be a date object if not null
         sampleArray.push(newTask);
     });

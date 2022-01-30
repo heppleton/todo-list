@@ -22,8 +22,8 @@ body {
 }
 
 .header-title {
-    font-size: 5rem;
-    padding: 0 7.5rem 1.25rem 5rem;
+    font-size: 6rem;
+    padding: 1rem 7.5rem 1.25rem 5rem;
     cursor: pointer;
 }
 
@@ -46,14 +46,10 @@ body {
 }
 
 .clear-search-button {
+    border-radius: 1rem;
     padding: 0 0.35rem;
     cursor: pointer;
 }
-
-.clear-search-button:hover {
-    color: orange;
-}
-
 
 .middle-area {
     flex: 1;
@@ -210,12 +206,14 @@ body {
     overflow-x: hidden;
 }
 
-.text-input:empty {
+.text-input:empty,
+.details:empty {
     font-style: italic;
     color: #777;
 }
 
-.text-input:empty::before {
+.text-input:empty::before,
+.details:empty::before  {
     content: attr(data-placeholder);
 }
 
