@@ -13,7 +13,7 @@ const filter = (() => {
 
     const newFilter = () => {
         workingArray = storage.getMasterArray().filter(entry => {
-            return entry.isRelative(parameters.Date) && 
+            return entry.isRelative(parameters.Date) &&
             entry.isStatus(parameters.Status) &&
             entry.isCategory(parameters.Category)
         });
@@ -63,8 +63,7 @@ const filter = (() => {
 
         const categoryCounts = {};
         categoryOptions.forEach(option => { categoryCounts[option] = 0 });
-        
-        const statusFilteredArray = storage.getMasterArray().filter(entry => {
+            const statusFilteredArray = storage.getMasterArray().filter(entry => {
             return entry.isStatus(parameters.Status)
         });
         statusFilteredArray.forEach(entry => {

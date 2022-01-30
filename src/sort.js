@@ -8,6 +8,7 @@ const sort = (() => {
     let x = 0;
     let y = 1;
 
+    /*Creates the visual appearance of the sort bar and returns it for appending.*/
     const addSortBar = () => {
         const sortBar = makeComplexElement("div", ["sort-bar"]);
 
@@ -29,6 +30,7 @@ const sort = (() => {
         return sortBar;
     };
 
+    /*An all-in-one function which allows any option to be sorted in either direction.*/
     const byChoice = (array) => {
         array.sort((taskA, taskB) =>  {
             const options = [
@@ -46,6 +48,8 @@ const sort = (() => {
         return array;
     }
 
+    /*Changes both property to be sorted on and tracks whether currently sorted on
+    that property in either direction.*/
     const chooseProperty = (newProperty) => {
         if(newProperty == property) {
             [x, y] = [y, x];
@@ -55,6 +59,7 @@ const sort = (() => {
         }
     }
 
+    /*Returns true if currently sorted *increasing* by a given property.*/
     const isSorted = (option) => {
         if(option == property && x == 0) {
             return true;

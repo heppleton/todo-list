@@ -1,5 +1,6 @@
 import { filter } from "./filter.js";
 import { mainpage } from "./mainpage.js";
+import { makeSample } from "./sample.js";
 import { task } from "./task.js";
 
 const storage = (() => {
@@ -7,6 +8,7 @@ const storage = (() => {
 
     const retrieve = () => {
         if(!localStorage.getItem("taskspaceJSON")) {
+            masterArray = makeSample();
             return;
         }
 

@@ -2,29 +2,29 @@ import { addDays, differenceInCalendarDays, format } from "date-fns";
 import { task } from "./task.js"
 
 const makeSample = () => {
-    const sampleArray;
-    const rawArray;
+    let sampleArray = [];
+    const rawArray = [
+        { "title": "Ring Edgar about the consultancy contract.", "category": "Work", 
+            "details": `Tried ringing yesterday but no reply. Sent email asking him to 
+            contact me.`, "due": 2, "completed": null },
+        { "title": "Get tickets for the symphony's Smetana concert", "category": "Fun",
+            "details": `I'm only really familiar with Die Moldau, but I'm sure his other
+            work is good.`, "due": 6, "completed": null },
+    ];
 
-    rawArray.forEach(entry => {
+    rawArray.forEach((entry) => {
         const newTask = task(entry.title, entry.category)
         const additionalProperties = {
             "Details": entry.details,
             "Date": format(addDays(new Date(), entry.due), "yyyy-MM-dd")
         }
         newTask.update(additionalProperties);
-        newTask.completed
+        newTask.completed = entry.completed;
         
-        //initialize task with - title, category, and due, and generate added.
-        //add details, due date, and completed where appropriate
-        //generate object with the above and feed to task update.
-
-        /*        const newDate = addDays(new Date(),
-            relativeDifferences[chosenDate]); */
+                //completed will need to be a date object if not null
+        sampleArray.push(newTask);
     });
 
-
-
-    rawArray = [];
 
 /*The goal here is to create a sample of tasks to load if the user has no localstorage file.
 There will be 15 tasks in total. Enough to fill the app but not too many that it will be impossibly
@@ -62,6 +62,7 @@ Breakdown of tasks:
         - 5 with complete dates
             - one each for the last five days
             - will need due dates too, just set to the day completed.
+                - why?
 
 Try to be witty!*/
 

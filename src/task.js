@@ -4,13 +4,15 @@ import { storage } from "./storage";
 const task = (title, category, due) => {  
     category = category || "No category";
     category = category.slice(0, 1).toUpperCase() + category.slice(1, 29);
-    const added = (new Date()).toString();
+    const added = Date.now();
+    const id = added * Math.random();
+    console.log(id);
     let completed = null;
-    let details = ""
+    let details = "No details."
     if(due) {
         due = new Date(due);
     }
-   
+    
     const update = function(newProperties) {
         const updateMap = {
             "Category": (value) => { this.category = value || "No category" },

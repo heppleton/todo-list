@@ -2,7 +2,7 @@ import { entry } from "./entry.js"
 import { storage } from "./storage.js"
 
 /*Ensures that only one task is being dragged/edited/expanded at a time.
-Returns "true" is expanded entry is clicked on again, to prevent it reopening after being closed.*/
+Returns "true" if expanded entry is clicked on again, to prevent it reopening after being closed.*/
 const closeLayouts = (layout = "") => {
     try {
         const editingEntry = document.querySelector(".editing-layout").parentElement;
@@ -11,12 +11,13 @@ const closeLayouts = (layout = "") => {
     } catch {}
 
     try {
-        const expandedEntry = document.querySelector(".details-box").parentElement;
-        expandedEntry.removeChild(document.querySelector(".details-box"));
+        const expandedEntry = document.querySelector(".details").parentElement;
+        expandedEntry.removeChild(document.querySelector(".details"));
         return expandedEntry == layout
     } catch {}
 }
 
+/*A simple code-reducing function for making common elements.*/
 const makeComplexElement = (type, classes = [], text = "", attributes = {}) => {
     const newElement = document.createElement(type);
 
