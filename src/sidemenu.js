@@ -35,7 +35,7 @@ const sidemenu = (() => {
             sideMenu.appendChild(subheadingTitle);
         })
 
-        if(filter.parameters["Status"] == "Complete") {
+        if(filter.getParameter("Status") == "Complete") {
             sideMenu.removeChild(sideMenu.lastChild);
         }
 
@@ -51,7 +51,7 @@ const sidemenu = (() => {
     };
 
     const highlightSelections = (menuOption, key, value) => {
-        if(filter.parameters[key] == value) {
+        if(filter.getParameter(key) == value) {
             menuOption.classList.add("selected-option");
         }
     }

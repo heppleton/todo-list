@@ -13,7 +13,7 @@ const sort = (() => {
         const sortBar = makeComplexElement("div", ["sort-bar"]);
 
         const sortOptions = ["Title", "Category", 
-            filter.parameters["Status"] == "Complete" ? "Complete" : "Due"];
+            filter.getParameter("Status") == "Complete" ? "Complete" : "Due"];
 
         sortOptions.forEach(option => {
             const bar = makeComplexElement("div", [], option);

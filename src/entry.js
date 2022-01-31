@@ -94,7 +94,7 @@ const entry = (currTask) => {
         deleteButton.addEventListener("click", () => {
             storage.remove(currTask);
             if(!filter.getCategoryCounts()[currTask.category] && 
-                filter.parameters["Category"] == currTask.category) {
+                filter.getParameter("Category") == currTask.category) {
                     filter.changeParameter("Category", "All categories");
             }
             mainpage.loadContent();

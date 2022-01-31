@@ -25,7 +25,7 @@ const display = (() => {
     };
 
     const addInputForm = () => {
-        if(filter.parameters["Status"] == "Complete") {
+        if(filter.getParameter("Status") == "Complete") {
             return "";
         }
 
@@ -61,12 +61,12 @@ const display = (() => {
 
         /*The logic below autofills the input form if the user has 
         filtered by category or due date.*/
-        const selectedCategory = filter.parameters["Category"];
+        const selectedCategory = filter.getParameter("Category");
         if(selectedCategory != "All categories" && selectedCategory != "No category") {
             category.textContent = selectedCategory;
         }
 
-        const selectedDue = filter.parameters["Date"];
+        const selectedDue = filter.getParameter("Date");
         if(selectedDue != "No due date" && selectedDue != "All dates") {
             dateDue.value = format(task().fromRelative(selectedDue), "yyyy-MM-dd");
         }

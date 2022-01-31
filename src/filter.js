@@ -43,6 +43,10 @@ const filter = (() => {
         responseMap[parameter]();
     }
 
+    const getParameter = (choice) => {
+        return parameters[choice];
+    }
+
     const getCategoryCounts = () => {
         const categoryOptions = [];
         const masterArrayCopy = storage.getMasterArray();
@@ -77,8 +81,8 @@ const filter = (() => {
         return workingArray;
     }
 
-    return { parameters, newFilter, changeParameter, 
-        getParameter, getCategoryCounts, getWorkingArray }
+    return { newFilter, changeParameter, getParameter,
+        getCategoryCounts, getWorkingArray }
 
 })();
 
