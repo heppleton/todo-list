@@ -3,10 +3,11 @@ import { addDays, differenceInCalendarDays, format } from "date-fns";
 const task = (title, category, due) => {  
     category = category || "No category";
     category = category.slice(0, 1).toUpperCase() + category.slice(1, 29);
+    title = title.slice(0, 149);
     const added = Date.now();
     const id = added * Math.random();
     let completed = null;
-    let details = ""
+    let details = "";
     if(due) {
         due = new Date(due);
     }
@@ -15,7 +16,7 @@ const task = (title, category, due) => {
         const updateMap = {
             "Category": (value) => { this.category = value || "No category" },
             "Date": (value) => { this.due = fromRelative(value) },
-            "Details": (value) => { this.details = value },
+            "Details": (value) => { this.details = value.slice(0, 2999) },
             "Status": (value) => { 
                 if(value == "Active") {
                     this.completed = null;

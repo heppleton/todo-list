@@ -14,9 +14,6 @@ Need to branch before I do the following, as high risk of breaking code:
     - might want an iife for status too?
     - need better closure on the variables too.
 
-Changes:
-165: clear search button needs more work!!! - priority
-168: Try to improve closure of object variables.
-    - task - do this as part of revising task
-    - filter parameters
+167: suggest category code?
+    - try, but not enough time right now.
 */

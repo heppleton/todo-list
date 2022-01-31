@@ -217,6 +217,10 @@ body {
     content: attr(data-placeholder);
 }
 
+.text-box {
+    overflow-wrap: break-word;
+}
+
 .details {
     white-space: pre-wrap;
     grid-column: 2 / span 3;

@@ -40,8 +40,10 @@ const display = (() => {
         const title = makeComplexElement("span", ["text-input"], "",
             { "contenteditable": "true", "data-placeholder": "New task" });
 
+
         const category = makeComplexElement("span", ["text-input"], "",
             { "contenteditable": "true", "data-placeholder": "Category" });
+
 
         const dateDue = makeComplexElement("input", [], "",
             { "type": "date", "min": format(new Date(), "yyyy-MM-dd") });

@@ -29,8 +29,10 @@ const entry = (currTask) => {
 
         const title = makeComplexElement("span", ["text-input"], currTask.title,
             { "contenteditable": "true", "data-placeholder": "Title", "data-key": "Title"});
+
         const category = makeComplexElement("span", ["text-input"], currTask.category,
             { "contenteditable": "true", "data-placeholder": "Category", "data-key": "Category"});
+
         const date = makeComplexElement("input", [], "",
             { "type": "date", "value": currTask.getDueString(), "data-key": "Date",
             "min": format(new Date(), "yyyy-MM-dd")});
@@ -40,6 +42,7 @@ const entry = (currTask) => {
         });
         const details = makeComplexElement("div", ["text-input", "details"], currTask.details,
             { "contenteditable": "true", "data-placeholder": "Details", "data-key": "Details" });
+
         details.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
                 event.stopPropagation();

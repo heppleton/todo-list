@@ -12,7 +12,7 @@ const search = (() => {
             { "contenteditable": "true", "data-placeholder": "Search"});
 
         const searchButton = makeComplexElement("div", ["text-button", "lowlight"], "Search", { "tabindex": 0 });
-        searchButton.addEventListener("click", () => { getResults(searchInput.textContent) });
+        searchButton.addEventListener("click", () => { getResults(searchInput.textContent) }, { once: true });
 
         searchBox.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
@@ -20,7 +20,6 @@ const search = (() => {
                 event.preventDefault();
             }
         });
-
         searchBox.append(searchInput, searchButton);
 
         return searchBox;
@@ -32,13 +31,8 @@ const search = (() => {
         clearButton.addEventListener("click", () => {
             mainpage.loadContent();
         })
-
         searchInput.appendChild(clearButton);
         searchInput.setAttribute("contenteditable", "false");
-
-/*What do I want to happen?
-        3. can't enter or click to call event
-*/
     }
 
     const getResults = (searchQuery) => {
