@@ -1,5 +1,4 @@
 import { addDays, differenceInCalendarDays, format } from "date-fns";
-import { storage } from "./storage";
 
 const task = (title, category, due) => {  
     category = category || "No category";

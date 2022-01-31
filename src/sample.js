@@ -58,7 +58,7 @@ const makeSample = () => {
 
     const calculateDate = (date) => {
         if(!date) {
-            return "";
+            return null;
         }
         return addDays(new Date(), date);
     }

@@ -34,7 +34,7 @@ const entry = (currTask) => {
         const date = makeComplexElement("input", [], "",
             { "type": "date", "value": currTask.getDueString(), "data-key": "Date",
             "min": format(new Date(), "yyyy-MM-dd")});
-        const update = makeComplexElement("div", ["button", "lowlight"], "Update", { "tabindex": 0 });
+        const update = makeComplexElement("div", ["text-button", "lowlight"], "Update", { "tabindex": 0 });
         update.addEventListener("click", () => {
             submitUpdate();
         });
@@ -68,7 +68,7 @@ const entry = (currTask) => {
     const basicLayout = (() => {
         const layout = makeComplexElement("div", ["basic-layout", "lowlight"]);
 
-        const editButton = makeComplexElement("div", ["edit-button"], "\u270E");
+        const editButton = makeComplexElement("div", ["edit-button", "icon-button"], "\u270E");
         editButton.addEventListener("click", (event) => { 
             event.stopPropagation();
             addEditingLayout();
@@ -83,14 +83,14 @@ const entry = (currTask) => {
         }
 
         const buttonHolder = makeComplexElement("div", ["button-holder"]);
-        const completeButton = makeComplexElement("div", ["complete-button"], "\u2714");
+        const completeButton = makeComplexElement("div", ["complete-button", "icon-button"], "\u2714");
         completeButton.addEventListener("click", () => {
             currTask.update(currTask.isStatus("Active") ? { "Status": "Complete" }
             : { "Status" : "Active" });
             storage.update(currTask);
             mainpage.loadContent();
         });
-        const deleteButton = makeComplexElement("div", ["delete-button"], "\u2718");
+        const deleteButton = makeComplexElement("div", ["delete-button", "icon-button"], "\u2718");
         deleteButton.addEventListener("click", () => {
             storage.remove(currTask);
             if(!filter.getCategoryCounts()[currTask.category] && 

@@ -46,7 +46,7 @@ const display = (() => {
         const dateDue = makeComplexElement("input", [], "",
             { "type": "date", "min": format(new Date(), "yyyy-MM-dd") });
 
-        const submit = makeComplexElement("div", ["button", "lowlight"], "Add", { "tabindex": 0 });
+        const submit = makeComplexElement("div", ["text-button", "lowlight"], "Add", { "tabindex": 0 });
         submit.addEventListener("click", () => { submitNewTask() });
     
         form.append(title, category, dateDue, submit);

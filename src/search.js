@@ -11,7 +11,7 @@ const search = (() => {
         const searchInput = makeComplexElement("div", ["text-input", "search-text"], "",
             { "contenteditable": "true", "data-placeholder": "Search"});
 
-        const searchButton = makeComplexElement("div", ["button", "lowlight"], "Search", { "tabindex": 0 });
+        const searchButton = makeComplexElement("div", ["text-button", "lowlight"], "Search", { "tabindex": 0 });
         searchButton.addEventListener("click", () => { getResults(searchInput.textContent) });
 
         searchBox.addEventListener("keydown", (event) => {

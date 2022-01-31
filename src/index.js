@@ -6,20 +6,17 @@ Running this code will reset to sample tasks after one cycle.*/
 localStorage.clear();
 
 /*
-Neat ideas, but unlikely to be implemented:
-1. Tooltips. - Can be done using psuedo element ::after.
+Need to branch before I do the following, as high risk of breaking code:
 4. Read again about getters and setters to check if they can be used in the task object.
 9: Look for one last time about having a "due" object inside "task". - Need separate branch for this, just in case.
     170: from relative is a mess, as update doesn't know where to send dates properly.
         - all methods relating to due date are a mess, needs to be done with the iife work.
+    - might want an iife for status too?
+    - need better closure on the variables too.
 
 Changes:
-145: use form elements for input???
-163: really need some better css classes: such as icon-button and text-button
-164: search returns and displays completed and active results together! - priority
 165: clear search button needs more work!!! - priority
 168: Try to improve closure of object variables.
-    - task - multiple
+    - task - do this as part of revising task
     - filter parameters
-169: the complete button no longer works now???
 */
