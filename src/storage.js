@@ -17,8 +17,8 @@ const storage = (() => {
 
         masterArray = retrievedArray.map((retrievedTask) => {
             const revivedTask = Object.assign(task(""), retrievedTask);
-            if(retrievedTask.completed) {
-                revivedTask.completed = new Date(retrievedTask.completed);
+            if(retrievedTask.status.completed) {
+                revivedTask.status.completed = new Date(retrievedTask.status.completed);
             }
             if(retrievedTask.due) {
                 revivedTask.due = new Date(retrievedTask.due);

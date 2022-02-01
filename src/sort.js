@@ -40,9 +40,9 @@ const sort = (() => {
     const byChoice = (array) => {
         array.sort((taskA, taskB) =>  {
             const options = [
-                { "Category": taskA.category, "Complete": taskA.getCompletedString(),
+                { "Category": taskA.category, "Complete": taskA.status.getCompletedString(),
                     "Due": taskA.getDueString(), "Title": taskA.title },
-                { "Category": taskB.category, "Complete": taskB.getCompletedString(), 
+                { "Category": taskB.category, "Complete": taskB.status.getCompletedString(), 
                     "Due": taskB.getDueString(), "Title": taskB.title }
             ]
 

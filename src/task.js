@@ -6,24 +6,23 @@ const task = (title, category, due) => {
     title = title.slice(0, 149);
     const added = Date.now();
     const id = added * Math.random();
-    let completed = null;
     let details = "";
     if(due) {
         due = new Date(due);
     }
 
-    const update = function(newProperties) {
+    function update(newProperties) {
         const updateMap = {
             "Category": (value) => { this.category = value || "No category" },
             "Date": (value) => { this.due = fromRelative(value) },
             "Details": (value) => { this.details = value.slice(0, 2999) },
             "Status": (value) => { 
                 if(value == "Active") {
-                    this.completed = null;
+                    this.status.completed = null;
                     return;
                 }
-                if(this.completed == null) {
-                    this.completed = new Date();
+                if(this.status.completed == null) {
+                    this.status.completed = new Date();
                 }
             },
             "Title": (value) => { this.title = value }
@@ -34,26 +33,37 @@ const task = (title, category, due) => {
         }
     };
 
-    const getCompletedString = function() {
-        if(this.completed) {
-            return format(this.completed, "yyyy-MM-dd");
-        }
-        return "";
-    }
+    //entry gets completed directly and formats it for completed tasks. could be done with get completed string??
+    //sample pushes a value directly to completed, so maybe that could be changed?
+    //storage also reference completed directly.
+    const status = (() => {
+        let completed = null;
 
-    const isStatus = function(status) {
-        if(status == "All") {
-            return true;
-        } else if (status == "Complete" && this.completed) {
-            return true;
-        } else if (status == "Active" && !this.completed) {
-            return true;
-        } else {
-            return false;
-        }
-    };
+        const isStatus = function(status) {
+            if(status == "All") {
+                return true;
+            } else if (status == "Complete" && this.completed) {
+                return true;
+            } else if (status == "Active" && !this.completed) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+    
+        const getCompletedString = function() {
+            if(this.completed) {
+                return format(this.completed, "yyyy-MM-dd");
+            }
+            return "";
+        };
 
-    const isCategory = function(category) {
+        const test = "";
+
+        return { completed, isStatus, getCompletedString }
+    })();
+
+    function isCategory(category) {
         if(category == "All categories" || category == this.category) {
             return true;
         } else {
@@ -63,7 +73,7 @@ const task = (title, category, due) => {
 
     /*Creates a formatted due date string which can be used for sorting
     and by the date picker input.*/
-    const getDueString = function() {
+    function getDueString() {
         if(this.due) {
             return format(this.due, "yyyy-MM-dd");
         }
@@ -71,7 +81,7 @@ const task = (title, category, due) => {
     }
 
     /*Checks whether the due date is covered by the supplied relative date text.*/
-    const isRelative = function(relativeDate) {
+    function isRelative(relativeDate) {
         const today = new Date();
         const dateDifference = differenceInCalendarDays(this.due, today);
 
@@ -89,7 +99,7 @@ const task = (title, category, due) => {
     }
 
     /*Creates relative date text based on the task's due date.*/
-    const toRelative = function() {
+    function toRelative() {
         if(!this.due) {
             return "No due date";
         }
@@ -110,7 +120,7 @@ const task = (title, category, due) => {
 
     /*Takes a date which is a relate date text, a date object, or nothing.
     It returns either nothing (no due date) or a date object.*/
-    const fromRelative = function(chosenDate) {
+    function fromRelative(chosenDate) {
         if(chosenDate == "No due date" || !chosenDate) {
             return null;
         }
@@ -132,9 +142,8 @@ const task = (title, category, due) => {
         return newDate;
     };
 
-    return { title, category, id, completed, due, details,
-        update, getCompletedString, isStatus, isCategory,
-        getDueString, isRelative, toRelative, fromRelative,
+    return { title, category, id, status, due, details,
+        update, isCategory, getDueString, isRelative, toRelative, fromRelative,
     };
 };
 

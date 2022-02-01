@@ -70,7 +70,7 @@ const makeSample = () => {
             "Date": calculateDate(entry.due),
         }
         newTask.update(additionalProperties);
-        newTask.completed = calculateDate(entry.completed);
+        newTask.status.completed = calculateDate(entry.completed);
 
         sampleArray.push(newTask);
     });

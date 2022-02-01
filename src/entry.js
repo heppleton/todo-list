@@ -81,14 +81,14 @@ const entry = (currTask) => {
         const category = makeComplexElement("div", ["text-box"], currTask.category);
 
         const due = makeComplexElement("div", ["text-box"], currTask.toRelative());
-        if(currTask.isRelative("Overdue") && currTask.isStatus("Active")){
+        if(currTask.isRelative("Overdue") && currTask.status.isStatus("Active")){
             holder.classList.add("overdue-task");
         }
 
         const buttonHolder = makeComplexElement("div", ["button-holder"]);
         const completeButton = makeComplexElement("div", ["complete-button", "icon-button"], "\u2714");
         completeButton.addEventListener("click", () => {
-            currTask.update(currTask.isStatus("Active") ? { "Status": "Complete" }
+            currTask.update(currTask.status.isStatus("Active") ? { "Status": "Complete" }
             : { "Status" : "Active" });
             storage.update(currTask);
             mainpage.loadContent();
@@ -115,7 +115,7 @@ const entry = (currTask) => {
         /*A few changes to the entry holder is the task is complete.*/
         if(currTask.isStatus("Complete")) {
             holder.classList.add("completed-task");
-            due.textContent = format(currTask.completed, "d MMMM yyyy");
+            due.textContent = format(currTask.status.completed, "d MMMM yyyy");
             editButton.removeEventListener("click", addEditingLayout);
             editButton.textContent = "";
         }
