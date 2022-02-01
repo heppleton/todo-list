@@ -64,7 +64,7 @@ const filter = (() => {
 
         const categoryCounts = {};
         categoryOptions.forEach(option => { categoryCounts[option] = 0 });
-            const statusFilteredArray = masterArrayCopy.filter(entry => {
+        const statusFilteredArray = masterArrayCopy.filter(entry => {
             return entry.status.isStatus(parameters.Status)
         });
         statusFilteredArray.forEach(entry => {
