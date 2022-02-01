@@ -34,7 +34,7 @@ const entry = (currTask) => {
             { "contenteditable": "true", "data-placeholder": "Category", "data-key": "Category"});
 
         const date = makeComplexElement("input", [], "",
-            { "type": "date", "value": currTask.getDueString(), "data-key": "Date",
+            { "type": "date", "value": currTask.due.getDueString(), "data-key": "Date",
             "min": format(new Date(), "yyyy-MM-dd")});
         const update = makeComplexElement("div", ["text-button", "lowlight"], "Update", { "tabindex": 0 });
         update.addEventListener("click", () => {
@@ -80,8 +80,8 @@ const entry = (currTask) => {
         const title = makeComplexElement("div", ["text-box"], currTask.title);
         const category = makeComplexElement("div", ["text-box"], currTask.category);
 
-        const due = makeComplexElement("div", ["text-box"], currTask.toRelative());
-        if(currTask.isRelative("Overdue") && currTask.status.isStatus("Active")){
+        const due = makeComplexElement("div", ["text-box"], currTask.due.toRelative());
+        if(currTask.due.isRelative("Overdue") && currTask.status.isStatus("Active")){
             holder.classList.add("overdue-task");
         }
 
@@ -113,7 +113,7 @@ const entry = (currTask) => {
         });
 
         /*A few changes to the entry holder is the task is complete.*/
-        if(currTask.isStatus("Complete")) {
+        if(currTask.status.isStatus("Complete")) {
             holder.classList.add("completed-task");
             due.textContent = format(currTask.status.completed, "d MMMM yyyy");
             editButton.removeEventListener("click", addEditingLayout);

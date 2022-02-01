@@ -7,6 +7,11 @@ const storage = (() => {
     let masterArray = [];
 
     const retrieve = () => {
+        /*This line is only here to allow for testing.
+        Commenting it out will save changes locally.
+        Running this code will reset to sample tasks after one cycle.*/
+        localStorage.clear();
+
         if(!localStorage.getItem("taskspaceJSON")) {
             masterArray = makeSample();
             return;
@@ -20,8 +25,8 @@ const storage = (() => {
             if(retrievedTask.status.completed) {
                 revivedTask.status.completed = new Date(retrievedTask.status.completed);
             }
-            if(retrievedTask.due) {
-                revivedTask.due = new Date(retrievedTask.due);
+            if(retrievedTask.due.date) {
+                revivedTask.due.date = new Date(retrievedTask.due.date);
             }
             return revivedTask;
         });

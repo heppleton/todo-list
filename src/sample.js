@@ -71,7 +71,6 @@ const makeSample = () => {
         }
         newTask.update(additionalProperties);
         newTask.status.completed = calculateDate(entry.completed);
-
         sampleArray.push(newTask);
     });
 

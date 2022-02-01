@@ -13,7 +13,7 @@ const filter = (() => {
 
     const newFilter = () => {
         workingArray = storage.getMasterArray().filter(entry => {
-            return entry.isRelative(parameters.Date) &&
+            return entry.due.isRelative(parameters.Date) &&
             entry.status.isStatus(parameters.Status) &&
             entry.isCategory(parameters.Category)
         });

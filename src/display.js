@@ -70,7 +70,7 @@ const display = (() => {
 
         const selectedDue = filter.getParameter("Date");
         if(selectedDue != "No due date" && selectedDue != "All dates") {
-            dateDue.value = format(task().fromRelative(selectedDue), "yyyy-MM-dd");
+            dateDue.value = format(task().due.fromRelative(selectedDue), "yyyy-MM-dd");
         }
 
         return form;
