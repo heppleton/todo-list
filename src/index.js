@@ -16,4 +16,6 @@ Need to branch before I do the following, as high risk of breaking code:
 
 167: suggest category code?
     - try, but not enough time right now.
+168: doesn't clear autofill for category and instead change to autofill for date.
+
 */
