@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap');
+
+:root {
+    --accent-color: green;
+}
+
+/*Main Layout*/
+body {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    color: #222;
+    margin: 0;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    padding-bottom: 1.25rem;
+}
+
+.header-title {
+    font-size: 6rem;
+    padding: 1rem 7.5rem 1.25rem 5rem;
+    cursor: pointer;
+}
+
+.header-accent {
+    color: var(--accent-color);
+    cursor: pointer;
+}
+
+.search-box {
+    flex: 0 0 31.25rem;
+    align-self: flex-end;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.search-text {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+.clear-search-button {
+    border-radius: 1rem;
+    padding: 0 0.35rem;
+    cursor: pointer;
+}
+
+.middle-area {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+.right-spacing {
+    flex: 1 5 auto;
+    background-color: #fff;
+}
+
+.footer {
+    flex: 0 1 6.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .625rem;
+}
+
+/*Side Menu*/
+.side-menu {
+    width: 13rem;
+    display: flex;
+    flex-direction: column;
+    border-top: 0.125rem solid var(--accent-color);
+    height: 72vh;
+    min-height: 22rem;
+    padding: 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.side-menu span {
+    display: flex;
+    flex-direction: column;
+}
+
+.side-menu>span {
+    padding: 0.625rem 0;
+}
+
+.side-menu-subheading {
+    font-weight: bold;
+}
+
+.submenu-option {
+    background-color: inherit;
+    font-weight: normal;
+    margin: 0.125rem 1.56rem;
+    padding-left: 0.3rem;
+    cursor: pointer;
+}
+
+.submenu-option:hover {
+    color: var(--accent-color);
+}
+
+.selected-option {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/*Content Area*/
+.content-area {
+    flex: 0 1 65rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 45rem;
+    height: 72vh;
+    min-height: 22rem;
+}
+
+.display-area {
+    margin: 0.32rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sort-bar {
+    display: grid;
+    grid-template-columns: 3fr 2fr 2fr;
+    font-weight: bold;
+    color: #fff;
+    background-color: var(--accent-color);
+    padding: 0 0.38rem;
+    order: -1;
+}
+
+.sort-bar div {
+    text-align: center;
+    background-color: var(--accent-color);
+    padding: 0.6rem 0.3rem;
+}
+
+.sort-bar:hover {
+    cursor: pointer;
+}
+
+.sort-bar-arrow {
+    visibility: hidden;
+}
+
+.sort-bar div:hover .sort-bar-arrow {
+    visibility: visible;
+}
+
+.no-entries {
+    text-align: center;
+    font-style: italic;
+    padding: 0.6rem;
+}
+
+.holder {
+    display: flex;
+    flex-direction: column;
+}
+
+.basic-layout, 
+.editing-layout {
+    display: grid;
+    grid-template-columns: .1fr 2fr 1fr .7fr .2fr;
+    gap: 0.75rem;
+    box-shadow: 0.2rem 0.2rem 0.06rem -0.13rem #111;
+    margin: 0.38rem;
+    padding: 0.3rem 0.6rem;
+}
+
+.basic-layout {
+    align-items: center;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.editing-layout {
+    align-items: stretch;
+    background-color: #ddd;
+}
+
+.input-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr .7fr .2fr;
+    background-color: var(--accent-color);
+    gap: 0.75rem;
+    padding: 0.6rem 3rem;
+    order: 1;
+}
+
+.text-input {
+    border: 0.06rem solid #888;
+    background-color: #fff;
+    padding: 0.3rem;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+.text-input:empty,
+.details:empty {
+    font-style: italic;
+    color: #777;
+}
+
+.text-input:empty::before,
+.details:empty::before  {
+    content: attr(data-placeholder);
+}
+
+.text-box {
+    overflow-wrap: break-word;
+}
+
+.details {
+    white-space: pre-wrap;
+    grid-column: 2 / span 3;
+    line-height: 1.5rem;
+}
+
+.text-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0.2rem 0.2rem 0.06rem -0.13rem #111;
+    background-color: #fff;
+    padding: 0.3rem;
+    cursor: pointer;
+}
+
+.text-button:focus {
+    outline: auto;
+}
+
+.button-holder {
+    display: flex;
+    direction: row;
+    gap: 0.38rem;
+}
+
+.icon-button {
+    align-self: flex-start;
+    font-size: 1.5rem;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    color: blue;
+}
+
+.complete-button:hover {
+    color: green;
+}
+
+.delete-button:hover {
+    color: red;
+}
+
+.basic-layout:hover .icon-button {
+    visibility: visible;
+}
+
+.end-edit-button {
+    align-self: flex-start;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: purple;
+}
+
+.completed-task .text-box {
+    font-style: italic;
+    color: #777;
+}
+
+.completed-task .complete-button {
+    visibility: visible;
+    color: green;
+}
+
+.overdue-task .text-box {
+    color: red;
+}
+
+/*General Styling*/
+.dragging {
+    display: none;
+}
+
+.drag-ghost {
+    padding: .3rem;
+    width: 12rem;
+    background-color: #bbb;
+}
+
+.lowlight:hover {
+    background-color: #ddd
+}
+
+.lowlight:active {
+    background-color: #bbb;
+}
+
+input[type="date"] {
+    font-family: 'Outfit', monospace;
+}
