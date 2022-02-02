@@ -15,8 +15,5 @@ Change:
     - storage gets due date directly. change!
 177: could revive a task by doing object assign three times??
 179: add some methods to prototype chains?
-180: use "item" for array items, instead of task or entry.
-181: try 3x object.assign to revive tasks.
-182: do string sorts need localecompare if no callback function?
 183: foreach to map in search
 */

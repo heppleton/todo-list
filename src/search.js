@@ -37,13 +37,11 @@ const search = (() => {
 
     const getResults = (searchQuery) => {
         const searchString = searchQuery.toLowerCase();
-        const resultsArray = [];
+        let resultsArray = [];
         if(searchString != "") {
-            storage.getMasterArray().forEach(item => {
-                if(item.title.toLowerCase().includes(searchString) 
-                    || item.details.toLowerCase().includes(searchString)) {
-                    resultsArray.push(item);
-                }
+            resultsArray = storage.getMasterArray().filter(item => {
+                return item.title.toLowerCase().includes(searchString) 
+                    || item.details.toLowerCase().includes(searchString)
             });
         }
         displayResults(resultsArray);
