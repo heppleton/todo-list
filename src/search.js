@@ -12,7 +12,7 @@ const search = (() => {
             { "type": "text", "placeholder": "Search", "maxlength": 50 });
 
         const searchButton = makeComplexElement("button", ["lowlight"], "Search", { "type": "button" });
-        searchButton.addEventListener("click", () => { getResults(searchInput.textContent) }, { once: true });
+        searchButton.addEventListener("click", () => { getResults(searchInput.value) });
 
         searchBox.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
@@ -25,16 +25,6 @@ const search = (() => {
         return searchBox;
     }
 
-    const addClearSearchButton = () => {
-        const searchInput = document.querySelector(".search-text");
-        const clearButton = makeComplexElement("span", ["clear-search-button", "lowlight"], "\u2718");
-        clearButton.addEventListener("click", () => {
-            mainpage.loadContent();
-        })
-        searchInput.appendChild(clearButton);
-        searchInput.setAttribute("contenteditable", "false");
-    }
-
     const getResults = (searchQuery) => {
         const searchString = searchQuery.toLowerCase();
         let resultsArray = [];
@@ -45,7 +35,6 @@ const search = (() => {
             });
         }
         displayResults(resultsArray);
-        addClearSearchButton();
     }
 
     const displayResults = (resultsArray) => {

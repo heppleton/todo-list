@@ -39,15 +39,10 @@ const display = (() => {
 
         const title = makeComplexElement("input", [], "",
             { "type": "text", "placeholder": "New task", "maxlength": 200 });
-
-
         const category = makeComplexElement("input", [], "",
             { "type": "text", "placeholder": "Category", "maxlength": 30 });
-
-
         const dateDue = makeComplexElement("input", [], "",
             { "type": "date", "min": format(new Date(), "yyyy-MM-dd") });
-
         const submit = makeComplexElement("button", ["lowlight"], "Add", { "type": "button" });
         submit.addEventListener("click", () => { submitNewTask() });
     
@@ -65,7 +60,7 @@ const display = (() => {
         filtered by category or due date.*/
         const selectedCategory = filter.getParameter("Category");
         if(selectedCategory != "All categories" && selectedCategory != "No category") {
-            category.textContent = selectedCategory;
+            category.value = selectedCategory;
         }
 
         const selectedDue = filter.getParameter("Date");

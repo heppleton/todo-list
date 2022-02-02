@@ -33,11 +33,11 @@ const makeSample = () => {
             "due": 10957, "completed": null },
         { "title": "Go to the supermarket...", "category": "Shopping",
             "details": `The usual stuff, plus:
-                - extra milk
-                - chicken (cook something nice for Steve?)
-                - marzipan for Ellen's thank you cake
-                - different food for Mikki (gone off her usual for some reason)
-                - a towel for travelling`, 
+            - extra milk
+            - chicken (cook something nice for Steve?)
+            - marzipan for Ellen's thank you cake
+            - different food for Mikki (gone off her usual for some reason)
+            - a towel for travelling`, 
             "due": 1, "completed": null },
         { "title": "Walk round Highfield Lane and back past St Helen's Well", "category": "Leisure",
             "details": "Leave Clement and Daisy with Steve. Take time for myself.",

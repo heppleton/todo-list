@@ -40,9 +40,8 @@ const entry = (currTask) => {
         update.addEventListener("click", () => {
             submitUpdate();
         });
-        const details = makeComplexElement("input", ["details"], "", { "value": currTask.details,
-            "type": "textarea", "placeholder": "Details", "name": "Details", "maxlength": 1000 });
-
+        const details = makeComplexElement("textarea", ["details"], currTask.details, 
+            { "placeholder": "Details", "name": "Details", "maxlength": 1000 });
         details.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
                 event.stopPropagation();
