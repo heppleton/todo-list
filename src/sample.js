@@ -62,14 +62,14 @@ const makeSample = () => {
         return addDays(new Date(), date);
     }
 
-    const sampleArray = rawArray.map((entry) => {
-        const newTask = task(entry.title, entry.category)
+    const sampleArray = rawArray.map((item) => {
+        const newTask = task(item.title, item.category)
         const additionalProperties = {
-            "Details": entry.details,
-            "Date": calculateDate(entry.due),
+            "Details": item.details,
+            "Date": calculateDate(item.due),
         }
         newTask.update(additionalProperties);
-        newTask.status.completed = calculateDate(entry.completed);
+        newTask.status.completed = calculateDate(item.completed);
         return newTask;
     });
     return sampleArray;

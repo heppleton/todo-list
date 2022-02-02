@@ -39,10 +39,10 @@ const search = (() => {
         const searchString = searchQuery.toLowerCase();
         const resultsArray = [];
         if(searchString != "") {
-            storage.getMasterArray().forEach(entry => {
-                if(entry.title.toLowerCase().includes(searchString) 
-                    || entry.details.toLowerCase().includes(searchString)) {
-                    resultsArray.push(entry);
+            storage.getMasterArray().forEach(item => {
+                if(item.title.toLowerCase().includes(searchString) 
+                    || item.details.toLowerCase().includes(searchString)) {
+                    resultsArray.push(item);
                 }
             });
         }

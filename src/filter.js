@@ -12,10 +12,10 @@ const filter = (() => {
         "Category": "All categories" };
 
     const newFilter = () => {
-        workingArray = storage.getMasterArray().filter(entry => {
-            return entry.due.isRelative(parameters.Date) &&
-            entry.status.isStatus(parameters.Status) &&
-            entry.isCategory(parameters.Category)
+        workingArray = storage.getMasterArray().filter(item => {
+            return item.due.isRelative(parameters.Date) &&
+            item.status.isStatus(parameters.Status) &&
+            item.isCategory(parameters.Category)
         });
     }
 
@@ -50,10 +50,10 @@ const filter = (() => {
     const getCategoryCounts = () => {
         const categoryOptions = [];
         const masterArrayCopy = storage.getMasterArray();
-        masterArrayCopy.forEach(entry => {
-            if(!categoryOptions.includes(entry.category) && 
-                entry.category != "No category") {
-                categoryOptions.push(entry.category);
+        masterArrayCopy.forEach(item => {
+            if(!categoryOptions.includes(item.category) && 
+                item.category != "No category") {
+                categoryOptions.push(item.category);
             }
         })
         categoryOptions.sort((categoryOne, categoryTwo) => {
@@ -64,11 +64,11 @@ const filter = (() => {
 
         const categoryCounts = {};
         categoryOptions.forEach(option => { categoryCounts[option] = 0 });
-        const statusFilteredArray = masterArrayCopy.filter(entry => {
-            return entry.status.isStatus(parameters.Status)
+        const statusFilteredArray = masterArrayCopy.filter(item => {
+            return item.status.isStatus(parameters.Status)
         });
-        statusFilteredArray.forEach(entry => {
-            categoryCounts[entry.category] += 1;
+        statusFilteredArray.forEach(item => {
+            categoryCounts[item.category] += 1;
         })
         categoryCounts["All categories"] = statusFilteredArray.length;
 

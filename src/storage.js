@@ -38,15 +38,15 @@ const storage = (() => {
     };
 
     const remove = (removedTask) => {
-        const taskIndex = masterArray.findIndex((entry) =>
-                entry.id == removedTask.id);
+        const taskIndex = masterArray.findIndex((item) =>
+                item.id == removedTask.id);
         masterArray.splice(taskIndex, 1);
         save();
     }
 
     const update = (updatedTask) => {
-        const taskIndex = masterArray.findIndex((entry) =>
-            entry.id == updatedTask.id);
+        const taskIndex = masterArray.findIndex((item) =>
+            item.id == updatedTask.id);
         masterArray.splice(taskIndex, 1, updatedTask);
         save();
     };

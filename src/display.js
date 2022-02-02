@@ -12,8 +12,8 @@ const display = (() => {
 
     const load = () => {
         displayArea.replaceChildren();
-        filter.getWorkingArray().forEach((task) => {
-            displayArea.appendChild(entry(task));
+        filter.getWorkingArray().forEach((item) => {
+            displayArea.appendChild(entry(item));
         });
 
         if(!displayArea.hasChildNodes()){
