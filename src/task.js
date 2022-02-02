@@ -3,25 +3,16 @@ import { addDays, differenceInCalendarDays, format } from "date-fns";
 const task = (title, category, dueDate) => {  
     category = category || "No category";
     category = category.slice(0, 1).toUpperCase() + category.slice(1, 29);
-    const added = Date.now();
-    const id = added * Math.random();
+    const id = Date.now() * Math.random();
     let details = "";
 
     function update(newProperties) {
         const updateMap = {
-            "Category": (value) => { this.category = value || "No category" },
-            "Date": (value) => { this.due.date = due.fromRelative(value) },
-            "Details": (value) => { this.details = value.slice(0, 2999) },
-            "Status": (value) => { 
-                if(value == "Active") {
-                    this.status.completed = null;
-                    return;
-                }
-                if(this.status.completed == null) {
-                    this.status.completed = new Date();
-                }
-            },
-            "Title": (value) => { this.title = value }
+            "Category": value => this.category = value || "No category",
+            "Date": value => this.due.date = due.fromRelative(value),
+            "Details": value => this.details = value.slice(0, 2999),
+            "Status": value => status.changeStatus(value),
+            "Title": value => this.title = value
         }
 
         for(var key in newProperties) {
@@ -110,7 +101,16 @@ const task = (title, category, dueDate) => {
 
     const status = (() => {
         let completed = null;
+   
+        /*Used by entry to display and sort for localecompare.*/
+        const formatDate = function(chosenFormat) {
+            if(this.completed) {
+                return format(this.completed, chosenFormat);
+            }
+            return "";
+        };
 
+        /*Takes a status description and returns boolean if task is covered by description.*/
         const isStatus = function(status) {
             if(status == "All") {
                 return true;
@@ -122,17 +122,18 @@ const task = (title, category, dueDate) => {
                 return false;
             }
         };
-    
-        const getCompletedString = function() {
-            if(this.completed) {
-                return format(this.completed, "yyyy-MM-dd");
+
+        const changeStatus = function(newStatus) {
+            if(newStatus == "Active") {
+                this.completed = null;
+                return;
             }
-            return "";
-        };
+            if(this.completed == null) {
+                this.completed = new Date();
+            }
+        }
 
-        const test = "";
-
-        return { completed, isStatus, getCompletedString }
+        return { completed, changeStatus, formatDate, isStatus }
     })();
 
     function isCategory(category) {
@@ -143,9 +144,7 @@ const task = (title, category, dueDate) => {
         }
     };
 
-
-
-    return { title, category, id, status, due, details,
+    return { title, category, id, details,
         update, status, due, isCategory
     };
 };

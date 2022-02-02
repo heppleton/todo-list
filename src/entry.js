@@ -115,7 +115,7 @@ const entry = (currTask) => {
         /*A few changes to the entry holder is the task is complete.*/
         if(currTask.status.isStatus("Complete")) {
             holder.classList.add("completed-task");
-            due.textContent = format(currTask.status.completed, "d MMMM yyyy");
+            due.textContent = currTask.status.formatDate("d MMMM yyyy");
             editButton.removeEventListener("click", addEditingLayout);
             editButton.textContent = "";
         }

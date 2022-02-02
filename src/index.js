@@ -10,15 +10,13 @@ Change:
 170: changes to using form inputs for text and buttons
     - easier to limit text input size
 172: get task by id could be in the task object?
-173: status is done but needs more work to enclose complete date
-    - entry gets completed directly and formats it for completed tasks. could be done with get completed string??
-    - sample pushes a value directly to completed, so maybe that could be changed?
-    - storage also reference completed directly.
-    - getCompletedstring might be useful to change name.
-174: see if any other task variables can be enclosed.
 175: from relative is a mess, as update doesn't know where to send dates properly.
 176: overhaul all due date methods.
-    - getDueString should be renamed!! very obvious now.
+    - getDueString should be renamed!! very obvious now. - formatDate, like with status
     - storage gets due date directly. change!
-177: remove "this" as much as possible once the new nested objects are working.
+177: could revive a task by doing object assign three times??
+178: turn .foreach into .map if outputting array?
+179: add some methods to prototype chains?
+180: use "item" for array items, instead of task or entry.
+181: try 3x object.assign to revive tasks.
 */

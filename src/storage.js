@@ -21,13 +21,13 @@ const storage = (() => {
         const retrievedArray = JSON.parse(taskspaceJSON);
 
         masterArray = retrievedArray.map((retrievedTask) => {
-            const revivedTask = Object.assign(task(""), retrievedTask);
+            const revivedTask = task(retrievedTask.title, retrievedTask.category,
+                retrievedTask.due.date);
             if(retrievedTask.status.completed) {
                 revivedTask.status.completed = new Date(retrievedTask.status.completed);
             }
-            if(retrievedTask.due.date) {
-                revivedTask.due.date = new Date(retrievedTask.due.date);
-            }
+            revivedTask.id = retrievedTask.id;
+            revivedTask.details = retrievedTask.details;
             return revivedTask;
         });
     }
@@ -61,9 +61,7 @@ const storage = (() => {
     }
 
     const getTaskByID = (ID) => {
-        const taskIndex = masterArray.findIndex((entry) =>
-            entry.id == ID);
-        return masterArray[taskIndex];
+        return masterArray.find(item => item.id == ID);
     }
 
     return { add, remove, update, retrieve, getMasterArray, getTaskByID };
