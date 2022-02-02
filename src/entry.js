@@ -34,7 +34,7 @@ const entry = (currTask) => {
             "type": "text", "placeholder": "Category", "name": "Category", "maxlength": 30 });
 
         const date = makeComplexElement("input", [], "",
-            { "type": "date", "value": currTask.due.getDueString(), "name": "Date",
+            { "type": "date", "value": currTask.due.formatDate(), "name": "Date",
             "min": format(new Date(), "yyyy-MM-dd")});
         const update = makeComplexElement("button", ["lowlight"], "Update", { "type": "button" });
         update.addEventListener("click", () => {

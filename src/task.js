@@ -27,12 +27,12 @@ const task = (title, category, dueDate) => {
     
         /*Creates a formatted due date string which can be used for sorting
         and by the date picker input.*/
-        function getDueString() {
+        const formatDate = function(chosenFormat = "yyyy-MM-dd") {
             if(this.date) {
-                return format(this.date, "yyyy-MM-dd");
+                return format(this.date, chosenFormat);
             }
             return "";
-        }
+        };
 
         /*Checks whether the due date is covered by the supplied relative date text.*/
         function isRelative(relativeDate) {
@@ -48,9 +48,8 @@ const task = (title, category, dueDate) => {
                 "Next seven days": () => { return dateDifference >= 0 &&
                     dateDifference <= 6 },
             }
-
             return map[relativeDate]();
-        }
+        };
 
         /*Creates relative date text based on the task's due date.*/
         function toRelative() {
@@ -60,7 +59,7 @@ const task = (title, category, dueDate) => {
 
             const dateDifference = differenceInCalendarDays(
                 this.date, new Date());
-        
+
             if(dateDifference < 0) {
                 return "Overdue";
             } else if (dateDifference == 0) {
@@ -72,8 +71,10 @@ const task = (title, category, dueDate) => {
             }
         };
 
-        /*Takes a date which is a relate date text, a date object, or nothing.
-        It returns either nothing (no due date) or a date object.*/
+        /*Translates relative date text into a date object.
+        Takes relative date text, a date object, or nothing.
+        It returns either null (no due date) or a date object.
+        Tries to catch all possible arguments.*/
         function fromRelative(chosenDate) {
             if(chosenDate == "No due date" || !chosenDate) {
                 return null;
@@ -96,7 +97,7 @@ const task = (title, category, dueDate) => {
             return newDate;
         };
 
-        return { date, getDueString, isRelative, toRelative, fromRelative };
+        return { date, formatDate, isRelative, toRelative, fromRelative };
     })(dueDate);
 
     const status = (() => {
