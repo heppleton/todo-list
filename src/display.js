@@ -37,25 +37,25 @@ const display = (() => {
             }
         });
 
-        const title = makeComplexElement("span", ["text-input"], "",
-            { "contenteditable": "true", "data-placeholder": "New task" });
+        const title = makeComplexElement("input", [], "",
+            { "type": "text", "placeholder": "New task" });
 
 
-        const category = makeComplexElement("span", ["text-input"], "",
-            { "contenteditable": "true", "data-placeholder": "Category" });
+        const category = makeComplexElement("input", [], "",
+            { "type": "text", "placeholder": "Category" });
 
 
         const dateDue = makeComplexElement("input", [], "",
             { "type": "date", "min": format(new Date(), "yyyy-MM-dd") });
 
-        const submit = makeComplexElement("div", ["text-button", "lowlight"], "Add", { "tabindex": 0 });
+        const submit = makeComplexElement("button", ["lowlight"], "Add", { "type": "button" });
         submit.addEventListener("click", () => { submitNewTask() });
     
         form.append(title, category, dateDue, submit);
     
         const submitNewTask = () => {
-            if(/[0-9a-zA-Z]/.test(title.textContent)) {
-                const newTask = task(title.textContent, category.textContent, dateDue.value);
+            if(/[0-9a-zA-Z]/.test(title.value)) {
+                const newTask = task(title.value, category.value, dateDue.value);
                 storage.add(newTask);
                 mainpage.loadContent();
             }

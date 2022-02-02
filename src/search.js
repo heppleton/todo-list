@@ -8,15 +8,15 @@ const search = (() => {
     const addSearchBox = () => {
         const searchBox = makeComplexElement("div", ["search-box"]);
 
-        const searchInput = makeComplexElement("div", ["text-input", "search-text"], "",
-            { "contenteditable": "true", "data-placeholder": "Search"});
+        const searchInput = makeComplexElement("input", ["search-text"], "",
+            { "type": "text", "placeholder": "Search"});
 
-        const searchButton = makeComplexElement("div", ["text-button", "lowlight"], "Search", { "tabindex": 0 });
+        const searchButton = makeComplexElement("button", ["lowlight"], "Search", { "type": "button" });
         searchButton.addEventListener("click", () => { getResults(searchInput.textContent) }, { once: true });
 
         searchBox.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
-                getResults(searchInput.textContent);
+                getResults(searchInput.value);
                 event.preventDefault();
             }
         });

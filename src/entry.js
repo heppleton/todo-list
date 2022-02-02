@@ -27,21 +27,21 @@ const entry = (currTask) => {
         const endEditButton = makeComplexElement("div", ["end-edit-button"], "\u21BA");
         endEditButton.addEventListener("click", addEditingLayout);
 
-        const title = makeComplexElement("span", ["text-input"], currTask.title,
-            { "contenteditable": "true", "data-placeholder": "Title", "data-key": "Title"});
+        const title = makeComplexElement("input", [], "", { "value": currTask.title,
+            "type": "text", "placeholder": "Title", "data-key": "Title"});
 
-        const category = makeComplexElement("span", ["text-input"], currTask.category,
-            { "contenteditable": "true", "data-placeholder": "Category", "data-key": "Category"});
+        const category = makeComplexElement("input", [], "", { "value": currTask.category,
+            "type": "text", "placeholder": "Category", "data-key": "Category"});
 
         const date = makeComplexElement("input", [], "",
             { "type": "date", "value": currTask.due.getDueString(), "data-key": "Date",
             "min": format(new Date(), "yyyy-MM-dd")});
-        const update = makeComplexElement("div", ["text-button", "lowlight"], "Update", { "tabindex": 0 });
+        const update = makeComplexElement("button", ["lowlight"], "Update", { "type": "button" });
         update.addEventListener("click", () => {
             submitUpdate();
         });
-        const details = makeComplexElement("div", ["text-input", "details"], currTask.details,
-            { "contenteditable": "true", "data-placeholder": "Details", "data-key": "Details" });
+        const details = makeComplexElement("input", ["details"], "", { "value": currTask.details,
+            "type": "textarea", "placeholder": "Details", "data-key": "Details" });
 
         details.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
@@ -55,8 +55,7 @@ const entry = (currTask) => {
             const newProperties = {};
             editingLayout.childNodes.forEach((element) => {
                 if(element.getAttribute("data-key")) {
-                    newProperties[element.getAttribute("data-key")] = 
-                        element.textContent || element.value;
+                    newProperties[element.getAttribute("data-key")] = element.value;
                 }
             })
             currTask.update(newProperties);
