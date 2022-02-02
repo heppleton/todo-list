@@ -307,3 +307,13 @@ button[type="button"] {
     padding: 0.3rem;
     cursor: pointer;
 }
+
+textarea {
+    font-family: 'Outfit', monospace;
+    font-size: 1rem; 
+    border: 0.06rem solid #888;
+    background-color: #fff;
+    font-style: normal;
+    padding: 0.3rem;
+    resize: vertical;
+}
