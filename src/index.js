@@ -8,10 +8,9 @@ Change:
 168: doesn't clear autofill for category and instead change to autofill for date.
 169: tooltips
 170: changes to using form inputs for text and buttons
-    - easier to limit text input size
-    - do search first as layout is easier and can get the style right.
-        - clear search button doesn't appear to appear.
+    - clear search button doesn't appear to appear.
     - consider using a form to generate data object.
+    - details won't split over multiple lines when inputting.
 175: from relative is a mess, as update doesn't know where to send dates properly.
 176: overhaul all due date methods.
     - getDueString should be renamed!! very obvious now. - formatDate, like with status

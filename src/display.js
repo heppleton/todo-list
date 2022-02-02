@@ -38,11 +38,11 @@ const display = (() => {
         });
 
         const title = makeComplexElement("input", [], "",
-            { "type": "text", "placeholder": "New task" });
+            { "type": "text", "placeholder": "New task", "maxlength": 200 });
 
 
         const category = makeComplexElement("input", [], "",
-            { "type": "text", "placeholder": "Category" });
+            { "type": "text", "placeholder": "Category", "maxlength": 30 });
 
 
         const dateDue = makeComplexElement("input", [], "",

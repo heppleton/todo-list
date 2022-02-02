@@ -9,7 +9,7 @@ const search = (() => {
         const searchBox = makeComplexElement("div", ["search-box"]);
 
         const searchInput = makeComplexElement("input", ["search-text"], "",
-            { "type": "text", "placeholder": "Search"});
+            { "type": "text", "placeholder": "Search", "maxlength": 50 });
 
         const searchButton = makeComplexElement("button", ["lowlight"], "Search", { "type": "button" });
         searchButton.addEventListener("click", () => { getResults(searchInput.textContent) }, { once: true });

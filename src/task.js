@@ -2,7 +2,7 @@ import { addDays, differenceInCalendarDays, format } from "date-fns";
 
 const task = (title, category, dueDate) => {  
     category = category || "No category";
-    category = category.slice(0, 1).toUpperCase() + category.slice(1, 29);
+    category = category.slice(0, 1).toUpperCase() + category.slice(1);
     const id = Date.now() * Math.random();
     let details = "";
 

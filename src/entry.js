@@ -16,7 +16,7 @@ const entry = (currTask) => {
     const addEditingLayout = () => {
         closeLayouts();
         
-        const editingLayout = makeComplexElement("div", ["editing-layout"]);
+        const editingLayout = makeComplexElement("form", ["editing-layout"]);
         editingLayout.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
                 submitUpdate();
@@ -28,20 +28,20 @@ const entry = (currTask) => {
         endEditButton.addEventListener("click", addEditingLayout);
 
         const title = makeComplexElement("input", [], "", { "value": currTask.title,
-            "type": "text", "placeholder": "Title", "data-key": "Title"});
+            "type": "text", "placeholder": "Title", "name": "Title", "maxlength": 200 });
 
         const category = makeComplexElement("input", [], "", { "value": currTask.category,
-            "type": "text", "placeholder": "Category", "data-key": "Category"});
+            "type": "text", "placeholder": "Category", "name": "Category", "maxlength": 30 });
 
         const date = makeComplexElement("input", [], "",
-            { "type": "date", "value": currTask.due.getDueString(), "data-key": "Date",
+            { "type": "date", "value": currTask.due.getDueString(), "name": "Date",
             "min": format(new Date(), "yyyy-MM-dd")});
         const update = makeComplexElement("button", ["lowlight"], "Update", { "type": "button" });
         update.addEventListener("click", () => {
             submitUpdate();
         });
         const details = makeComplexElement("input", ["details"], "", { "value": currTask.details,
-            "type": "textarea", "placeholder": "Details", "data-key": "Details" });
+            "type": "textarea", "placeholder": "Details", "name": "Details", "maxlength": 1000 });
 
         details.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
@@ -52,13 +52,8 @@ const entry = (currTask) => {
         editingLayout.append(endEditButton, title, category, date, update, details);
 
         const submitUpdate = () => {
-            const newProperties = {};
-            editingLayout.childNodes.forEach((element) => {
-                if(element.getAttribute("data-key")) {
-                    newProperties[element.getAttribute("data-key")] = element.value;
-                }
-            })
-            currTask.update(newProperties);
+            const editingData = new FormData(document.querySelector(".editing-layout"));
+            currTask.update(Object.fromEntries(editingData));
             storage.update(currTask);
             mainpage.loadContent();
         }
