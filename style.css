@@ -198,25 +198,6 @@ body {
     order: 1;
 }
 
-.text-input {
-    border: 0.06rem solid #888;
-    background-color: #fff;
-    padding: 0.3rem;
-    white-space: nowrap;
-    overflow-x: hidden;
-}
-
-.text-input:empty,
-.details:empty {
-    font-style: italic;
-    color: #777;
-}
-
-.text-input:empty::before,
-.details:empty::before  {
-    content: attr(data-placeholder);
-}
-
 .text-box {
     overflow-wrap: break-word;
 }
@@ -225,20 +206,6 @@ body {
     white-space: pre-wrap;
     grid-column: 2 / span 3;
     line-height: 1.5rem;
-}
-
-.text-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0.2rem 0.2rem 0.06rem -0.13rem #111;
-    background-color: #fff;
-    padding: 0.3rem;
-    cursor: pointer;
-}
-
-.text-button:focus {
-    outline: auto;
 }
 
 .button-holder {
@@ -310,6 +277,33 @@ body {
     background-color: #bbb;
 }
 
-input[type="date"] {
+input,
+button {
     font-family: 'Outfit', monospace;
+    font-size: 1rem;
+}
+
+input[type="text"] {
+    border: 0.06rem solid #888;
+    background-color: #fff;
+    font-style: normal;
+    padding: 0.3rem;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+input:placeholder-shown {
+    font-style: italic;
+    color: #777;
+}
+
+button[type="button"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    box-shadow: 0.2rem 0.2rem 0.06rem -0.13rem #111;
+    background-color: #fff;
+    padding: 0.3rem;
+    cursor: pointer;
 }
