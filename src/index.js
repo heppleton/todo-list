@@ -9,7 +9,6 @@ Change:
 169: tooltips
 170: changes to using form inputs for text and buttons
     - easier to limit text input size
-172: get task by id could be in the task object?
 175: from relative is a mess, as update doesn't know where to send dates properly.
 176: overhaul all due date methods.
     - getDueString should be renamed!! very obvious now. - formatDate, like with status

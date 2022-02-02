@@ -2,7 +2,6 @@ import { addDays } from "date-fns";
 import { task } from "./task.js"
 
 const makeSample = () => {
-    let sampleArray = [];
     const rawArray = [
         { "title": "Ring Edgar about the consultancy contract", "category": "Work", 
             "details": "Tried ringing yesterday but no reply. Sent email asking him to contact me.",
@@ -63,7 +62,7 @@ const makeSample = () => {
         return addDays(new Date(), date);
     }
 
-    rawArray.forEach((entry) => {
+    const sampleArray = rawArray.map((entry) => {
         const newTask = task(entry.title, entry.category)
         const additionalProperties = {
             "Details": entry.details,
@@ -71,9 +70,8 @@ const makeSample = () => {
         }
         newTask.update(additionalProperties);
         newTask.status.completed = calculateDate(entry.completed);
-        sampleArray.push(newTask);
+        return newTask;
     });
-
     return sampleArray;
 };
 
