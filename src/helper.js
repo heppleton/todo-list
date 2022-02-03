@@ -44,8 +44,6 @@ const makeToolTip = (element, text, position) => {
     toolTip.style[positionMap[position]] = "100%";
 
     element.appendChild(toolTip);
-
-    console.log(toolTip);
 }
 
 export { closeLayouts, makeComplexElement, makeToolTip };
