@@ -7,6 +7,11 @@ const storage = (() => {
     let masterArray = [];
 
     const retrieve = () => {
+        /*This line is only here to allow for testing.
+        Commenting it out will save changes locally.
+        Running this code will reset to sample tasks after one cycle.*/
+        localStorage.clear();
+
         if(!localStorage.getItem("taskspaceJSON")) {
             masterArray = makeSample();
             return;
@@ -16,13 +21,13 @@ const storage = (() => {
         const retrievedArray = JSON.parse(taskspaceJSON);
 
         masterArray = retrievedArray.map((retrievedTask) => {
-            const revivedTask = Object.assign(task(""), retrievedTask);
-            if(retrievedTask.completed) {
-                revivedTask.completed = new Date(retrievedTask.completed);
+            const revivedTask = task(retrievedTask.title, retrievedTask.category,
+                retrievedTask.due.date);
+            if(retrievedTask.status.completed) {
+                revivedTask.status.completed = new Date(retrievedTask.status.completed);
             }
-            if(retrievedTask.due) {
-                revivedTask.due = new Date(retrievedTask.due);
-            }
+            revivedTask.id = retrievedTask.id;
+            revivedTask.details = retrievedTask.details;
             return revivedTask;
         });
     }
@@ -33,15 +38,15 @@ const storage = (() => {
     };
 
     const remove = (removedTask) => {
-        const taskIndex = masterArray.findIndex((entry) =>
-                entry.id == removedTask.id);
+        const taskIndex = masterArray.findIndex((item) =>
+                item.id == removedTask.id);
         masterArray.splice(taskIndex, 1);
         save();
     }
 
     const update = (updatedTask) => {
-        const taskIndex = masterArray.findIndex((entry) =>
-            entry.id == updatedTask.id);
+        const taskIndex = masterArray.findIndex((item) =>
+            item.id == updatedTask.id);
         masterArray.splice(taskIndex, 1, updatedTask);
         save();
     };
@@ -56,9 +61,7 @@ const storage = (() => {
     }
 
     const getTaskByID = (ID) => {
-        const taskIndex = masterArray.findIndex((entry) =>
-            entry.id == ID);
-        return masterArray[taskIndex];
+        return masterArray.find(item => item.id == ID);
     }
 
     return { add, remove, update, retrieve, getMasterArray, getTaskByID };

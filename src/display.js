@@ -12,8 +12,8 @@ const display = (() => {
 
     const load = () => {
         displayArea.replaceChildren();
-        filter.getWorkingArray().forEach((task) => {
-            displayArea.appendChild(entry(task));
+        filter.getWorkingArray().forEach((item) => {
+            displayArea.appendChild(entry(item));
         });
 
         if(!displayArea.hasChildNodes()){
@@ -37,25 +37,20 @@ const display = (() => {
             }
         });
 
-        const title = makeComplexElement("span", ["text-input"], "",
-            { "contenteditable": "true", "data-placeholder": "New task" });
-
-
-        const category = makeComplexElement("span", ["text-input"], "",
-            { "contenteditable": "true", "data-placeholder": "Category" });
-
-
+        const title = makeComplexElement("input", [], "",
+            { "type": "text", "placeholder": "New task", "maxlength": 200 });
+        const category = makeComplexElement("input", [], "",
+            { "type": "text", "placeholder": "Category", "maxlength": 30 });
         const dateDue = makeComplexElement("input", [], "",
             { "type": "date", "min": format(new Date(), "yyyy-MM-dd") });
-
-        const submit = makeComplexElement("div", ["text-button", "lowlight"], "Add", { "tabindex": 0 });
+        const submit = makeComplexElement("button", ["lowlight"], "Add", { "type": "button" });
         submit.addEventListener("click", () => { submitNewTask() });
     
         form.append(title, category, dateDue, submit);
     
         const submitNewTask = () => {
-            if(/[0-9a-zA-Z]/.test(title.textContent)) {
-                const newTask = task(title.textContent, category.textContent, dateDue.value);
+            if(/[0-9a-zA-Z]/.test(title.value)) {
+                const newTask = task(title.value, category.value, dateDue.value);
                 storage.add(newTask);
                 mainpage.loadContent();
             }
@@ -65,12 +60,12 @@ const display = (() => {
         filtered by category or due date.*/
         const selectedCategory = filter.getParameter("Category");
         if(selectedCategory != "All categories" && selectedCategory != "No category") {
-            category.textContent = selectedCategory;
+            category.value = selectedCategory;
         }
 
         const selectedDue = filter.getParameter("Date");
         if(selectedDue != "No due date" && selectedDue != "All dates") {
-            dateDue.value = format(task().fromRelative(selectedDue), "yyyy-MM-dd");
+            dateDue.value = format(task().due.fromRelative(selectedDue), "yyyy-MM-dd");
         }
 
         return form;

@@ -4,7 +4,7 @@ import { closeLayouts, makeComplexElement } from "./helper.js";
 import { storage } from "./storage.js";
 
 const drag = (() => {
-    let draggedEntryID;
+    let draggedItemID;
 
     window.addEventListener("dragstart", (event) => {
         /*Create an element to be shown when an item is dragged.*/
@@ -20,7 +20,7 @@ const drag = (() => {
             /*Make dragged elements not displayed (apart from image set above).
             Potential drop targets are highlighted. Task ID captured for future use.*/
             event.target.classList.add("dragging");
-            draggedEntryID = event.target.id;
+            draggedItemID = event.target.id;
             document.querySelectorAll(".drop-target").forEach(target => {
                 target.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
             })
@@ -58,7 +58,7 @@ const drag = (() => {
     window.addEventListener("drop", (event) => {
         event.preventDefault();
         if(event.target.classList.contains("drop-target")) {
-            const draggedTask = storage.getTaskByID(draggedEntryID);
+            const draggedTask = storage.getTaskByID(draggedItemID);
             draggedTask.update({ [event.target.getAttribute("data-key")]:
             event.target.getAttribute("data-value") });
             storage.update(draggedTask);

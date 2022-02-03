@@ -8,15 +8,15 @@ const search = (() => {
     const addSearchBox = () => {
         const searchBox = makeComplexElement("div", ["search-box"]);
 
-        const searchInput = makeComplexElement("div", ["text-input", "search-text"], "",
-            { "contenteditable": "true", "data-placeholder": "Search"});
+        const searchInput = makeComplexElement("input", ["search-text"], "",
+            { "type": "text", "placeholder": "Search", "maxlength": 50 });
 
-        const searchButton = makeComplexElement("div", ["text-button", "lowlight"], "Search", { "tabindex": 0 });
-        searchButton.addEventListener("click", () => { getResults(searchInput.textContent) }, { once: true });
+        const searchButton = makeComplexElement("button", ["lowlight"], "Search", { "type": "button" });
+        searchButton.addEventListener("click", () => { getResults(searchInput.value) });
 
         searchBox.addEventListener("keydown", (event) => {
             if(event.code === "Enter") {
-                getResults(searchInput.textContent);
+                getResults(searchInput.value);
                 event.preventDefault();
             }
         });
@@ -25,29 +25,16 @@ const search = (() => {
         return searchBox;
     }
 
-    const addClearSearchButton = () => {
-        const searchInput = document.querySelector(".search-text");
-        const clearButton = makeComplexElement("span", ["clear-search-button", "lowlight"], "\u2718");
-        clearButton.addEventListener("click", () => {
-            mainpage.loadContent();
-        })
-        searchInput.appendChild(clearButton);
-        searchInput.setAttribute("contenteditable", "false");
-    }
-
     const getResults = (searchQuery) => {
         const searchString = searchQuery.toLowerCase();
-        const resultsArray = [];
+        let resultsArray = [];
         if(searchString != "") {
-            storage.getMasterArray().forEach(entry => {
-                if(entry.title.toLowerCase().includes(searchString) 
-                    || entry.details.toLowerCase().includes(searchString)) {
-                    resultsArray.push(entry);
-                }
+            resultsArray = storage.getMasterArray().filter(item => {
+                return item.title.toLowerCase().includes(searchString) 
+                    || item.details.toLowerCase().includes(searchString)
             });
         }
         displayResults(resultsArray);
-        addClearSearchButton();
     }
 
     const displayResults = (resultsArray) => {
