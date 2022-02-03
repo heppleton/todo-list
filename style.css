@@ -317,3 +317,28 @@ textarea {
     padding: 0.3rem;
     resize: vertical;
 }
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip-text {
+    position: absolute;
+    z-index: 99;
+    bottom: 50%;
+    width: 5rem;
+    visibility: hidden;
+    background-color: #000;
+    opacity: 0;
+    transition: opacity .8s;
+    color: #fff;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 0.3rem 0;
+    border-radius: 0.3rem;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 0.8;
+}
