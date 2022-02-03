@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { filter } from "./filter.js";
-import { closeLayouts, makeComplexElement } from "./helper.js";
+import { closeLayouts, makeComplexElement, makeToolTip } from "./helper.js";
 import { mainpage } from "./mainpage.js";
 import { storage } from "./storage.js";
 import { task } from "./task.js";
@@ -26,6 +26,7 @@ const entry = (currTask) => {
 
         const endEditButton = makeComplexElement("div", ["end-edit-button"], "\u21BA");
         endEditButton.addEventListener("click", addEditingLayout);
+        makeToolTip(endEditButton, "Undo editing", "right");
 
         const title = makeComplexElement("input", [], "", { "value": currTask.title,
             "type": "text", "placeholder": "Title", "name": "Title", "maxlength": 200 });
@@ -69,6 +70,7 @@ const entry = (currTask) => {
             event.stopPropagation();
             addEditingLayout();
         });
+        makeToolTip(editButton, "Edit task", "right");
 
         const title = makeComplexElement("div", ["text-box"], currTask.title);
         const category = makeComplexElement("div", ["text-box"], currTask.category);
@@ -86,6 +88,8 @@ const entry = (currTask) => {
             storage.update(currTask);
             mainpage.loadContent();
         });
+        makeToolTip(completeButton, "Complete", "left");
+
         const deleteButton = makeComplexElement("div", ["delete-button", "icon-button"], "\u2718");
         deleteButton.addEventListener("click", () => {
             storage.remove(currTask);
@@ -95,6 +99,8 @@ const entry = (currTask) => {
             }
             mainpage.loadContent();
         });
+        makeToolTip(deleteButton, "Delete", "left");
+
         buttonHolder.append(completeButton, deleteButton);
 
         const details = makeComplexElement("div", ["text-box", "details"], 
@@ -111,6 +117,7 @@ const entry = (currTask) => {
             due.textContent = currTask.status.formatDate("d MMMM yyyy");
             editButton.removeEventListener("click", addEditingLayout);
             editButton.textContent = "";
+            makeToolTip(completeButton, "Reactivate", "left");
         }
 
         layout.append(editButton, title, category, due, buttonHolder);

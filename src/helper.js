@@ -32,5 +32,21 @@ const makeComplexElement = (type, classes = [], text = "", attributes = {}) => {
     return newElement;
 }
 
-export { closeLayouts, makeComplexElement };
+const makeToolTip = (element, text, position) => {
+    if(element.querySelector(".tooltip-text")) {
+        element.removeChild(element.querySelector(".tooltip-text"));
+    }
+
+    const positionMap = { "left": "right", "right": "left" };
+
+    element.classList.add("tooltip");
+    const toolTip = makeComplexElement("span", ["tooltip-text"], text);
+    toolTip.style[positionMap[position]] = "100%";
+
+    element.appendChild(toolTip);
+
+    console.log(toolTip);
+}
+
+export { closeLayouts, makeComplexElement, makeToolTip };
 
